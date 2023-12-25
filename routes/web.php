@@ -18,3 +18,11 @@ Route::get('/', [YoutubeController::class, 'index']);
 
 Route::get('/video/show', [YoutubeController::class, 'index'])->name('video');
 Route::post('/video/upload', [YoutubeController::class, 'getVideo'])->name('video.upload');
+
+Route::get('/te',function(){
+    $videoUrl = 'https://www.youtube.com/watch?appp=ajfgjhsdgjfhsgd&&v=Hpc-w6NVFC8';
+    $urlParts = parse_url($videoUrl);
+    parse_str($urlParts['query'], $queryParameters);
+    $videoId = isset($queryParameters['v']) ? $queryParameters['v'] : '';
+    dd($videoId);
+});
