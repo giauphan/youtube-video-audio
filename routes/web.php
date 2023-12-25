@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\VideoController;
-use App\Http\Controllers\YoutobeController;
+use App\Http\Controllers\YoutubeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [VideoController::class, 'index']);
+Route::get('/', [YoutubeController::class, 'index']);
 
-Route::get('/video/show', [VideoController::class, 'index'])->name('video');
-Route::post('/video/upload', [YoutobeController::class, 'getVideo'])->name('video.upload');
-Route::get('/video/{videoName}', [VideoController::class, 'showVideo'])->name('video.show');
-
-Route::get('/test', [VideoController::class, 'VideoYTb'])->name('video');
+Route::get('/video/show', [YoutubeController::class, 'index'])->name('video');
+Route::post('/video/upload', [YoutubeController::class, 'getVideo'])->name('video.upload');

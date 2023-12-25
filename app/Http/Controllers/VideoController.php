@@ -14,15 +14,15 @@ class VideoController extends Controller
     {
         return view('video');
     }
- 
 
     public function showVideo($videoName)
     {
         $file = Cache::get($videoName);
         $fileContent = base64_decode($file['filecontent']);
+
         return Response::make($fileContent, 200, [
-            'Content-Type' =>   $file['type'],
-            'Content-Disposition' => 'inline; filename="' . $videoName . '"',
+            'Content-Type' => $file['type'],
+            'Content-Disposition' => 'inline; filename="'.$videoName.'"',
         ]);
     }
 
@@ -55,6 +55,7 @@ class VideoController extends Controller
                 $file = $video->getFile();
                 $fileContent = file_get_contents($file->getPathname());
                 Cache::put($videoId, $fileContent);
+
                 return response($fileContent)->header('Content-Type', 'video/mp4');
             }
         }

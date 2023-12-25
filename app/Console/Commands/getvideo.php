@@ -27,7 +27,7 @@ class getvideo extends Command
     public function handle()
     {
         $videoUrl = $this->argument('url');
-        $command = 'youtube-dl --verbose -g ' . $videoUrl;
+        $command = 'youtube-dl --verbose -g '.$videoUrl;
 
         // Execute the command
         $output = shell_exec($command);
@@ -40,13 +40,13 @@ class getvideo extends Command
             $videoUrl = $urls[0];
             $audioUrl = $urls[1];
             // $videoContents = file_get_contents($videoUrl);
-            dd(  $audioUrl ,Http::get($videoUrl));
+            dd($audioUrl, Http::get($videoUrl));
             // Output or process the video and audio URLs as needed
             $this->info("Video URL: $videoUrl");
             $this->info("Audio URL: $audioUrl");
         } else {
             // Handle the case where the expected number of URLs is not returned
-            $this->error("Error retrieving video and audio URLs.");
+            $this->error('Error retrieving video and audio URLs.');
         }
     }
 }
