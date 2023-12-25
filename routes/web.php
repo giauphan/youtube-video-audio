@@ -18,9 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [VideoController::class, 'index']);
 
 Route::get('/video/show', [VideoController::class, 'index'])->name('video');
 Route::post('/video/upload', [YoutobeController::class, 'getVideo'])->name('video.upload');
