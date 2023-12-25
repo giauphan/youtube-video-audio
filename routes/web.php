@@ -2,9 +2,6 @@
 
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\YoutobeController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +21,4 @@ Route::get('/video/show', [VideoController::class, 'index'])->name('video');
 Route::post('/video/upload', [YoutobeController::class, 'getVideo'])->name('video.upload');
 Route::get('/video/{videoName}', [VideoController::class, 'showVideo'])->name('video.show');
 
+Route::get('/test', [VideoController::class, 'VideoYTb'])->name('video');

@@ -14,20 +14,14 @@ class YoutobeController extends Controller
 
             $client  = new Client();
             try {
-                // Make GET request to the API
                 $response = $client->request('GET', $apiUrl);
 
-                // Parse JSON response
                 $responseData = json_decode($response->getBody(), true);
 
-                // Extract viddeo and audio URLs
-                $videoUrl = $responseData['url_video'] ?? null;
-                $audioUrl = $responseData['url_audio'] ?? null;
+                $file_content = $responseData['file_content'];
 
-                // Do something with the URLs (e.g., return them)
                 return view('youtube.index', [
-                    "url_video" => $videoUrl,
-                    'url_audio' => $audioUrl
+                    "video_content" => $file_content,
                 ]);
             } catch (\Exception $e) {
                 return  back()->with('error', "Error retrieving video and audio URLs.");
