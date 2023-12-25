@@ -18,10 +18,12 @@ class YoutobeController extends Controller
 
                 $responseData = json_decode($response->getBody(), true);
 
-                $file_content = $responseData['file_content'];
+                $title = $responseData['title'] ?? null;
+                $videoUrl = $responseData['url_video'] ?? null;
 
                 return view('youtube.index', [
-                    "video_content" => $file_content,
+                    'title' =>   $title,
+                    "url_video" => $videoUrl,
                 ]);
             } catch (\Exception $e) {
                 return  back()->with('error', "Error retrieving video and audio URLs.");

@@ -8,9 +8,9 @@
 </head>
 
 <body>
-    
+    <h1>{{ $title }}</h1>
     <video id="video" width="100%" height="500px" controls>
-        <source src="data:video/mp4;base64,{{ $video_content }}" type="video/mp4">
+        <source src="{{ $url_video }}" type="video/mp4">
     </video>
 
 </body>

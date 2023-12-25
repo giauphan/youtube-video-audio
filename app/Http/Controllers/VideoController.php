@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\File ;
 use Illuminate\Support\Facades\Response;
 use YoutubeDl\Options;
 use YoutubeDl\YoutubeDl;
