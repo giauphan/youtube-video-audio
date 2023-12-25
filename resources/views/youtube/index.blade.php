@@ -16,7 +16,7 @@
     <button onclick="rewind()">Rewind 5 seconds</button>
     <button onclick="forward()">Forward 5 seconds</button>
 
-    <audio id="audio" controls width="100%" height="500px" style="display: none">
+    <audio id="audio"  width="100%" height="500px" style="display: none">
         <source src="{{ $url_audio }}" type="audio/mp3">
     </audio>
 

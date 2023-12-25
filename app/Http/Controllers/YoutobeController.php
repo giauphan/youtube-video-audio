@@ -2,32 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class YoutobeController extends Controller
 {
     public function getVideo(Request $request)
     {
-        $videoUrl = $request->input('url');
-        $command = 'youtube-dl --verbose -g ' . $videoUrl;
-        // Execute the command
-        $output = shell_exec($command);
+        if ($request->has('url')) {
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . urlencode($request->input('url'));
 
-        // Split the output into an array of URLs
-        $urls = explode(PHP_EOL, trim($output));
+            $client  = new Client();
+            try {
+                // Make GET request to the API
+                $response = $client->request('GET', $apiUrl);
 
-        // Now $urls should contain two URLs: video and audio
-        if (count($urls) >= 2) {
-            $videoUrl = $urls[0];
-            $audioUrl = $urls[1];
+                // Parse JSON response
+                $responseData = json_decode($response->getBody(), true);
 
-            return view('youtube.index', [
-                "url_video" => $videoUrl,
-                'url_audio' => $audioUrl
-            ]);
-        } else {
-            // Handle the case where the expected number of URLs is not returned
-            return  back()->with('error', "Error retrieving video and audio URLs.");
+                // Extract viddeo and audio URLs
+                $videoUrl = $responseData['url_video'] ?? null;
+                $audioUrl = $responseData['url_audio'] ?? null;
+
+                // Do something with the URLs (e.g., return them)
+                return view('youtube.index', [
+                    "url_video" => $videoUrl,
+                    'url_audio' => $audioUrl
+                ]);
+            } catch (\Exception $e) {
+                return  back()->with('error', "Error retrieving video and audio URLs.");
+            }
         }
     }
 }
