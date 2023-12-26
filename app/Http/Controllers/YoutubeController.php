@@ -42,7 +42,7 @@ class YoutubeController extends Controller
 
                     Cache::put($videoId, $data, now()->addMinutes(30));
                 }
-
+                
                 return view('youtube.index', $data);
             } catch (\Exception $e) {
                 return back()->with('error', 'Error system');

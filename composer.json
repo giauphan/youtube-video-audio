@@ -11,7 +11,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "norkunas/youtube-dl-php": "dev-master"
+        "norkunas/youtube-dl-php": "dev-master",
+        "tightenco/ziggy": "^1.8"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
