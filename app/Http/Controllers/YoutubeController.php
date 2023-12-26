@@ -16,16 +16,17 @@ class YoutubeController extends Controller
     public function getVideo(Request $request)
     {
         if ($request->has('url')) {
-            $videoUrl = $request->input('url');
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . urlencode($videoUrl);
-
-            $urlParts = parse_url($videoUrl);
-            parse_str($urlParts['query'], $queryParameters);
-            $videoId = $queryParameters['v'] ?? '';
-
-            $client = new Client();
-
             try {
+                $videoUrl = $request->input('url');
+                $videoId = $this->getVideoId($videoUrl);
+                if (!$videoId) {
+                    return back()->with('error', 'Error retrieving video and audio URLs.');
+                }
+                $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . $videoId;
+
+                $client = new Client();
+
+
                 $data = Cache::get($videoId);
 
                 if (!$data) {
@@ -44,8 +45,30 @@ class YoutubeController extends Controller
 
                 return view('youtube.index', $data);
             } catch (\Exception $e) {
-                return back()->with('error', 'Error retrieving video and audio URLs.');
+                return back()->with('error', 'Error system');
             }
         }
+    }
+
+
+    public function getVideoId($url)
+    {
+        $urlParts = parse_url($url);
+
+        if (isset($urlParts['query'])) {
+            parse_str($urlParts['query'], $queryParameters);
+            return $queryParameters['v'] ?? '';
+        }
+
+        if (isset($urlParts['path'])) {
+            $pathParts = explode('/', trim($urlParts['path'], '/'));
+
+            if (in_array('shorts', $pathParts)) {
+                $index = array_search('shorts', $pathParts);
+                return $pathParts[$index + 1] ?? '';
+            }
+        }
+
+        return '';
     }
 }
