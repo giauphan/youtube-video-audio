@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Exceptions\CustomHandler;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
