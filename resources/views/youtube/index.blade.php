@@ -11,5 +11,7 @@
                 </a>
             @endforeach
         </div>
+
+        <paginate-component :pagination='@json($getvideo)' ></paginate-component>
     </section>
 @endsection
