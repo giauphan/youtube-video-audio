@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video and Audio Player</title>
-</head>
+@section('body')
+    <section class="my-10">
+        <div class="flex gap-4">
+            <div class="flex flex-col gap-6">
 
-<body>
-    <h1>{{ $title }}</h1>
-    <video id="video" width="100%" height="500px" controls>
-        <source src="{{ $url_video }}" type="video/mp4">
-    </video>
-
-</body>
-
-</html>
+                <video id="video" width="100%" height="360px" class=" sm:h-[360px] rounded-lg" controls>
+                    <source src="{{ $url_video }}" type="video/mp4">
+                </video>
+                <h1 class="text-xl text-white font-bold bg-black">{{ $title }}</h1>
+            </div>
+            <div class="flex flex-col gap-4">
+abc
+            </div>
+        </div>
+    </section>
+@endsection
