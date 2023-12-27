@@ -12,8 +12,10 @@ class YoutubeController extends Controller
 {
     public function index()
     {
-
-        return view('video');
+        $getvideo = Cache::get('video',[]);
+        return view('youtube.index',[
+            'getvideo'=>$getvideo
+        ]);
     }
 
     public function getVideo(VideoRequest $request)
@@ -29,22 +31,21 @@ class YoutubeController extends Controller
 
             $client = new Client();
 
-            $getcache = Cache::get('video');
+            $datacache = Cache::get('video',[]);
 
-            $data = $getcache['video'][$videoId] ?? false;
+            $data = $datacache[$videoId] ?? false;
             if (! $data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
                 $title = $responseData['title'] ?? null;
                 $videoUrl = $responseData['url_video'] ?? null;
-                $datacache = [
-                    $videoId => [
+                $thumbnail = $responseData['thumbnail'] ?? null;
+                $data =  $datacache[$videoId] = [
                         'title' => $title,
                         'url_video' => $videoUrl,
-                    ],
-                ];
-                $data = $datacache[$videoId];
+                        'thumbnail'=>$thumbnail
+                    ];
                 Cache::put('video', $datacache, now()->addHours(4));
             }
 
