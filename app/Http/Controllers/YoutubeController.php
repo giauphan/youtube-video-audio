@@ -12,6 +12,7 @@ class YoutubeController extends Controller
 {
     public function index()
     {
+
         return view('video');
     }
 
@@ -21,34 +22,36 @@ class YoutubeController extends Controller
         try {
             $videoUrl = $validate['url'];
             $videoId = $this->getVideoId($videoUrl);
-            if (! $videoId) {
-                return back()->with('error', 'Error retrieving video and audio URLs.');
+            if (!$videoId) {
+                return back()->with('error', 'Error retrieving video  URLs.');
             }
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoId;
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . $videoId;
 
             $client = new Client();
 
-            $data = Cache::get($videoId);
+            $getcache = Cache::get('video');
 
-            if (! $data) {
+            $data = $getcache['video'][$videoId] ?? false;
+            if (!$data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
                 $title = $responseData['title'] ?? null;
                 $videoUrl = $responseData['url_video'] ?? null;
-                $data = [
-                    'title' => $title,
-                    'url_video' => $videoUrl,
+                $datacache = [
+                    $videoId =>  [
+                        'title' => $title,
+                        'url_video' => $videoUrl,
+                    ]
                 ];
-
-                Cache::put($videoId, $data, now()->addMinutes(30));
+                $data = $datacache[$videoId];
+                Cache::put('video', $datacache, now()->addHours(4));
             }
 
             return view('video', $data);
         } catch (\Exception $e) {
             return back()->with('error', 'Error system');
         }
-
     }
 
     public function getVideoId($url)
