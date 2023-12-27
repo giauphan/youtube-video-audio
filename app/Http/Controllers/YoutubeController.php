@@ -13,9 +13,8 @@ class YoutubeController extends Controller
     public function index()
     {
         $getvideo = Cache::get('video', []);
-
         return view('youtube.index', [
-            'getvideo' => $getvideo,
+            'getvideo' => $getvideo
         ]);
     }
 
@@ -24,25 +23,25 @@ class YoutubeController extends Controller
         $validate = $request->validated();
         try {
             $videoUrl = $validate['url'];
-            $videoId = $this->getVideoId($videoUrl);
-            if (! $videoId) {
-                return back()->with('error', 'Error retrieving video  URLs.');
+            $videoID = $this->getVideoId($videoUrl);
+            if (!is_string($videoID)) {
+                return back()->with('error', 'Invalid video ID.');
             }
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoId;
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . $videoID;
 
             $client = new Client();
 
-            $datacache = Cache::get('video', []);
+            $datacache = Cache::get('video');
+            $data = array_key_exists($videoID, $datacache) ? $datacache[$videoID] : null;
 
-            $data = $datacache[$videoId] ?? false;
-            if (! $data) {
+            if (!$data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
                 $title = $responseData['title'] ?? null;
                 $videoUrl = $responseData['url_video'] ?? null;
                 $thumbnail = $responseData['thumbnail'] ?? null;
-                $data = $datacache[$videoId] = [
+                $data = $datacache[$videoID] = [
                     'title' => $title,
                     'url_video' => $videoUrl,
                     'thumbnail' => $thumbnail,
@@ -52,7 +51,7 @@ class YoutubeController extends Controller
 
             return view('video', $data);
         } catch (\Exception $e) {
-            return back()->with('error', 'Error system');
+            return redirect()->route('home')->with('error', 'Error system');
         }
     }
 

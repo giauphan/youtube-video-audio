@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [YoutubeController::class, 'index']);
+Route::get('/', [YoutubeController::class, 'index'])->name('home');
 
 Route::prefix('/video')->name('video.')->group(function () {
     Route::get('/{video}', VideoController::class)->name('index');
