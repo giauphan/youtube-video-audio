@@ -22,27 +22,27 @@ class YoutubeController extends Controller
         try {
             $videoUrl = $validate['url'];
             $videoId = $this->getVideoId($videoUrl);
-            if (!$videoId) {
+            if (! $videoId) {
                 return back()->with('error', 'Error retrieving video  URLs.');
             }
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . $videoId;
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoId;
 
             $client = new Client();
 
             $getcache = Cache::get('video');
 
             $data = $getcache['video'][$videoId] ?? false;
-            if (!$data) {
+            if (! $data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
                 $title = $responseData['title'] ?? null;
                 $videoUrl = $responseData['url_video'] ?? null;
                 $datacache = [
-                    $videoId =>  [
+                    $videoId => [
                         'title' => $title,
                         'url_video' => $videoUrl,
-                    ]
+                    ],
                 ];
                 $data = $datacache[$videoId];
                 Cache::put('video', $datacache, now()->addHours(4));

@@ -18,4 +18,3 @@ Route::get('/', [YoutubeController::class, 'index']);
 
 Route::get('/video/show', [YoutubeController::class, 'index'])->name('video');
 Route::post('/video/upload', [YoutubeController::class, 'getVideo'])->name('video.upload');
-
