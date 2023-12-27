@@ -15,7 +15,7 @@ class YoutubeController extends Controller
     public function index(Request $request)
     {
         $getvideo = Cache::get('video', []);
-        
+
         $perPage = 12; // Set your desired items per page
         $currentPage = request('page', 1);
         $paginatedData = array_slice($getvideo, ($currentPage - 1) * $perPage, $perPage);
@@ -40,7 +40,7 @@ class YoutubeController extends Controller
             $client = new Client();
 
             $datacache = Cache::get('video');
-            $data = ( is_array($datacache) &&array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
+            $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
             if (! $data) {
                 $response = $client->request('GET', $apiUrl);
