@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [YoutubeController::class, 'index']);
 
-Route::prefix('/video')->name('video.')->group(function(){
-    Route::get('/{video}',VideoController::class)->name('index');
+Route::prefix('/video')->name('video.')->group(function () {
+    Route::get('/{video}', VideoController::class)->name('index');
     Route::post('/upload', [YoutubeController::class, 'getVideo'])->name('upload');
 });
-

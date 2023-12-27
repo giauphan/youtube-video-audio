@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -13,12 +14,13 @@ class VideoController extends Controller
      */
     public function __invoke(string $videoID)
     {
-        $datacache = Cache::get('video',[]);
+        $datacache = Cache::get('video', []);
 
         $data = $datacache[$videoID] ?? false;
-        if (!$data ) {
-        abort(404);
+        if (! $data) {
+            abort(404);
         }
-       return view('video', $data);
+
+        return view('video', $data);
     }
 }
