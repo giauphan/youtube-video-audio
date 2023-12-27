@@ -12,7 +12,11 @@ class YoutubeController extends Controller
 {
     public function index()
     {
-        return view('video');
+        $getvideo = Cache::get('video', []);
+
+        return view('youtube.index', [
+            'getvideo' => $getvideo,
+        ]);
     }
 
     public function getVideo(VideoRequest $request)
@@ -20,15 +24,16 @@ class YoutubeController extends Controller
         $validate = $request->validated();
         try {
             $videoUrl = $validate['url'];
-            $videoId = $this->getVideoId($videoUrl);
-            if (! $videoId) {
-                return back()->with('error', 'Error retrieving video and audio URLs.');
+            $videoID = $this->getVideoId($videoUrl);
+            if (! is_string($videoID)) {
+                return back()->with('error', 'Invalid video ID.');
             }
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoId;
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoID;
 
             $client = new Client();
 
-            $data = Cache::get($videoId);
+            $datacache = Cache::get('video');
+            $data = array_key_exists($videoID, $datacache) ? $datacache[$videoID] : null;
 
             if (! $data) {
                 $response = $client->request('GET', $apiUrl);
@@ -36,19 +41,19 @@ class YoutubeController extends Controller
 
                 $title = $responseData['title'] ?? null;
                 $videoUrl = $responseData['url_video'] ?? null;
-                $data = [
+                $thumbnail = $responseData['thumbnail'] ?? null;
+                $data = $datacache[$videoID] = [
                     'title' => $title,
                     'url_video' => $videoUrl,
+                    'thumbnail' => $thumbnail,
                 ];
-
-                Cache::put($videoId, $data, now()->addMinutes(30));
+                Cache::put('video', $datacache, now()->addHours(4));
             }
 
             return view('video', $data);
         } catch (\Exception $e) {
-            return back()->with('error', 'Error system');
+            return redirect()->route('home')->with('error', 'Error system');
         }
-
     }
 
     public function getVideoId($url)

@@ -19,25 +19,27 @@
 
 <body>
     <div id="app">
-        <header-component>
-            @guest
-                @if (Route::has('login'))
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-900" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                @endif
+        <header-component :user='@json(Auth::user())' lableSign="{{ __('Register') }}"
+            lableLogin="{{ __('Login') }}">
+            <li>
+                <form action="{{ route('video.upload') }}" method="post">
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                        <alert-component :type="'error'" :body="'{{ $error }}'">
+                        </alert-component>
+                        @endforeach
+                    @endif
+                    @if (session('error'))
+                            <alert-component :type="'error'" :body="'{{ session('error') }}'">
+                            </alert-component>
+                    @endif
+            @csrf
+            <input-group-component class="border border-gray-700"
+                placeholder="{{ __('Link video youtube') }}" name="url"></input-group-component>
+            </form>
+            </li>
+            <li class="text-white">page</li>
 
-                @if (Route::has('register'))
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-900" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                @endif
-            @else
-                <drop-down-component name="{{ Auth::user()->name }}">
-
-                </drop-down-component>
-
-            @endguest
         </header-component>
 
         <main class="mx-auto max-w-7xl ">
