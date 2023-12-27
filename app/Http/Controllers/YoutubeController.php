@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VideoRequest;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -13,11 +15,11 @@ class YoutubeController extends Controller
         return view('video');
     }
 
-    public function getVideo(Request $request)
+    public function getVideo(VideoRequest $request)
     {
-        if ($request->has('url')) {
+        $validate = $request->validated();
             try {
-                $videoUrl = $request->input('url');
+                $videoUrl = $validate['url'];
                 $videoId = $this->getVideoId($videoUrl);
                 if (! $videoId) {
                     return back()->with('error', 'Error retrieving video and audio URLs.');
@@ -30,7 +32,7 @@ class YoutubeController extends Controller
 
                 if (! $data) {
                     $response = $client->request('GET', $apiUrl);
-                    $responseData = json_decode($response->getBody(), true);
+                    $responseData = json_decode($response->getBody()->__toString(), true);
 
                     $title = $responseData['title'] ?? null;
                     $videoUrl = $responseData['url_video'] ?? null;
@@ -42,11 +44,11 @@ class YoutubeController extends Controller
                     Cache::put($videoId, $data, now()->addMinutes(30));
                 }
 
-                return view('youtube.index', $data);
+                return view('video', $data);
             } catch (\Exception $e) {
                 return back()->with('error', 'Error system');
             }
-        }
+        
     }
 
     public function getVideoId($url)

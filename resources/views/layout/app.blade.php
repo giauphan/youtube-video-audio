@@ -40,7 +40,7 @@
             @endguest
         </header-component>
 
-        <main class="mx-auto max-w-7xl">
+        <main class="mx-auto max-w-7xl ">
             @yield('body')
         </main>
     </div>

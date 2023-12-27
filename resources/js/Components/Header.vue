@@ -1,9 +1,9 @@
 <template>
 
-<nav class="bg-white shadow-md ">
+<nav class=" shadow-md border-b border-gray-700">
             <div class="container mx-auto w-5/6">
                 <div class="flex items-center justify-between h-16">
-                    <a class="text-lg font-semibold" href="/">
+                    <a class="text-lg font-semibold text-white" href="/">
                         KINGKING
                     </a>
                     <button class="block md:hidden px-2 py-1 text-gray-600 hover:text-gray-900 focus:outline-none"
