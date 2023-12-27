@@ -33,7 +33,7 @@ class YoutubeController extends Controller
             $client = new Client();
 
             $datacache = Cache::get('video');
-            $data = array_key_exists($videoID, $datacache) ? $datacache[$videoID] : null;
+            $data = ( is_array($datacache) &&array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
             if (! $data) {
                 $response = $client->request('GET', $apiUrl);
