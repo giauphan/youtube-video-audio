@@ -15,7 +15,7 @@ class VideoController extends Controller
     {
         $datacache = Cache::get('video');
         $data = array_key_exists($videoID, $datacache) ? $datacache[$videoID] : null;
-        
+
         if ($data === null) {
             abort(404);
         }

@@ -13,8 +13,9 @@ class YoutubeController extends Controller
     public function index()
     {
         $getvideo = Cache::get('video', []);
+
         return view('youtube.index', [
-            'getvideo' => $getvideo
+            'getvideo' => $getvideo,
         ]);
     }
 
@@ -24,17 +25,17 @@ class YoutubeController extends Controller
         try {
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
-            if (!is_string($videoID)) {
+            if (! is_string($videoID)) {
                 return back()->with('error', 'Invalid video ID.');
             }
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . $videoID;
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoID;
 
             $client = new Client();
 
             $datacache = Cache::get('video');
             $data = array_key_exists($videoID, $datacache) ? $datacache[$videoID] : null;
 
-            if (!$data) {
+            if (! $data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
