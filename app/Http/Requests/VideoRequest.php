@@ -9,14 +9,14 @@ class VideoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'url' => ['required', 'string']
+            'url' => ['required', 'string'],
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'url'=>'Đường dẫn video youtube'
+            'url' => 'Đường dẫn video youtube',
         ];
     }
 }
