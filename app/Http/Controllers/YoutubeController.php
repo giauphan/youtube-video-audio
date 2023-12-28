@@ -19,7 +19,7 @@ class YoutubeController extends Controller
 
         $getvideo = Cache::get('video', []);
 
-        $perPage = 12;
+        $perPage = 2;
         $currentPage = request('page', 1);
         $paginatedData = array_slice($getvideo, ($currentPage - 1) * $perPage, $perPage);
         $filesByDatabase = new LengthAwarePaginator($paginatedData, count($getvideo), $perPage, $currentPage, ['path' => $request->url()]);

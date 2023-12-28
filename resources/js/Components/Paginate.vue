@@ -11,8 +11,9 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/solid'
         <a
           :href="page.url ? page.url : '#'"
           :class="{
-            'pagination-link flex h-8 items-center justify-center px-4 leading-tight bg-white text-black rounded': true,
-            'bg-blue-500 text-white': page.active,
+            'pagination-link flex h-8 items-center justify-center px-4 leading-tight  rounded': true,
+            'bg-[#34AEE6] text-white': page.active,
+            'bg-white text-black': !page.active,
           }"
         >
           <template v-if="page.label.includes('laquo;')">
