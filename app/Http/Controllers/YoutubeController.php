@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Cache;
 
 class YoutubeController extends Controller
 {
+
+    public string $type;
+
     public function index(Request $request)
     {
         $getvideo = Cache::get('video', []);
@@ -32,17 +35,17 @@ class YoutubeController extends Controller
         try {
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
-            if (! is_string($videoID)) {
+            if (!is_string($videoID)) {
                 return back()->with('error', 'Invalid video ID.');
             }
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoID;
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . $videoID;
 
             $client = new Client();
 
             $datacache = Cache::get('video');
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-            if (! $data) {
+            if (!$data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
@@ -54,11 +57,14 @@ class YoutubeController extends Controller
                     'title' => $title,
                     'url_video' => $videoUrl,
                     'thumbnail' => $thumbnail,
+                    'type' => $this->type
                 ];
                 Cache::put('video', $datacache, now()->addHours(4));
             }
 
-            return view('video', $data);
+            return view('video', [
+                'video'=>$data
+            ]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with('error', 'Error system');
         }
@@ -70,7 +76,7 @@ class YoutubeController extends Controller
 
         if (isset($urlParts['query'])) {
             parse_str($urlParts['query'], $queryParameters);
-
+            $this->type = 'video';
             return $queryParameters['v'] ?? '';
         }
 
@@ -79,7 +85,7 @@ class YoutubeController extends Controller
 
             if (in_array('shorts', $pathParts)) {
                 $index = array_search('shorts', $pathParts);
-
+                $this->type = 'shorts';
                 return $pathParts[$index + 1] ?? '';
             }
         }

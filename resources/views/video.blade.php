@@ -3,9 +3,9 @@
 @section('body')
     <section class="flex gap-4">
         <div>
-            @if (isset($url_video) && isset($title))
+            @if (isset($video))
                 <section class="my-10">
-                    <video-component url_video="{{ $url_video }}" title="{{ $title }}"></video-component>
+                    <video-component :video='@json($video)'></video-component>
                 </section>
             @endif
 
