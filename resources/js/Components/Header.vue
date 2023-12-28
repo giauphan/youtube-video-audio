@@ -1,7 +1,7 @@
 <script setup>
 import DropDown from './DropDown.vue'
 import InputGroup from './InputGroup.vue'
-import route from '../../../vendor/tightenco/ziggy';
+import route from 'ziggy-js'
 </script>
 <template>
   <nav class="shadow-md border-b border-gray-700">
