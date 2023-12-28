@@ -6,16 +6,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
 class YoutubeController extends Controller
 {
-    public function index()
+    public string $type;
+
+    public function index(Request $request)
     {
         $getvideo = Cache::get('video', []);
 
+        $perPage = 12; // Set your desired items per page
+        $currentPage = request('page', 1);
+        $paginatedData = array_slice($getvideo, ($currentPage - 1) * $perPage, $perPage);
+        $filesByDatabase = new LengthAwarePaginator($paginatedData, count($getvideo), $perPage, $currentPage, ['path' => $request->url()]);
+
         return view('youtube.index', [
-            'getvideo' => $getvideo,
+            'getvideo' => $filesByDatabase,
         ]);
     }
 
@@ -42,15 +51,19 @@ class YoutubeController extends Controller
                 $title = $responseData['title'] ?? null;
                 $videoUrl = $responseData['url_video'] ?? null;
                 $thumbnail = $responseData['thumbnail'] ?? null;
+
                 $data = $datacache[$videoID] = [
                     'title' => $title,
                     'url_video' => $videoUrl,
                     'thumbnail' => $thumbnail,
+                    'type' => $this->type,
                 ];
                 Cache::put('video', $datacache, now()->addHours(4));
             }
 
-            return view('video', $data);
+            return view('video', [
+                'video' => $data,
+            ]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with('error', 'Error system');
         }
@@ -62,6 +75,7 @@ class YoutubeController extends Controller
 
         if (isset($urlParts['query'])) {
             parse_str($urlParts['query'], $queryParameters);
+            $this->type = 'video';
 
             return $queryParameters['v'] ?? '';
         }
@@ -71,6 +85,7 @@ class YoutubeController extends Controller
 
             if (in_array('shorts', $pathParts)) {
                 $index = array_search('shorts', $pathParts);
+                $this->type = 'shorts';
 
                 return $pathParts[$index + 1] ?? '';
             }

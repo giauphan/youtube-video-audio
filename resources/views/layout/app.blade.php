@@ -42,7 +42,7 @@
 
         </header-component>
 
-        <main class="mx-auto max-w-7xl ">
+        <main class="mx-auto max-w-7xl px-3 sm:px-5">
             @yield('body')
         </main>
     </div>

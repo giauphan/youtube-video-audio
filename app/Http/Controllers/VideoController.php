@@ -20,6 +20,8 @@ class VideoController extends Controller
             abort(404);
         }
 
-        return view('video', $data);
+        return view('video', [
+            'video' => $data,
+        ]);
     }
 }
