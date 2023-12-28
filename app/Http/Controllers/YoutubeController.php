@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -15,10 +16,10 @@ class YoutubeController extends Controller
 
     public function index(Request $request)
     {
-      
+
         $getvideo = Cache::get('video', []);
 
-        $perPage = 12; 
+        $perPage = 12;
         $currentPage = request('page', 1);
         $paginatedData = array_slice($getvideo, ($currentPage - 1) * $perPage, $perPage);
         $filesByDatabase = new LengthAwarePaginator($paginatedData, count($getvideo), $perPage, $currentPage, ['path' => $request->url()]);
@@ -35,7 +36,7 @@ class YoutubeController extends Controller
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
 
-            if (!($videoID)) {
+            if (! ($videoID)) {
                 return back()->with('error', trans('Invalid video ID.'));
             }
 
@@ -65,7 +66,7 @@ class YoutubeController extends Controller
 
             return view('video', [
                 'video' => $data,
-            ]); 
+            ]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with('error', trans('Error system'));
         }
@@ -74,15 +75,16 @@ class YoutubeController extends Controller
     public function getVideoId($url)
     {
         $urlParts = parse_url($url);
-        
+
         if (isset($urlParts['path'])) {
             $pathParts = explode('/', trim($urlParts['path'], '/'));
             if (in_array('shorts', $pathParts)) {
                 $index = array_search('shorts', $pathParts);
                 $this->type = 'shorts';
-             
+
                 return $pathParts[$index + 1] ?? '';
             }
+
             return $pathParts[0];
         }
 
