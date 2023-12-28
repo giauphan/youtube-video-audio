@@ -10,7 +10,7 @@
             @endif
 
         </div>
-        <div class="flex flex-col gap-4">
+        <div class="hidden sm:flex flex-col gap-4">
             abc
         </div>
 

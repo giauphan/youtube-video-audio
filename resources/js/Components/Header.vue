@@ -18,7 +18,7 @@ import route from 'ziggy-js'
           </svg>
         </button>
 
-        <div class="hidden md:flex items-center justify-center self-center py-3">
+        <div class="flex items-center justify-center self-center py-3">
           <!-- Left Side Of Navbar -->
           <ul class="flex items-center gap-5">
             <slot></slot>

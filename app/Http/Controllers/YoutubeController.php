@@ -32,9 +32,9 @@ class YoutubeController extends Controller
     public function getVideo(VideoRequest $request)
     {
         $validate = $request->validated();
-        // try {
-        $videoUrl = $validate['url'];
-        $videoID = $this->getVideoId($videoUrl);
+        try {
+            $videoUrl = $validate['url'];
+            $videoID = $this->getVideoId($videoUrl);
 
         if (! ($videoID)) {
             return back()->with('error', trans('Invalid video ID.'));
@@ -63,13 +63,12 @@ class YoutubeController extends Controller
             ];
             Cache::put('video', $datacache, now()->addHours(4));
         }
-
-        return view('video', [
-            'video' => $data,
-        ]);
-        // } catch (\Exception $e) {
-        //     return redirect()->route('home')->with('error', trans('Error system'));
-        // }
+            return view('video', [
+                'video' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route('home')->with('error', trans('Error system'));
+        }
     }
 
     public function getVideoId($url)
@@ -90,6 +89,18 @@ class YoutubeController extends Controller
             if (in_array('shorts', $pathParts)) {
                 $index = array_search('shorts', $pathParts);
                 $this->type = 'shorts';
+
+                return $pathParts[$index + 1] ?? '';
+            }
+
+            return $pathParts[0];
+        }
+
+        if (isset($urlParts['path'])) {
+            $pathParts = explode('/', trim($urlParts['path'], '/'));
+            if (in_array('live', $pathParts)) {
+                $index = array_search('live', $pathParts);
+                $this->type = 'live';
 
                 return $pathParts[$index + 1] ?? '';
             }
