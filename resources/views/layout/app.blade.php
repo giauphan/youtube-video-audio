@@ -20,25 +20,26 @@
 <body>
     <div id="app">
         <header-component :user='@json(Auth::user())' lableSign="{{ __('Register') }}"
-            lableLogin="{{ __('Login') }}">
+            lableLogin="{{ __('Login') }}"
+            lable="{{ __('Choose a language') }}">
             <li>
                 <form action="{{ route('video.upload') }}" method="post">
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
-                        <alert-component :type="'error'" :body="'{{ $error }}'">
-                        </alert-component>
+                            <alert-component :type="'error'" :body="'{{ __($error) }}'">
+                            </alert-component>
                         @endforeach
                     @endif
                     @if (session('error'))
-                            <alert-component :type="'error'" :body="'{{ session('error') }}'">
-                            </alert-component>
+                        <alert-component :type="'error'" :body="'{{ __(session('error')) }}'">
+                        </alert-component>
                     @endif
-            @csrf
-            <input-group-component class="border border-gray-700"
-                placeholder="{{ __('Link video youtube') }}" name="url"></input-group-component>
-            </form>
+                    @csrf
+                    <input-group-component class="border border-gray-700" placeholder="{{ __('Link video youtube') }}"
+                        name="url"></input-group-component>
+                </form>
             </li>
-            <li class="text-white">page</li>
+        
 
         </header-component>
 

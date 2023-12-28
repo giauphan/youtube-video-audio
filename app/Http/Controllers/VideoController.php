@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Cache;
 
 class VideoController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(string $videoID)
     {
         $datacache = Cache::get('video');
