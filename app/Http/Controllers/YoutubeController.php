@@ -19,7 +19,7 @@ class YoutubeController extends Controller
 
         $getvideo = Cache::get('video', []);
 
-        $perPage = 2;
+        $perPage = 12;
         $currentPage = request('page', 1);
         $paginatedData = array_slice($getvideo, ($currentPage - 1) * $perPage, $perPage);
         $filesByDatabase = new LengthAwarePaginator($paginatedData, count($getvideo), $perPage, $currentPage, ['path' => $request->url()]);
@@ -32,22 +32,22 @@ class YoutubeController extends Controller
     public function getVideo(VideoRequest $request)
     {
         $validate = $request->validated();
-        try {
+        // try {
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
 
-            if (! ($videoID)) {
+            if (!($videoID)) {
                 return back()->with('error', trans('Invalid video ID.'));
             }
 
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoID;
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url=' . $videoID;
 
             $client = new Client();
 
             $datacache = Cache::get('video');
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-            if (! $data) {
+            if (!$data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
@@ -67,14 +67,23 @@ class YoutubeController extends Controller
             return view('video', [
                 'video' => $data,
             ]);
-        } catch (\Exception $e) {
-            return redirect()->route('home')->with('error', trans('Error system'));
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()->route('home')->with('error', trans('Error system'));
+        // }
     }
 
     public function getVideoId($url)
     {
         $urlParts = parse_url($url);
+
+        if (isset($urlParts['query'])) {
+            parse_str($urlParts['query'], $queryParameters);
+            $this->type = 'video';
+            
+            if (isset($queryParameters['v'])) {
+                return $queryParameters['v'];
+            }
+        }
 
         if (isset($urlParts['path'])) {
             $pathParts = explode('/', trim($urlParts['path'], '/'));
