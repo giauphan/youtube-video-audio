@@ -8,6 +8,7 @@ import Alert from '@/Components/Alert.vue'
 import Video from '@/Components/Video.vue'
 import Paginate from '@/Components/Paginate.vue'
 
+
 const app = createApp({})
 
 app.component('drop-down-component',DropDown)
