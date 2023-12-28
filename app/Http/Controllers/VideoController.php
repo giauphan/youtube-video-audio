@@ -21,7 +21,7 @@ class VideoController extends Controller
         }
 
         return view('video', [
-            'video'=>$data
+            'video' => $data,
         ]);
     }
 }
