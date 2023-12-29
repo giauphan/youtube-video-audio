@@ -1,5 +1,10 @@
 @extends('layout.app')
-
+@push('seo')
+<title>{{ config('app.name', 'Laravel') }}</title>
+<meta property="og:url" content="{{route('home')}}">
+<meta  property="og:title" content="{{__('Download YouTube videos and watch without interruptions from ads. Explore an ad-free video viewing experience on our platform.')}}" />
+<meta  property="og:description" content="{{__('Down video and Watch this amazing video on our platform. Explore the latest content and enjoy high-quality videos.')}}" />
+@endpush
 @section('body')
     <section class="my-10">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
