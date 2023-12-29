@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
+use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -39,8 +40,8 @@ class YoutubeController extends Controller
             if (! ($videoID)) {
                 return back()->with('error', trans('Invalid video ID.'));
             }
-
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoID;
+            $setting = new APiVideo();
+            $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
 
             $client = new Client();
 

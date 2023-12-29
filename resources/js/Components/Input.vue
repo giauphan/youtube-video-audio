@@ -12,7 +12,7 @@ const props = defineProps(['class', 'lable', 'name', 'id'])
         :id="id"
         :name="props.name"
         :class="[
-          'block w-full rounded-md  py-1.5 pl-7 pr-20 text-white  sm:text-sm sm:leading-6 bg-black',
+          'block w-36 sm:w-full rounded-md  py-1.5 pl-7 pr-20 text-white  sm:text-sm sm:leading-6 bg-black',
           $props.class,
         ]"
       />
