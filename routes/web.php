@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\TermsPolyciController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\YoutubeController;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,5 @@ Route::prefix('/video')->name('video.')->group(function () {
     Route::post('/show', [YoutubeController::class, 'getVideo'])->name('upload');
 });
 
+Route::get('/Terms-and-polyci',TermsPolyciController::class)->name('terms.polyci');
 Route::get('language/{locale}', LanguageController::class)->name('lang');

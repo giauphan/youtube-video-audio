@@ -64,7 +64,7 @@ const onClose = () => {
         <ul class="flex items-center space-x-4">
           <DropDown v-if="user" :lable_name="user.name"  class="w-40">
             <p class="block py-2 text-sm text-white ">
-              <MenuItem>Xin chào <strong> {{ user.name }}</strong></MenuItem>
+              <!-- <MenuItem>{{ __('Hello!') }} <strong> {{ user.name }}</strong></MenuItem> -->
             </p>
           </DropDown>
           <template v-else>
