@@ -11,6 +11,6 @@ class TermsPolyciController extends Controller
      */
     public function __invoke(Request $request)
     {
-       return view('TermAndPolyci');
+        return view('TermAndPolyci');
     }
 }

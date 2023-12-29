@@ -24,5 +24,5 @@ Route::prefix('/video')->name('video.')->group(function () {
     Route::post('/show', [YoutubeController::class, 'getVideo'])->name('upload');
 });
 
-Route::get('/Terms-and-polyci',TermsPolyciController::class)->name('terms.polyci');
+Route::get('/Terms-and-polyci', TermsPolyciController::class)->name('terms.polyci');
 Route::get('language/{locale}', LanguageController::class)->name('lang');
