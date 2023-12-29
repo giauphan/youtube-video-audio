@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    @stack('seo')
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
@@ -53,14 +53,14 @@
                 <footer-linkgroup-component
                     class="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
                     <footer-link-component href="/">
-                        {{__('About')}}
+                        {{ __('About') }}
                     </footer-link-component>
                     <footer-link-component href="{{ route('terms.polyci') }}" class="text-white">
                         {{ __('Service Policy and Terms') }}
                     </footer-link-component>
-                   
+
                     <footer-link-component href="/">
-                        {{__('Contact')}}
+                        {{ __('Contact') }}
                     </footer-link-component>
                 </footer-linkgroup-component>
             </div>

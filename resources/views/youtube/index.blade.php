@@ -1,5 +1,8 @@
 @extends('layout.app')
-
+@push('seo')
+<title>{{ config('app.name', 'Laravel') }}</title>
+<meta property="og:url" content="{{route('home')}}">
+@endpush
 @section('body')
     <section class="my-10">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
