@@ -14,7 +14,9 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <!-- Replace with Tailwind CSS font imports if needed -->
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4786723346423249"
+    crossorigin="anonymous"></script>
+    
 </head>
 
 <body>
