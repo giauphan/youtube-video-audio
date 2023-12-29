@@ -55,6 +55,7 @@ class YoutubeController extends Controller
                 $title = $responseData['title'] ?? null;
                 $videoUrl = $responseData['url_video'] ?? null;
                 $thumbnail = $responseData['thumbnail'] ?? null;
+
                 $data = $datacache[$videoID] = [
                     'title' => $title,
                     'url_video' => $videoUrl,
