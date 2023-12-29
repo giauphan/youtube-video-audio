@@ -7,7 +7,8 @@ import InputGroup from '@/Components/InputGroup.vue'
 import Alert from '@/Components/Alert.vue'
 import Video from '@/Components/Video.vue'
 import Paginate from '@/Components/Paginate.vue'
-
+import Footer from '@/Components/Footer.vue'
+import { FooterLink, FooterLinkGroup } from 'flowbite-vue'
 
 const app = createApp({})
 
@@ -19,5 +20,8 @@ app.component('input-group-component',InputGroup)
 app.component('alert-component', Alert)
 app.component('video-component', Video)
 app.component('paginate-component', Paginate)
+app.component('footer-component', Footer)
+app.component('footer-link-component', FooterLink)
+app.component('footer-linkgroup-component', FooterLinkGroup)
 
 app.mount('#app')
