@@ -38,8 +38,6 @@
                         name="url"></input-group-component>
                 </form>
             </li>
-
-
         </header-component>
 
         <main class="mx-auto max-w-7xl px-3 sm:px-5">
