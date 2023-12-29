@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="google-adsense-account" content="ca-pub-4786723346423249">
     @stack('seo')
 
 
