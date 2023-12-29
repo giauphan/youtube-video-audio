@@ -36,33 +36,34 @@ class YoutubeController extends Controller
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
 
-        if (! ($videoID)) {
-            return back()->with('error', trans('Invalid video ID.'));
-        }
+            if (! ($videoID)) {
+                return back()->with('error', trans('Invalid video ID.'));
+            }
 
-        $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoID;
+            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoID;
 
-        $client = new Client();
+            $client = new Client();
 
-        $datacache = Cache::get('video');
-        $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
+            $datacache = Cache::get('video');
+            $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-        if (! $data) {
-            $response = $client->request('GET', $apiUrl);
-            $responseData = json_decode($response->getBody()->__toString(), true);
+            if (! $data) {
+                $response = $client->request('GET', $apiUrl);
+                $responseData = json_decode($response->getBody()->__toString(), true);
 
-            $title = $responseData['title'] ?? null;
-            $videoUrl = $responseData['url_video'] ?? null;
-            $thumbnail = $responseData['thumbnail'] ?? null;
+                $title = $responseData['title'] ?? null;
+                $videoUrl = $responseData['url_video'] ?? null;
+                $thumbnail = $responseData['thumbnail'] ?? null;
 
-            $data = $datacache[$videoID] = [
-                'title' => $title,
-                'url_video' => $videoUrl,
-                'thumbnail' => $thumbnail,
-                'type' => $this->type,
-            ];
-            Cache::put('video', $datacache, now()->addHours(4));
-        }
+                $data = $datacache[$videoID] = [
+                    'title' => $title,
+                    'url_video' => $videoUrl,
+                    'thumbnail' => $thumbnail,
+                    'type' => $this->type,
+                ];
+                Cache::put('video', $datacache, now()->addHours(4));
+            }
+
             return view('video', [
                 'video' => $data,
             ]);
