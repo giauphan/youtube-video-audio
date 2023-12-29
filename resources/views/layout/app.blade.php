@@ -19,9 +19,8 @@
 
 <body>
     <div id="app">
-        <header-component :user='@json(Auth::user())' lableSign="{{ __('Register') }}"
-            lableLogin="{{ __('Login') }}"
-            lable="{{ __('Choose a language') }}">
+        <header-component :user='@json(Auth::user())' lable_sign="{{ __('Register') }}"
+        lable_login="{{ __('Login') }}" lable="{{ __('Choose a language') }}">
             <li>
                 <form action="{{ route('video.upload') }}" method="post">
                     @if ($errors->any())
@@ -39,7 +38,7 @@
                         name="url"></input-group-component>
                 </form>
             </li>
-        
+
 
         </header-component>
 

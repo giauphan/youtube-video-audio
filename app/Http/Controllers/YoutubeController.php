@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
+use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -36,25 +37,24 @@ class YoutubeController extends Controller
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
 
-            if (! ($videoID)) {
+            if (!($videoID)) {
                 return back()->with('error', trans('Invalid video ID.'));
             }
-
-            $apiUrl = 'https://api.pdf.t4tek.tk/api/getVideo?url='.$videoID;
+            $setting = new APiVideo();
+            $apiUrl =  $setting->url.'/api/getVideo?url=' . $videoID;
 
             $client = new Client();
 
             $datacache = Cache::get('video');
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-            if (! $data) {
+            if (!$data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
                 $title = $responseData['title'] ?? null;
                 $videoUrl = $responseData['url_video'] ?? null;
                 $thumbnail = $responseData['thumbnail'] ?? null;
-
                 $data = $datacache[$videoID] = [
                     'title' => $title,
                     'url_video' => $videoUrl,
@@ -63,7 +63,7 @@ class YoutubeController extends Controller
                 ];
                 Cache::put('video', $datacache, now()->addHours(4));
             }
-
+            
             return view('video', [
                 'video' => $data,
             ]);

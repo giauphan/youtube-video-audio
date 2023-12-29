@@ -13,7 +13,6 @@ import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
         {{ lable_name }}
       </MenuButton>
     </div>
-
     <transition
       enter-active-class="transition ease-out duration-100"
       enter-from-class="transform opacity-0 scale-95"
