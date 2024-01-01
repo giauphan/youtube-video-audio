@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google-adsense-account" content="ca-pub-4786723346423249">
     @stack('seo')
-    <meta name="description" property="og:description" content="{{__('Down video and Watch this amazing video on our platform. Explore the latest content and enjoy high-quality videos.')}}" />
+    <meta name="description" property="og:description"
+        content="{{ __('Down video and Watch this amazing video on our platform. Explore the latest content and enjoy high-quality videos.') }}" />
     <!-- Scripts -->
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     @routes
@@ -14,8 +15,20 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <!-- Replace with Tailwind CSS font imports if needed -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4786723346423249"
-    crossorigin="anonymous"></script>
-    
+        crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D9HRVNGT44"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-D9HRVNGT44');
+    </script>
+
 </head>
 
 <body>
