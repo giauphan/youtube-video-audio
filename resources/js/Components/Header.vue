@@ -20,7 +20,7 @@ const onClose = () => {
   <nav class="shadow-md border-b border-gray-700">
     <div class="container mx-auto w-5/6">
       <div class="flex items-center justify-between h-16">
-        <button class="block md:hidden px-2 py-1 text-white" type="button" @click="handleOpen">
+        <button class="block md:hidden px-2 py-1 text-white" type="button" @click="handleOpen" aria-label="List Bullet Icon">
           <ListBulletIcon class="h-5 w-5" />
         </button>
         <a class="text-lg font-semibold text-white" href="/"> KINGKING </a>
