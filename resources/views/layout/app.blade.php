@@ -87,3 +87,4 @@
 </body>
 
 </html>
+@stack('js')

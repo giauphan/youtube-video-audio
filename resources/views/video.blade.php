@@ -10,23 +10,23 @@
     @endif
 @endpush
 @section('body')
-    <section class="flex gap-4">
-        <div>
+    <section class=" gap-4">
+        <div class="w-ful">
             @if (isset($video))
                 <section class="my-10">
                     <video-component :video='@json($video)'></video-component>
                 </section>
             @endif
         </div>
-        <div class="hidden sm:flex flex-col gap-4">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4786723346423249"
-                crossorigin="anonymous"></script>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4786723346423249"
-                data-ad-slot="2165795039" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-
     </section>
 @endsection
+
+@push('js')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4786723346423249"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4786723346423249" data-ad-slot="2165795039"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+@endpush
