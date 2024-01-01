@@ -15,7 +15,7 @@ const props = defineProps(['size', 'placeholder', 'color', 'class', 'name','id']
       ]"
       :placeholder="props.placeholder"
     />
-    <Buttons class="rounded absolute right-0 h-full w-10 bg-none" :id="id">
+    <Buttons class="rounded absolute right-0 h-full w-10 bg-none" :id="id" :aria-label="props.placeholder" >
       <SearchIcon />
     </Buttons>
   </div>
