@@ -8,6 +8,7 @@ const props = defineProps([
   'iconPosition',
   'color',
   'class',
+  'id'
 ])
 
 const getSize = () => {
@@ -52,6 +53,8 @@ const getIcon = () => {
 <template>
   <button
     :type="props.type"
+    :id="id"
+    role="button"
     :class="[
       'font-semibold transition-all',
       props.shadow && 'hover:shadow-[0_6px_20px_0]',

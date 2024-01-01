@@ -2,7 +2,7 @@
 import Buttons from './Buttons.vue'
 import SearchIcon from './icon/SearchIcon.vue'
 
-const props = defineProps(['size', 'placeholder', 'color', 'class', 'name'])
+const props = defineProps(['size', 'placeholder', 'color', 'class', 'name','id'])
 </script>
 <template>
   <div class="relative mt-2 flex">
@@ -15,7 +15,7 @@ const props = defineProps(['size', 'placeholder', 'color', 'class', 'name'])
       ]"
       :placeholder="props.placeholder"
     />
-    <Buttons class="rounded absolute right-0 h-full w-10 bg-none">
+    <Buttons class="rounded absolute right-0 h-full w-10 bg-none" :id="id">
       <SearchIcon />
     </Buttons>
   </div>

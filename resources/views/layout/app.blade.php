@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google-adsense-account" content="ca-pub-4786723346423249">
     @stack('seo')
-
-
+    <meta name="description" property="og:description" content="{{__('Down video and Watch this amazing video on our platform. Explore the latest content and enjoy high-quality videos.')}}" />
     <!-- Scripts -->
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     @routes
@@ -37,7 +36,7 @@
                     @endif
                     @csrf
                     <input-group-component class="border border-gray-700" placeholder="{{ __('Link video youtube') }}"
-                        name="url"></input-group-component>
+                        name="url" id="youtube"></input-group-component>
                 </form>
             </li>
 
@@ -54,14 +53,14 @@
                 <a class="text-lg font-semibold text-white" href="/"> KINGKING </a>
                 <footer-linkgroup-component
                     class="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
-                    <footer-link-component href="/">
+                    <footer-link-component href="/" class="text-white">
                         {{ __('About') }}
                     </footer-link-component>
                     <footer-link-component href="{{ route('terms.polyci') }}" class="text-white">
                         {{ __('Service Policy and Terms') }}
                     </footer-link-component>
 
-                    <footer-link-component href="/">
+                    <footer-link-component href="/" class="text-white">
                         {{ __('Contact') }}
                     </footer-link-component>
                 </footer-linkgroup-component>

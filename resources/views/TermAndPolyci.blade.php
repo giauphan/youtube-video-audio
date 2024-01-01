@@ -1,8 +1,8 @@
 @extends('layout.app')
 @push('seo')
 <title>{{ __('Service Policy and Terms') }}</title>
-<meta property="og:title" content="{{ __('Service Policy and Terms') }} Kingking">
-<meta property="og:url" content="{{route('terms.polyci')}}">
+<meta name="title" property="og:title" content="{{ __('Service Policy and Terms') }} Kingking">
+<meta name="url" property="og:url" content="{{route('terms.polyci')}}">
 @endpush
 @section('body')
     <section class="my-10">

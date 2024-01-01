@@ -2,9 +2,9 @@
 @push('seo')
     @if (isset($video))
         <title>{{$video['title']}}</title>
-        <meta  property="og:title" content="{{$video['title']}}" />
-        <meta  property="og:url" content="{{route('video.index',['video'=>$video['id']])}}" />
-        <meta  property="og:description" content="{{$video['title']}}" />
+        <meta name="title" property="og:title" content="{{$video['title']}}" />
+        <meta name="url"  property="og:url" content="{{route('video.index',['video'=>$video['id']])}}" />
+        <meta name="description"  property="og:description" content="{{$video['title']}}" />
     @endif
 @endpush
 @section('body')

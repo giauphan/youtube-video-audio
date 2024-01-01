@@ -68,7 +68,7 @@ const onClose = () => {
             </p>
           </DropDown>
           <template v-else>
-            <li>
+            <!-- <li>
               <a class="text-white whitespace-normal" href="">{{
                 lable_login
               }}</a>
@@ -77,7 +77,7 @@ const onClose = () => {
               <a class="text-white whitespace-normal" href="">{{
                 lable_sign
               }}</a>
-            </li>
+            </li> -->
           </template>
         </ul>
       </div>
