@@ -3,7 +3,7 @@
 @push('seo')
 <title>{{ __('Service Policy and Terms') }}</title>
 <meta name="title" property="og:title" content="{{ __('Service Policy and Terms') }} Kingking">
-<meta name="url" property="og:url" content="{{route('terms.polyci')}}">
+<meta name="url" property="og:url" content="{{route('terms.policy')}}">
 @endpush
 
 @section('body')

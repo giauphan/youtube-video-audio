@@ -34,7 +34,7 @@
         <header-component :user='@json(Auth::user())' lable_sign="{{ __('Register') }}"
             lable_login="{{ __('Login') }}" lable="{{ __('Choose a language') }}">
             <li>
-                <form action="{{ route('video.upload') }}" method="GET">
+                <form action="{{ route('video.upload') }}" method="POST">
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
                             <alert-component :type="'error'" :body="'{{ __($error) }}'">
@@ -45,6 +45,10 @@
                         <alert-component :type="'error'" :body="'{{ __(session('error')) }}'">
                         </alert-component>
                     @endif
+                    @if (session('success'))
+                    <alert-component :type="'success'" :body="'{{ __(session('success')) }}'">
+                    </alert-component>
+                @endif
                     @csrf
                     <input-group-component class="border border-gray-700" placeholder="{{ __('Link video youtube') }}"
                         name="url" id="youtube"></input-group-component>
@@ -67,7 +71,7 @@
                     <footer-link-component href="/" class="text-white">
                         {{ __('About') }}
                     </footer-link-component>
-                    <footer-link-component href="{{ route('terms.polyci') }}" class="text-white">
+                    <footer-link-component href="{{ route('terms.policy') }}" class="text-white">
                         {{ __('Service Policy and Terms') }}
                     </footer-link-component>
 
