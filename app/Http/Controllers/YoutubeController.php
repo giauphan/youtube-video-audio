@@ -17,7 +17,6 @@ class YoutubeController extends Controller
 
     public function index(Request $request)
     {
-
         $getvideo = Cache::get('video', []);
 
         $perPage = 12;

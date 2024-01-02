@@ -21,7 +21,7 @@ Route::get('/', [YoutubeController::class, 'index'])->name('home');
 
 Route::prefix('/video')->name('video.')->group(function () {
     Route::get('/{video}', VideoController::class)->name('index');
-    Route::post('/show', [YoutubeController::class, 'getVideo'])->name('upload');
+    Route::post('/show', VideoController::class)->name('upload');
 });
 
 Route::get('/Terms-and-polyci', TermsPolyciController::class)->name('terms.polyci');

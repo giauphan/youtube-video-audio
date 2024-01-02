@@ -9,6 +9,7 @@
             content="watch video online, {{ $video['title'] }}, online streaming, video player, ad-free video, high-quality video, video viewing experience" />
     @endif
 @endpush
+
 @section('body')
     <section class=" gap-4">
         <div class="w-ful">

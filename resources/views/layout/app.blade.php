@@ -13,10 +13,8 @@
     @routes
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <!-- Replace with Tailwind CSS font imports if needed -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4786723346423249"
         crossorigin="anonymous"></script>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D9HRVNGT44"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -36,7 +34,7 @@
         <header-component :user='@json(Auth::user())' lable_sign="{{ __('Register') }}"
             lable_login="{{ __('Login') }}" lable="{{ __('Choose a language') }}">
             <li>
-                <form action="{{ route('video.upload') }}" method="post">
+                <form action="{{ route('video.upload') }}" method="GET">
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
                             <alert-component :type="'error'" :body="'{{ __($error) }}'">
