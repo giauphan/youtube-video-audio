@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,6 +16,7 @@ class ReportJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public string $url;
+
     public string $type;
 
     public function __construct(string $url, string $type)
@@ -54,7 +54,7 @@ class ReportJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url . '/api/getVideo?url=' . $this->url;
+            $apiUrl = $setting->url.'/api/getVideo?url='.$this->url;
             $response = $client->request('GET', $apiUrl);
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {
@@ -66,7 +66,7 @@ class ReportJob implements ShouldQueue
         return $responseData;
     }
 
-    function checkLinkStatus($url)
+    public function checkLinkStatus($url)
     {
         try {
             $client = new Client(['timeout' => 2]);
@@ -76,6 +76,7 @@ class ReportJob implements ShouldQueue
             if ($e->getCode() == 0) {
                 return false;
             }
+
             return true;
         }
     }
