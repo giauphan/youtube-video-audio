@@ -17,14 +17,14 @@ class ReportVideoController extends Controller
         $validate = $request->validated();
         $re = $this->checkLinkStatus(route('video.index', ['video' => $validate['url']]));
 
-        if (!$re) {
+        if (! $re) {
             return redirect()->route('home')->with('success', 'Report success');
         }
 
         return redirect()->route('home')->with('error', 'Video Stable');
     }
 
-    function checkLinkStatus($url)
+    public function checkLinkStatus($url)
     {
         try {
             $client = new Client();

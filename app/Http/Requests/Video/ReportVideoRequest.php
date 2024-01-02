@@ -10,7 +10,7 @@ class ReportVideoRequest extends FormRequest
     {
         return [
             'link' => ['required', 'string'],
-            'optision' => ['nullable', 'string']
+            'optision' => ['nullable', 'string'],
         ];
     }
 }
