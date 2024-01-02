@@ -10,12 +10,8 @@ class ReportVideoRequest extends FormRequest
     {
         return [
             'link' => ['required', 'string'],
-<<<<<<< HEAD
-            'optision' => ['nullable', 'string'],
-=======
             'type' => ['required', 'string'],
             'optision' => ['nullable', 'string']
->>>>>>> 6bd6631 (update queue and report , route ,)
         ];
     }
 }

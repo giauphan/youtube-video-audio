@@ -33,8 +33,10 @@ class ReportJob implements ShouldQueue
         $datacache = Cache::get('video');
         $responseData = $this->fetchVideoData();
 
-        $datacache = Cache::get('video', []);
-        unset($datacache[$this->url]);
+        $datacache = Cache::get('video');
+        if (isset($datacache[$this->url])) {
+            unset($datacache[$this->url]);
+        }
         $datacache[$this->url] = [
             'id' => $this->url,
             'title' => $responseData['title'] ?? null,
@@ -52,7 +54,7 @@ class ReportJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url.'/api/getVideo?url='.$this->url;
+            $apiUrl = $setting->url . '/api/getVideo?url=' . $this->url;
             $response = $client->request('GET', $apiUrl);
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {
