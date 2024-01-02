@@ -1,11 +1,13 @@
 <script setup>
+import { h } from 'vue';
+
 const props = defineProps([
   'type',
   'icon',
   'shadow',
   'disabled',
   'size',
-  'iconPosition',
+  'iconposition',
   'color',
   'class',
   'id'
@@ -39,15 +41,7 @@ const getColor = () => {
   }
 }
 
-const getIcon = () => {
-  if (!props.icon) {
-    return null
-  }
 
-  return createElement(icon, {
-    className: size === 'sm' ? 'w-4 h-4' : 'w-6 h-6',
-  })
-}
 </script>
 
 <template>
@@ -69,12 +63,20 @@ const getIcon = () => {
       props.class,
     ]"
   >
-    <template v-if="icon && iconPosition === 'start'">
-      {{ getIcon() }}
+    <template v-if="props.icon && props.iconposition === 'start'">
+
+ <FlagIcon  :class="[props.size === 'sm' ? 'w-4 h-4' : 'w-6 h-6','text-white']"/>
+
     </template>
     <slot></slot>
-    <template v-if="icon && iconPosition === 'end'">
-      {{ getIcon() }}
+    <template v-if="props.icon && props.iconposition === 'end'">
+  
+ <props.icon  :class="[props.size === 'sm' ? 'w-4 h-4' : 'w-6 h-6','text-white']"/>
     </template>
   </button>
 </template>
+
+
+<script>
+import {FlagIcon} from '@heroicons/vue/24/solid'
+</script>

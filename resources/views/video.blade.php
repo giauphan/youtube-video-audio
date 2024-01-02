@@ -9,12 +9,21 @@
             content="watch video online, {{ $video['title'] }}, online streaming, video player, ad-free video, high-quality video, video viewing experience" />
     @endif
 @endpush
+
 @section('body')
     <section class=" gap-4">
         <div class="w-ful">
             @if (isset($video))
                 <section class="my-10">
-                    <video-component :video='@json($video)'></video-component>
+                    <video-component :video='@json($video)'>
+                        <form action="{{route('video.report')}}" method="post" class="w-full flex flex-end">
+                            @csrf
+                            <input type="hidden" name="type" value="{{ $video['type']}}">
+                            <input type="hidden" name="link" value="{{ $video['id'] }}">
+                            <button-component class="text-white ms-auto"  iconposition="start" icon="FlagIcon">{{__('Report error video')}}</button-component>
+                        </form>
+                    </video-component>
+
                 </section>
             @endif
         </div>
