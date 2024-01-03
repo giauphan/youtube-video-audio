@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\User;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -10,7 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class ReportJob implements ShouldQueue
@@ -20,7 +18,8 @@ class ReportJob implements ShouldQueue
     public string $url;
 
     public string $type;
-    public  $user;
+
+    public $user;
 
     public function __construct(string $url, string $type, $user)
     {
@@ -67,7 +66,7 @@ class ReportJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url . '/api/getVideo?url=' . $this->url;
+            $apiUrl = $setting->url.'/api/getVideo?url='.$this->url;
             $response = $client->request('GET', $apiUrl);
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {
