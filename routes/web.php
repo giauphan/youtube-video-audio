@@ -32,7 +32,7 @@ Route::get('/Terms-and-policy', TermsPolicyController::class)->name('terms.polic
 Route::get('language/{locale}', LanguageController::class)->name('lang');
 
 Route::middleware('auth')->prefix('user/video')->name('user.video.')->group(function () {
-    Route::get('/',VideoSaveController::class)->name('index');
+    Route::get('/', VideoSaveController::class)->name('index');
     Route::get('/{video}', VideoController::class)->name('show');
 });
 
