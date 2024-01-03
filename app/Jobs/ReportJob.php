@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class ReportJob implements ShouldQueue
@@ -37,14 +38,22 @@ class ReportJob implements ShouldQueue
         if (isset($datacache[$this->url])) {
             unset($datacache[$this->url]);
         }
-        $datacache[$this->url] = [
+        $data = [
             'id' => $this->url,
             'title' => $responseData['title'] ?? null,
             'url_video' => $responseData['url_video'] ?? null,
             'thumbnail' => $responseData['thumbnail'] ?? null,
             'type' => $this->type,
         ];
-        Cache::put('video', $datacache, now()->addHours(4));
+        if (Auth::user()) {
+            $dataUser = Cache::get('video_user') ?? [];
+
+            $dataUser[$this->url] = $data;
+            Cache::put('video_user', $dataUser, now()->addHours(4));
+        } else {
+            $datacache[$this->url] = $data;
+            Cache::put('video', $datacache, now()->addHours(2));
+        }
     }
 
     private function fetchVideoData(): ?array
@@ -54,7 +63,7 @@ class ReportJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url.'/api/getVideo?url='.$this->url;
+            $apiUrl = $setting->url . '/api/getVideo?url=' . $this->url;
             $response = $client->request('GET', $apiUrl);
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {
