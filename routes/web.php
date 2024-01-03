@@ -5,6 +5,7 @@ use App\Http\Controllers\TermsPolicyController;
 use App\Http\Controllers\Video\ReportVideoController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\YoutubeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,10 @@ Route::prefix('/video')->name('video.')->group(function () {
 Route::get('/Terms-and-policy', TermsPolicyController::class)->name('terms.policy');
 Route::get('language/{locale}', LanguageController::class)->name('lang');
 
-Route::prefix('user/video')->name('user.video.')->group(function () {
+Route::middleware('auth')->prefix('user/video')->name('user.video.')->group(function () {
     Route::get('/{video}', VideoController::class)->name('index');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

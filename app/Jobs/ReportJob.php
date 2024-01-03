@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\User;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -19,11 +20,14 @@ class ReportJob implements ShouldQueue
     public string $url;
 
     public string $type;
+    public  $user;
 
-    public function __construct(string $url, string $type)
+    public function __construct(string $url, string $type, $user)
     {
         $this->type = $type;
         $this->url = $url;
+
+        $this->user = $user;
     }
 
     /**
@@ -45,7 +49,7 @@ class ReportJob implements ShouldQueue
             'thumbnail' => $responseData['thumbnail'] ?? null,
             'type' => $this->type,
         ];
-        if (Auth::user()) {
+        if ($this->user != null) {
             $dataUser = Cache::get('video_user') ?? [];
 
             $dataUser[$this->url] = $data;
@@ -63,7 +67,7 @@ class ReportJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url.'/api/getVideo?url='.$this->url;
+            $apiUrl = $setting->url . '/api/getVideo?url=' . $this->url;
             $response = $client->request('GET', $apiUrl);
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {

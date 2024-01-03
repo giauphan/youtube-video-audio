@@ -1,5 +1,5 @@
 <script setup>
-import { h } from 'vue';
+import { h } from 'vue'
 
 const props = defineProps([
   'type',
@@ -10,7 +10,7 @@ const props = defineProps([
   'iconposition',
   'color',
   'class',
-  'id'
+  'id',
 ])
 
 const getSize = () => {
@@ -40,8 +40,6 @@ const getColor = () => {
       return 'bg-white text-gray-900 hover:bg-gray-100 hover:shadow-gray-100/50 disabled:bg-gray-200'
   }
 }
-
-
 </script>
 
 <template>
@@ -64,19 +62,19 @@ const getColor = () => {
     ]"
   >
     <template v-if="props.icon && props.iconposition === 'start'">
-
- <FlagIcon  :class="[props.size === 'sm' ? 'w-4 h-4' : 'w-6 h-6','text-white']"/>
-
+      <FlagIcon
+        :class="[props.size === 'sm' ? 'w-4 h-4' : 'w-6 h-6', 'text-white']"
+      />
     </template>
     <slot></slot>
     <template v-if="props.icon && props.iconposition === 'end'">
-  
- <props.icon  :class="[props.size === 'sm' ? 'w-4 h-4' : 'w-6 h-6','text-white']"/>
+      <props.icon
+        :class="[props.size === 'sm' ? 'w-4 h-4' : 'w-6 h-6', 'text-white']"
+      />
     </template>
   </button>
 </template>
 
-
 <script>
-import {FlagIcon} from '@heroicons/vue/24/solid'
+import { FlagIcon } from '@heroicons/vue/24/solid'
 </script>

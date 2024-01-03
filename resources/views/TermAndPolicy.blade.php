@@ -6,7 +6,7 @@
 <meta name="url" property="og:url" content="{{route('terms.policy')}}">
 @endpush
 
-@section('body')
+@section('content')
     <section class="my-10">
         <h1 class="text-white text-center text-2xl">{{ __('Service Policy and Terms') }}</h1>
         <div class="flex flex-col gap-3">
