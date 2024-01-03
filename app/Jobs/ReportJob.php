@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Http\Controllers\Video\ReportVideoController;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -19,8 +19,6 @@ class ReportJob implements ShouldQueue
     public string $url;
 
     public string $type;
-
-    public ReportVideoController $report;
 
     public function __construct(string $url, string $type)
     {
