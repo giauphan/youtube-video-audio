@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\ReportVideoRequest;
 use App\Jobs\ReportJob;
 use App\Jobs\ReportUserJob;
-use App\Settings\APiVideo;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 
 class ReportVideoController extends Controller
 {
@@ -27,5 +25,4 @@ class ReportVideoController extends Controller
 
         return redirect()->route('video.index', ['video' => $validated['link']])->with('success', 'Report success');
     }
-
 }

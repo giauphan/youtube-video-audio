@@ -2,12 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\Video\ReportVideoController;
 use App\Models\User;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -24,7 +22,6 @@ class ReportUserJob implements ShouldQueue
 
     public User $user;
 
-
     public function __construct(string $url, string $type, User $user)
     {
         $this->type = $type;
@@ -38,7 +35,7 @@ class ReportUserJob implements ShouldQueue
     public function handle(): void
     {
         $datacache = Cache::get('video') ?? [];
-        $responseData =  $this->fetchVideoData();
+        $responseData = $this->fetchVideoData();
 
         $datacache = Cache::get('video');
         if (isset($datacache[$this->url])) {
@@ -58,8 +55,6 @@ class ReportUserJob implements ShouldQueue
         Cache::put('video_user', $dataUser, now()->addHours(4));
     }
 
-    
-
     private function fetchVideoData(): ?array
     {
         $client = new Client();
@@ -67,7 +62,7 @@ class ReportUserJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url . '/api/getVideo?url=' . $this->url;
+            $apiUrl = $setting->url.'/api/getVideo?url='.$this->url;
             $response = $client->request('GET', $apiUrl);
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {
