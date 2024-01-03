@@ -10,11 +10,12 @@ class VideoController extends Controller
 {
     public function __invoke(string $videoID)
     {
+
+        $datacache = Cache::get('video');
         if (auth()->user()) {
-            $datacache = Cache::get('video_user');
-        } else {
-            $datacache = Cache::get('video');
-        }
+            $datauser= Cache::get('video_user');
+            $datacache = array_merge($datacache,$datauser);
+        } 
         $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
         if ($data === null) {
