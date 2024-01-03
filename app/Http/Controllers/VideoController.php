@@ -13,9 +13,9 @@ class VideoController extends Controller
 
         $datacache = Cache::get('video');
         if (auth()->user()) {
-            $datauser= Cache::get('video_user');
-            $datacache = array_merge($datacache,$datauser);
-        } 
+            $datauser = Cache::get('video_user');
+            $datacache = array_merge($datacache, $datauser);
+        }
         $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
         if ($data === null) {
