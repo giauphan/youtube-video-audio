@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\Video\ReportVideoController;
+use App\Models\User;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -12,7 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
 
-class ReportJob implements ShouldQueue
+class ReportUserJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,12 +20,13 @@ class ReportJob implements ShouldQueue
 
     public string $type;
 
-    public ReportVideoController $report;
+    public User $user;
 
-    public function __construct(string $url, string $type)
+    public function __construct(string $url, string $type, User $user)
     {
         $this->type = $type;
         $this->url = $url;
+        $this->user = $user;
     }
 
     /**
@@ -33,7 +34,7 @@ class ReportJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $datacache = Cache::get('video');
+        $datacache = Cache::get('video') ?? [];
         $responseData = $this->fetchVideoData();
 
         $datacache = Cache::get('video');
@@ -42,13 +43,16 @@ class ReportJob implements ShouldQueue
         }
         $data = [
             'id' => $this->url,
+            'user' => $this->user,
             'title' => $responseData['title'] ?? null,
             'url_video' => $responseData['url_video'] ?? null,
             'thumbnail' => $responseData['thumbnail'] ?? null,
             'type' => $this->type,
         ];
-        $datacache[$this->url] = $data;
-        Cache::put('video', $datacache, now()->addHours(2));
+
+        $dataUser = Cache::get('video_user') ?? [];
+        $dataUser[$this->url] = $data;
+        Cache::put('video_user', $dataUser, now()->addHours(4));
     }
 
     private function fetchVideoData(): ?array
