@@ -35,19 +35,22 @@ class YoutubeController extends Controller
         try {
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
-            if (! ($videoID)) {
+            if (!($videoID)) {
                 return back()->with('error', trans('Invalid video ID.'));
             }
             $setting = new APiVideo();
-            $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
+            $apiUrl = $setting->url . '/api/getVideo?url=' . $videoID;
             $client = new Client();
             $datacache = Cache::get('video');
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-            if (! $data) {
+            if (!$data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
-
+                
+                if (isset($responseData['error'])) {
+                    return redirect()->route('home')->with('error', trans('Error system'));
+                }
                 $data = [
                     'id' => $videoID,
                     'title' => $responseData['title'] ?? null,
