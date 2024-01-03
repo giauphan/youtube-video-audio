@@ -36,7 +36,7 @@ class YoutubeController extends Controller
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
             if (! ($videoID)) {
-                return back()->with('error', trans('Invalid video ID.'));
+                return back()->with('error', 'Invalid video ID');
             }
             $setting = new APiVideo();
             $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
@@ -49,7 +49,7 @@ class YoutubeController extends Controller
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
                 if (isset($responseData['error'])) {
-                    return redirect()->route('home')->with('error', trans('Error system'));
+                    return redirect()->route('home')->with('error', 'Error system');
                 }
                 $data = [
                     'id' => $videoID,
@@ -73,7 +73,7 @@ class YoutubeController extends Controller
                 'video' => $data,
             ]);
         } catch (\Exception $e) {
-            return redirect()->route('home')->with('error', trans('Error system'));
+            return redirect()->route('home')->with('error', 'Error system');
         }
     }
 

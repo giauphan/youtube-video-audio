@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Exceptions\CustomHandler;
+use App\Exceptions\ThrottleHandler;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(ExceptionHandlerContract::class, CustomHandler::class);
+        $this->app->bind(ExceptionHandlerContract::class, ThrottleHandler::class);
+
     }
 
     /**
