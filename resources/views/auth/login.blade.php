@@ -12,13 +12,13 @@
                         @csrf
 
                         <div class="flex mb-3 gap-5">
-                            <label for="email" class="text-white font-normal w-1/2">{{ __('Email Address') }}</label>
+                            <label for="email" class="text-white font-normal w-48">{{ __('Email Address') }}</label>
 
                             <div class="">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
+                                <input-component id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                </input-component>
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="text-red-500" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -26,13 +26,13 @@
                         </div>
 
                         <div class="flex gap-5 mb-3">
-                            <label for="password" class="text-white font-normal w-1/2">{{ __('Password') }}</label>
+                            <label for="password" class="text-white font-normal w-48">{{ __('Password') }}</label>
 
                             <div class="">
-                                <input id="password" type="password" class=" @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input-component id="password" type="password" class=" @error('password') is-invalid @enderror" name="password" required autocomplete="current-password"></input-component>
 
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="text-red-500" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -42,7 +42,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}/>
 
                                     <label class="text-white font-normal text-lg" for="remember">
                                         {{ __('Remember Me') }}

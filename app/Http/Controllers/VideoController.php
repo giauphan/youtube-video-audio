@@ -11,9 +11,9 @@ class VideoController extends Controller
     public function __invoke(string $videoID)
     {
 
-        $datacache = Cache::get('video');
+        $datacache = Cache::get('video') ?? [];
         if (auth()->user()) {
-            $datauser = Cache::get('video_user');
+            $datauser = Cache::get('video_user') ?? [];
             $datacache = array_merge($datacache, $datauser);
         }
         $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;

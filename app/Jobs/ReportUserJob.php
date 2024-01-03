@@ -3,16 +3,18 @@
 namespace App\Jobs;
 
 use App\Http\Controllers\Video\ReportVideoController;
+use App\Models\User;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
 
-class ReportJob implements ShouldQueue
+class ReportUserJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,13 +22,14 @@ class ReportJob implements ShouldQueue
 
     public string $type;
 
+    public User $user;
 
-    public ReportVideoController $report;
 
-    public function __construct(string $url, string $type)
+    public function __construct(string $url, string $type, User $user)
     {
         $this->type = $type;
         $this->url = $url;
+        $this->user = $user;
     }
 
     /**
@@ -34,8 +37,8 @@ class ReportJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $datacache = Cache::get('video');
-        $responseData = $this->fetchVideoData();
+        $datacache = Cache::get('video') ?? [];
+        $responseData =  $this->fetchVideoData();
 
         $datacache = Cache::get('video');
         if (isset($datacache[$this->url])) {
@@ -43,13 +46,16 @@ class ReportJob implements ShouldQueue
         }
         $data = [
             'id' => $this->url,
+            'user' => $this->user,
             'title' => $responseData['title'] ?? null,
             'url_video' => $responseData['url_video'] ?? null,
             'thumbnail' => $responseData['thumbnail'] ?? null,
             'type' => $this->type,
         ];
-        $datacache[$this->url] = $data;
-        Cache::put('video', $datacache, now()->addHours(2));
+
+        $dataUser = Cache::get('video_user') ?? [];
+        $dataUser[$this->url] = $data;
+        Cache::put('video_user', $dataUser, now()->addHours(4));
     }
 
     

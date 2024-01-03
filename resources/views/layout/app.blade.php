@@ -32,7 +32,8 @@
 <body>
     <div id="app">
         <header-component :user='@json(Auth::user())' lable_sign="{{ __('Register') }}"
-            lable_login="{{ __('Login') }}" lable="{{ __('Choose a language') }}">
+            lable_login="{{ __('Login') }}" lable="{{ __('Choose a language') }}" lable_logout="{{__('Logout')}}" csrf="{{csrf_token()}}">
+     
             <li>
                 <form action="{{ route('video.upload') }}" method="POST">
                     @if ($errors->any())
