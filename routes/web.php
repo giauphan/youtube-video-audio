@@ -29,7 +29,6 @@ Route::prefix('/video')->name('video.')->group(function () {
 Route::get('/Terms-and-policy', TermsPolicyController::class)->name('terms.policy');
 Route::get('language/{locale}', LanguageController::class)->name('lang');
 
-
-Route::prefix('user/video')->name('user.video.')->group(function(){
+Route::prefix('user/video')->name('user.video.')->group(function () {
     Route::get('/{video}', VideoController::class)->name('index');
 });

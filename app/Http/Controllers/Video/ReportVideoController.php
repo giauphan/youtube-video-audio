@@ -17,6 +17,7 @@ class ReportVideoController extends Controller
         if (auth()->user()) {
             return redirect()->route('user.video.index', ['video' => $validated['link']])->with('success', 'Report success');
         }
+
         return redirect()->route('video.index', ['video' => $validated['link']])->with('success', 'Report success');
     }
 }
