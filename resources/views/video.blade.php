@@ -10,8 +10,8 @@
     @endif
 @endpush
 
-@section('body')
-    <section class=" gap-4">
+@section('content')
+    <section class=" gap-4 ">
         <div class="w-ful">
             @if (isset($video))
                 <section class="my-10">
