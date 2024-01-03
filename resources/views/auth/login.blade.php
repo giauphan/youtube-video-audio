@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<div class="mt-10">
+<div class="mt-10 min-h-[400px] flex flex-col justify-center">
     <div class="flex flex-wrap justify-center">
         <div class="">
             <div class="card">

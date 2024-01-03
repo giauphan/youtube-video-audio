@@ -58,7 +58,7 @@
 
         </header-component>
 
-        <main class="mx-auto max-w-7xl px-3 sm:px-5 min-h-[400px]">
+        <main class="mx-auto max-w-7xl px-3 sm:px-5 ">
             @yield('content')
         </main>
 

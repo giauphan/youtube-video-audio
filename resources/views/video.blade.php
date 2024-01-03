@@ -11,7 +11,7 @@
 @endpush
 
 @section('content')
-    <section class=" gap-4">
+    <section class=" gap-4 ">
         <div class="w-ful">
             @if (isset($video))
                 <section class="my-10">
