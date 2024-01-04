@@ -21,9 +21,9 @@ class VideoController extends Controller
         if ($data === null) {
             abort(404);
         }
-
         return view('video', [
             'video' => $data,
+            'ListVideo'=> $datacache
         ]);
     }
 }

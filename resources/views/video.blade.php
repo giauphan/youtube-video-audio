@@ -13,9 +13,9 @@
 @section('content')
     <section class=" gap-4 ">
         <div class="w-ful">
-            @if (isset($video))
+            @if (isset($video) && isset($ListVideo))
                 <section class="my-10">
-                    <video-component :video='@json($video)'>
+                    <video-component :video='@json($video)' :videolist='@json($ListVideo)'>
                         <form action="{{route('video.report')}}" method="post" class="w-full flex flex-end">
                             @csrf
                             <input type="hidden" name="type" value="{{ $video['type']}}">

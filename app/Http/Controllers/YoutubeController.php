@@ -71,6 +71,7 @@ class YoutubeController extends Controller
 
             return view('video', [
                 'video' => $data,
+                'ListVideo'=> $datacache
             ]);
         } catch (\Exception $e) {
             return redirect()->route('home')->with('error', 'Error system');
