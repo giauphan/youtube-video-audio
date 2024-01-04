@@ -25,9 +25,6 @@ export default {
   methods: {
     playNextVideo() {
       const currentVideoId = this.video.id;
-      if (currentVideoId) {
-        return;
-      }
       const videoIds = Object.keys(this.videolist);
       const currentVideoIndex = videoIds.findIndex((id) => id === currentVideoId);
       if (
@@ -37,14 +34,14 @@ export default {
         const nextVideoId = videoIds[currentVideoIndex + 1];
         this.linkVideo = this.videolist[nextVideoId].url_video;
         this.title_video = this.videolist[nextVideoId].title;
-      }else{
-        const nextVideoId = 0;
+      } else {
+        const nextVideoId = videoIds[0];
         this.linkVideo = this.videolist[nextVideoId].url_video;
         this.title_video = this.videolist[nextVideoId].title;
       }
 
       this.$refs.videoPlayer.load()
-        this.$refs.videoPlayer.play()
+      this.$refs.videoPlayer.play()
 
     },
   },
