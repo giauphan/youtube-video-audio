@@ -24,7 +24,7 @@ class VideoController extends Controller
 
         return view('video', [
             'video' => $data,
-            'ListVideo' => $datacache,
+            'ListVideo' => $datauser ?? $datacache,
         ]);
     }
 }
