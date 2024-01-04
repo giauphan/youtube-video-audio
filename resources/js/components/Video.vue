@@ -24,7 +24,11 @@ export default {
   },
   methods: {
     playNextVideo() {
+
       const currentVideoId = this.video.id;
+      if (currentVideoId) {
+        return;
+      }
       const videoIds = Object.keys(this.videolist);
       const currentVideoIndex = videoIds.findIndex((id) => id === currentVideoId);
       if (

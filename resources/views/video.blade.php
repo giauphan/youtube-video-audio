@@ -13,7 +13,7 @@
 @section('content')
     <section class=" gap-4 ">
         <div class="w-ful">
-            @if (isset($video) && isset($ListVideo))
+            @if (isset($video) )
                 <section class="my-10">
                     <video-component :video='@json($video)' :videolist='@json($ListVideo)'>
                         <form action="{{route('video.report')}}" method="post" class="w-full flex flex-end">
