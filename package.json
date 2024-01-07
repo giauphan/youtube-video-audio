@@ -10,7 +10,7 @@
         "@popperjs/core": "^2.11.6",
         "@vitejs/plugin-vue": "^4.5.2",
         "autoprefixer": "^10.4.16",
-        "axios": "^1.6.5",
+        "axios": "^1.6.3",
         "eslint-config-prettier": "^9.1.0",
         "laravel-vite-plugin": "^0.8.0",
         "postcss": "^8.4.33",
