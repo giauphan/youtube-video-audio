@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', VideoSaveController::class)->name('index');
         Route::get('/{video}', VideoController::class)->name('show');
     });
-    Route::post('/video-list/delete',DeleteVideoListController::class)->name('videoList.delete');
+    Route::post('/video-list/delete', DeleteVideoListController::class)->name('videoList.delete');
 });
 
 Auth::routes();

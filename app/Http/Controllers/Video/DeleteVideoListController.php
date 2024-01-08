@@ -15,8 +15,10 @@ class DeleteVideoListController extends Controller
         if (isset($cacheVideo[$request->input('video_id')])) {
             unset($cacheVideo[$request->input('video_id')]);
             Cache::put('video_user', $cacheVideo);
+
             return redirect()->route('user.video.index')->with('success', 'Delete video in list succes');
         }
+
         return back()->with('error', 'Video not found');
     }
 }
