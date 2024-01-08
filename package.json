@@ -27,7 +27,7 @@
         "@inertiajs/vue3": "^1.0.14",
         "@vue-hero-icons/outline": "^1.7.2",
         "@vue-hero-icons/solid": "^1.7.2",
-        "flowbite": "^1.8.1",
+        "flowbite": "^2.2.1",
         "flowbite-vue": "^0.0.17",
         "vue-toast-notification": "^3.1.2",
         "ziggy-js": "^1.8.1"
