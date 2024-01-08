@@ -13,7 +13,7 @@
 @section('content')
     <section class=" gap-4 ">
             @if (isset($video) )
-                    <video-component :video='@json($video)' :videolist='@json($ListVideo)' csrf="{{ csrf_token() }}">
+                    <video-component :video='@json($video)' :videos_drag='@json($ListVideo)' csrf="{{ csrf_token() }}">
                         <form action="{{route('video.report')}}" method="post" class="w-full flex flex-end">
                             @csrf
                             <input type="hidden" name="type" value="{{ $video['type']}}">
