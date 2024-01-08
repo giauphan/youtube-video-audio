@@ -18,7 +18,8 @@
       <h1 class="text-xl text-white font-bold bg-black ">
         Danh sách phát tiếp theo
       </h1>
-      <div @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent>
+      <div @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent @touchstart="touchstart" @touchmove="touchmove"
+        @touchend="touchend">
         <div v-for="(list, key) in videolist_play" :key="key" @dragstart="startDrag($event, key)">
           <a :href="route('video.index', ('video', list.id))" class="flex flex-col">
             <img :src="list.thumbnail || null" class="aspect-video w-full h-auto rounded-lg"
@@ -67,14 +68,31 @@ const onDrop = (event, newIndex) => {
     const [draggedItem] = updatedList.splice(draggedIndex, 1);
 
     updatedList.splice(newIndex, 0, draggedItem);
-    videolist_play.value  = updatedList.reduce((acc, cur) => {
-      acc[cur.id] = cur;
-      return acc;
-    }, {});
+    videolist_play.value = updatedList;
 
   } catch (error) {
     console.error('Error in onDrop:', error);
   }
+};
+
+let touchStartIndex = null;
+const touchstart = (event) => {
+  touchStartIndex = event.currentTarget.dataset.index;
+};
+
+const touchmove = (event) => {
+  event.preventDefault();
+
+};
+
+const touchend = (event) => {
+  const newIndex = event.currentTarget.dataset.index;
+
+  if (touchStartIndex !== null && newIndex !== null) {
+    onDrop({ dataTransfer: { getData: () => touchStartIndex } }, newIndex);
+  }
+
+  touchStartIndex = null;
 };
 
 const truncateTitle = (title) => {
@@ -89,8 +107,6 @@ const playNextVideo = () => {
     const videoArray = Object.values(videolist);
     let currentVideoId = video.id;
     const currentVideoIndex = videoArray.findIndex((item) => item.id === currentVideoId);
-
-    console.log(videoArray, currentVideoIndex, currentVideoId, videoArray.length);
 
     if (currentVideoIndex !== -1 && currentVideoIndex + 1 < videoArray.length) {
       const nextVideo = videoArray[currentVideoIndex + 1];
