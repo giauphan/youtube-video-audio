@@ -58,15 +58,16 @@ class YoutubeController extends Controller
                     'thumbnail' => $responseData['thumbnail'] ?? null,
                     'type' => $this->type,
                 ];
-                if (Auth::user()) {
-                    $dataUser = Cache::get('video_user') ?? [];
-
-                    $dataUser[$videoID] = $data;
-                    Cache::put('video_user', $dataUser, now()->addHours(4));
-                } else {
+                if (! Auth::user()) {
                     $datacache[$videoID] = $data;
                     Cache::put('video', $datacache, now()->addHours(2));
                 }
+            }
+            if (Auth::user()) {
+                $dataUser = Cache::get('video_user') ?? [];
+
+                $dataUser[$videoID] = $data;
+                Cache::put('video_user', $dataUser, now()->addHours(4));
             }
 
             return view('video', [
