@@ -12,10 +12,8 @@
 
 @section('content')
     <section class=" gap-4 ">
-        <div class="w-ful">
             @if (isset($video) )
-                <section class="my-10">
-                    <video-component :video='@json($video)' :videolist='@json($ListVideo)'>
+                    <video-component :video='@json($video)' :videolist='@json($ListVideo)' csrf="{{ csrf_token() }}">
                         <form action="{{route('video.report')}}" method="post" class="w-full flex flex-end">
                             @csrf
                             <input type="hidden" name="type" value="{{ $video['type']}}">
@@ -23,10 +21,7 @@
                             <button-component class="text-white ms-auto"  iconposition="start" icon="FlagIcon">{{__('Report error video')}}</button-component>
                         </form>
                     </video-component>
-
-                </section>
             @endif
-        </div>
     </section>
 @endsection
 

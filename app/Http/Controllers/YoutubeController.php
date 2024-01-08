@@ -35,16 +35,16 @@ class YoutubeController extends Controller
         try {
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
-            if (! ($videoID)) {
+            if (!($videoID)) {
                 return back()->with('error', 'Invalid video ID');
             }
             $setting = new APiVideo();
-            $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
+            $apiUrl = $setting->url . '/api/getVideo?url=' . $videoID;
             $client = new Client();
             $datacache = Cache::get('video');
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-            if (! $data) {
+            if (!$data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
@@ -58,15 +58,16 @@ class YoutubeController extends Controller
                     'thumbnail' => $responseData['thumbnail'] ?? null,
                     'type' => $this->type,
                 ];
-                if (Auth::user()) {
-                    $dataUser = Cache::get('video_user') ?? [];
-
-                    $dataUser[$videoID] = $data;
-                    Cache::put('video_user', $dataUser, now()->addHours(4));
-                } else {
+                if (!Auth::user()) {
                     $datacache[$videoID] = $data;
                     Cache::put('video', $datacache, now()->addHours(2));
                 }
+            }
+            if (Auth::user()) {
+                $dataUser = Cache::get('video_user') ?? [];
+
+                $dataUser[$videoID] = $data;
+                Cache::put('video_user', $dataUser, now()->addHours(4));
             }
 
             return view('video', [
