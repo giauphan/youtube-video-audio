@@ -30,7 +30,7 @@
     </section>
 @endsection
 
-@push('js')
+{{-- @push('js')
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4786723346423249"
         crossorigin="anonymous"></script>
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4786723346423249" data-ad-slot="2165795039"
@@ -38,4 +38,4 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-@endpush
+@endpush --}}
