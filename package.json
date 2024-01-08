@@ -4,20 +4,17 @@
     "scripts": {
         "format": "prettier --write \"resources/js/**/*.vue\"",
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build && vite build --ssr"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
-        "@vitejs/plugin-vue": "^4.5.2",
         "autoprefixer": "^10.4.16",
         "axios": "^1.6.3",
         "eslint-config-prettier": "^9.1.0",
-        "laravel-vite-plugin": "^0.8.0",
         "postcss": "^8.4.33",
         "prettier": "^3.1.1",
         "sass": "^1.69.7",
         "tailwindcss": "^3.4.1",
-        "vite": "^4.0.0",
         "vue": "^3.4.5"
     },
     "dependencies": {
@@ -25,10 +22,13 @@
         "@heroicons/vue": "^2.0.18",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@inertiajs/vue3": "^1.0.14",
+        "@vitejs/plugin-vue": "^5.0.2",
         "@vue-hero-icons/outline": "^1.7.2",
         "@vue-hero-icons/solid": "^1.7.2",
         "flowbite": "^1.8.1",
         "flowbite-vue": "^0.0.17",
+        "laravel-vite-plugin": "^1.0.1",
+        "vite": "^5.0.11",
         "vue-toast-notification": "^3.1.2",
         "ziggy-js": "^1.8.1"
     }
