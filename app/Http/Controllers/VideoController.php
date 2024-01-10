@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class VideoController extends Controller
@@ -14,7 +15,11 @@ class VideoController extends Controller
         $datacache = Cache::get('video') ?? [];
         if (auth()->user()) {
             $datauser = Cache::get('video_user') ?? [];
-            $datacache = array_merge($datacache, $datauser);
+            $getvideoUser = array_filter($datauser, function ($datauser)  {
+                return $datauser['user_id'] === Auth::user()->id;
+            });
+            $datacache = array_merge($datacache, $getvideoUser);
+
         }
         $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
@@ -24,7 +29,7 @@ class VideoController extends Controller
 
         return view('video', [
             'video' => $data,
-            'ListVideo' => $datauser ?? $datacache,
+            'ListVideo' => $getvideoUser ?? $datacache,
         ]);
     }
 }
