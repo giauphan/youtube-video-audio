@@ -17,8 +17,8 @@ class VideoSaveController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $getvideo = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
-        $getvideoUser = array_filter($getvideo, function ($getvideo) {
+        $getvideo =  Redis::exists('video_user') ? json_decode(Redis::get('video_user') , true) : [];
+        $getvideoUser = array_filter($getvideo, function ($getvideo)   {
             return $getvideo['user_id'] === Auth::user()->id;
         });
         $perPage = 12;

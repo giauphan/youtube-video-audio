@@ -61,7 +61,8 @@ class YoutubeController extends Controller
                         'type' => $this->type,
                     ];
                     $datacache[$videoID] = $data;
-                    Redis::set('video', json_encode($datacache), 'EX', 7200);
+                    Redis::set('video', json_encode($datacache));
+                    Redis::expire('video',7200);
                 }
                 if (Auth::user()) {
                     $data = [
@@ -75,7 +76,8 @@ class YoutubeController extends Controller
                     $dataUser = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
 
                     $dataUser[$videoID] = $data;
-                    Redis::set('video_user', json_encode($dataUser), 'EX', 14400);
+                    Redis::set('video_user', json_encode($dataUser));
+                    Redis::expire('video',14400);
                 }
             }
 

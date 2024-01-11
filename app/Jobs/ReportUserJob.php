@@ -45,7 +45,7 @@ class ReportUserJob implements ShouldQueue
         }
         $data = [
             'id' => $this->url,
-            'user' => $this->user,
+            'user_id' => $this->user->id,
             'title' => $responseData['title'] ?? null,
             'url_video' => $responseData['url_video'] ?? null,
             'thumbnail' => $responseData['thumbnail'] ?? null,
@@ -55,7 +55,8 @@ class ReportUserJob implements ShouldQueue
         $dataUser = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
 
         $dataUser[$this->url] = $data;
-        Redis::set('video_user', $dataUser, 14400);
+        Redis::set('video_user', json_encode($dataUser));
+        Redis::expire('video_user',7200);
     }
 
     private function fetchVideoData(): ?array
