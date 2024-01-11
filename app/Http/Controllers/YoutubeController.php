@@ -6,12 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
 use App\Settings\APiVideo;
-use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 
 class YoutubeController extends Controller
@@ -37,16 +35,16 @@ class YoutubeController extends Controller
         try {
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
-            if (!($videoID)) {
+            if (! ($videoID)) {
                 return back()->with('error', 'Invalid video ID');
             }
             $setting = new APiVideo();
-            $apiUrl = $setting->url . '/api/getVideo?url=' . $videoID;
+            $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
             $client = new Client();
             $datacache = Redis::exists('video') ? json_decode(Redis::get('video'), true) : [];
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-            if (!$data) {
+            if (! $data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
@@ -54,7 +52,7 @@ class YoutubeController extends Controller
                     return redirect()->route('home')->with('error', 'Error system');
                 }
 
-                if (!Auth::user()) {
+                if (! Auth::user()) {
                     $data = [
                         'id' => $videoID,
                         'title' => $responseData['title'] ?? null,
