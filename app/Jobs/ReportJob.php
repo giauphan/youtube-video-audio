@@ -44,7 +44,7 @@ class ReportJob implements ShouldQueue
         ];
         $datacache[$this->url] = $data;
         Redis::command('set', [
-            'video', json_encode($datacache), 7200
+            'video', json_encode($datacache), 7200,
         ]);
     }
 

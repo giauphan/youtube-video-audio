@@ -56,7 +56,7 @@ class ReportUserJob implements ShouldQueue
 
         $dataUser[$this->url] = $data;
         Redis::command('set', [
-            'video_user', json_encode($dataUser), 14400
+            'video_user', json_encode($dataUser), 14400,
         ]);
     }
 
