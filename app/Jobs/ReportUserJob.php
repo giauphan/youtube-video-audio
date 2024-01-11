@@ -56,7 +56,7 @@ class ReportUserJob implements ShouldQueue
 
         $dataUser[$this->url] = $data;
         Redis::set('video_user', json_encode($dataUser));
-        Redis::expire('video_user',7200);
+        Redis::expire('video_user', 7200);
     }
 
     private function fetchVideoData(): ?array

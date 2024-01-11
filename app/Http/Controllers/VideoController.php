@@ -11,7 +11,7 @@ class VideoController extends Controller
 {
     public function __invoke(string $videoID)
     {
-        $datacache =  Redis::exists('video') ? json_decode(Redis::get('video') , true) : [];
+        $datacache = Redis::exists('video') ? json_decode(Redis::get('video'), true) : [];
         if (auth()->user()) {
             $datauser = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
             $getvideoUser = array_filter($datauser, function ($datauser) {

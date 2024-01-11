@@ -62,7 +62,7 @@ class YoutubeController extends Controller
                     ];
                     $datacache[$videoID] = $data;
                     Redis::set('video', json_encode($datacache));
-                    Redis::expire('video',7200);
+                    Redis::expire('video', 7200);
                 }
                 if (Auth::user()) {
                     $data = [
@@ -77,7 +77,7 @@ class YoutubeController extends Controller
 
                     $dataUser[$videoID] = $data;
                     Redis::set('video_user', json_encode($dataUser));
-                    Redis::expire('video',14400);
+                    Redis::expire('video', 14400);
                 }
             }
 
