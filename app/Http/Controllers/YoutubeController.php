@@ -6,11 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
 use App\Settings\APiVideo;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class YoutubeController extends Controller
 {
@@ -18,7 +20,7 @@ class YoutubeController extends Controller
 
     public function index(Request $request)
     {
-        $getvideo = Cache::get('video', []);
+        $getvideo = Redis::exists('video') ? json_decode(Redis::get('video'), true) : [];
         $perPage = 12;
         $currentPage = request('page', 1);
         $paginatedData = array_slice($getvideo, ($currentPage - 1) * $perPage, $perPage);
@@ -35,16 +37,16 @@ class YoutubeController extends Controller
         try {
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
-            if (! ($videoID)) {
+            if (!($videoID)) {
                 return back()->with('error', 'Invalid video ID');
             }
             $setting = new APiVideo();
-            $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
+            $apiUrl = $setting->url . '/api/getVideo?url=' . $videoID;
             $client = new Client();
-            $datacache = Cache::get('video');
+            $datacache = Redis::exists('video') ? json_decode(Redis::get('video'), true) : [];
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-            if (! $data) {
+            if (!$data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
@@ -52,17 +54,16 @@ class YoutubeController extends Controller
                     return redirect()->route('home')->with('error', 'Error system');
                 }
 
-                if (! Auth::user()) {
+                if (!Auth::user()) {
                     $data = [
                         'id' => $videoID,
-                        'user_id' => auth()->user()->id,
                         'title' => $responseData['title'] ?? null,
                         'url_video' => $responseData['url_video'] ?? null,
                         'thumbnail' => $responseData['thumbnail'] ?? null,
                         'type' => $this->type,
                     ];
                     $datacache[$videoID] = $data;
-                    Cache::put('video', $datacache, now()->addHours(2));
+                    Redis::set('video', json_encode($datacache), 'EX', 7200);
                 }
                 if (Auth::user()) {
                     $data = [
@@ -73,10 +74,10 @@ class YoutubeController extends Controller
                         'thumbnail' => $responseData['thumbnail'] ?? null,
                         'type' => $this->type,
                     ];
-                    $dataUser = Cache::get('video_user') ?? [];
+                    $dataUser = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
 
                     $dataUser[$videoID] = $data;
-                    Cache::put('video_user', $dataUser, now()->addHours(4));
+                    Redis::set('video_user', json_encode($dataUser), 'EX', 14400);
                 }
             }
 

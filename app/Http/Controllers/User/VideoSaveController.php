@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class VideoSaveController extends Controller
 {
@@ -17,8 +18,8 @@ class VideoSaveController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $getvideo = Cache::get('video_user', []);
-        $getvideoUser = array_filter($getvideo, function ($getvideo) {
+        $getvideo =  Redis::exists('video_user') ? json_decode(Redis::get('video_user') , true) : [];
+        $getvideoUser = array_filter($getvideo, function ($getvideo)  use ($request) {
             return $getvideo['user_id'] === Auth::user()->id;
         });
         $perPage = 12;
