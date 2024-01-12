@@ -1,6 +1,6 @@
 <template>
-  <div class="grid grid-cols-1 sm:grid-cols-4 my-10 gap-5">
-    <section class="col-span-3 rounded">
+  <div class="flex flex-wrap my-10 gap-5">
+    <section class="w-full md:w-[60%] rounded">
       <div class="flex flex-col gap-6 aspect-video">
         <video ref="videoPlayer" width="100%" height="360" :class="[
           'aspect-video h-auto sm:h-[360px] rounded-lg',
@@ -14,18 +14,21 @@
         <slot></slot>
       </div>
     </section>
-    <section>
-      <h1 class="text-xl text-white font-bold bg-black ">
+    <section class="w-full   md:w-[37%]">
+      <h1 class="text-xl text-white font-bold bg-black mb-5">
         Danh sách phát tiếp theo
       </h1>
       <div @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent @touchstart="touchstart" @touchmove="touchmove"
-        @touchend="touchend">
+        @touchend="touchend" class="flex flex-col gap-4">
         <div v-for="(list, key) in videolist_play" :key="key" @dragstart="startDrag($event, key)">
-          <a :href="route('video.index', ('video', list.id))" class="flex flex-col">
-            <img :src="list.thumbnail || null" class="aspect-video w-full h-auto rounded-lg"
-              :alt="truncateTitle(list.title)" />
-            <div class="flex justify-between gap-4">
-              <h1 class="text-lg text-white font-bold bg-black" id="title_list">{{ list.title }}</h1>
+          <a :href="route('video.index', ('video', list.id))" class="flex gap-3">
+            <img :src="list.thumbnail || null" class="aspect-video h-16  rounded-lg" :alt="truncateTitle(list.title)" />
+            <div class="flex flex-col gap-1 w-3/4">
+              <h1 class="font-bold mt-1 text-sm text-white overflow-hidden" style="
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+              ">{{ list.title }}</h1>
               <form :action="route('videoList.delete')" method="post">
                 <input type="hidden" name="_token" :value="csrf" />
                 <input type="hidden" name="video_id" :value="list.id" />

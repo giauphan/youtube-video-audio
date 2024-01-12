@@ -36,6 +36,7 @@ return [
         'trace' => false,
     ],
 
+    'max_size_log' => 10 * 1024 * 1024,
     /*
     |--------------------------------------------------------------------------
     | Log Channels
@@ -125,6 +126,15 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        //
+        'api' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/api.log'),
+            'level' => 'info',
+            'days' => 7,
+            'tap' => [App\Logging\CustomizeApiLog::class],
         ],
     ],
 

@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class ReportUserJob implements ShouldQueue
 {
@@ -36,25 +36,28 @@ class ReportUserJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $datacache = Cache::get('video') ?? [];
+        $datacache = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
+
         $responseData = $this->fetchVideoData();
 
-        $datacache = Cache::get('video');
         if (isset($datacache[$this->url])) {
             unset($datacache[$this->url]);
         }
         $data = [
             'id' => $this->url,
-            'user' => $this->user,
+            'user_id' => $this->user->id,
             'title' => $responseData['title'] ?? null,
             'url_video' => $responseData['url_video'] ?? null,
             'thumbnail' => $responseData['thumbnail'] ?? null,
             'type' => $this->type,
         ];
 
-        $dataUser = Cache::get('video_user') ?? [];
+        $dataUser = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
+
         $dataUser[$this->url] = $data;
-        Cache::put('video_user', $dataUser, now()->addHours(4));
+        Redis::command('set', [
+            'video_user', json_encode($dataUser), 14400,
+        ]);
     }
 
     private function fetchVideoData(): ?array
