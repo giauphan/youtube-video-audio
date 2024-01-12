@@ -5,7 +5,7 @@
         <video ref="videoPlayer" width="100%" height="360" :class="[
           'aspect-video h-auto sm:h-[360px] rounded-lg',
           video.type === 'short' && 'h-[500px] w-300px',
-        ]" controls @ended="playNextVideo">
+        ]" controls autoplay @ended="playNextVideo">
           <source :src="linkVideo" type="video/mp4" />
         </video>
         <h1 class="text-xl text-white font-bold bg-black text-center" id="title">
