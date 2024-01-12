@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class YoutubeController extends Controller
 {
@@ -33,6 +34,9 @@ class YoutubeController extends Controller
     {
         $validate = $request->validated();
         try {
+            if (config('cache.default') == 'redis') {
+                $this->checkMemoryRedis();
+            }
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
             if (! ($videoID)) {
@@ -84,6 +88,14 @@ class YoutubeController extends Controller
                 'ListVideo' => $datacache,
             ]);
         } catch (\Exception $e) {
+            return redirect()->route('home')->with('error', 'Error system');
+        }
+    }
+
+    private function checkMemoryRedis()
+    {
+        $memoryInfo = Redis::command('INFO', ['Memory']);
+        if (config('cache.stores.redis.size') <= str_replace('M', '', $memoryInfo['Memory']['used_memory_peak_human'])) {
             return redirect()->route('home')->with('error', 'Error system');
         }
     }

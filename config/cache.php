@@ -78,6 +78,7 @@ return [
             'driver' => 'redis',
             'connection' => 'cache',
             'lock_connection' => 'default',
+            'size' => env('Used_memory_peak_human', 30),  // default size memory redis cloud 30 mb
         ],
 
         'dynamodb' => [

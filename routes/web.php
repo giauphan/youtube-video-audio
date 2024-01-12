@@ -8,7 +8,6 @@ use App\Http\Controllers\Video\ReportVideoController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\YoutubeController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,9 +43,3 @@ Route::middleware('auth')->group(function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('user');
-
-Route::get('/test-redis', function () {
-    $memoryInfo = Redis::command('INFO Memory');
-
-    dd($memoryInfo);
-});
