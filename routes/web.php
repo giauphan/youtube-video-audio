@@ -44,9 +44,3 @@ Route::middleware('auth')->group(function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('user');
-
-Route::get('/test-redis', function () {
-    $memoryInfo = Redis::command('INFO Memory');
-
-    dd($memoryInfo);
-});
