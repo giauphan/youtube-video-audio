@@ -8,7 +8,6 @@ use App\Http\Controllers\Video\ReportVideoController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\YoutubeController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*

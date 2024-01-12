@@ -39,16 +39,16 @@ class YoutubeController extends Controller
             }
             $videoUrl = $validate['url'];
             $videoID = $this->getVideoId($videoUrl);
-            if (!($videoID)) {
+            if (! ($videoID)) {
                 return back()->with('error', 'Invalid video ID');
             }
             $setting = new APiVideo();
-            $apiUrl = $setting->url . '/api/getVideo?url=' . $videoID;
+            $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
             $client = new Client();
             $datacache = Cache::get('video') ?? [];
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
-            if (!$data) {
+            if (! $data) {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
@@ -56,7 +56,7 @@ class YoutubeController extends Controller
                     return redirect()->route('home')->with('error', 'Error system');
                 }
 
-                if (!Auth::user()) {
+                if (! Auth::user()) {
                     $data = [
                         'id' => $videoID,
                         'title' => $responseData['title'] ?? null,
@@ -95,7 +95,7 @@ class YoutubeController extends Controller
     private function checkMemoryRedis()
     {
         $memoryInfo = Redis::command('INFO', ['Memory']);
-        if (config('cache.stores.redis.size') <= str_replace("M", "", $memoryInfo['Memory']['used_memory_peak_human'])) {
+        if (config('cache.stores.redis.size') <= str_replace('M', '', $memoryInfo['Memory']['used_memory_peak_human'])) {
             return redirect()->route('home')->with('error', 'Error system');
         }
     }
