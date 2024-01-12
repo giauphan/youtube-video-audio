@@ -46,8 +46,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('user');
 
 Route::get('/test-redis', function () {
-    $pingResponse = Redis::ping();
-    $selectResponse = Redis::select(1);
+    $memoryInfo = Redis::command('INFO Memory');
 
-    dd($pingResponse, $selectResponse);
+    dd($memoryInfo);
 });
