@@ -41,7 +41,7 @@ class YoutubeController extends Controller
             $setting = new APiVideo();
             $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
             $client = new Client();
-            $datacache = Cache::get('video') ??  [];
+            $datacache = Cache::get('video') ?? [];
             $data = (is_array($datacache) && array_key_exists($videoID, $datacache)) ? $datacache[$videoID] : null;
 
             if (! $data) {
@@ -61,7 +61,7 @@ class YoutubeController extends Controller
                         'type' => $this->type,
                     ];
                     $datacache[$videoID] = $data;
-                    Cache::put('video', ($datacache),7200);
+                    Cache::put('video', ($datacache), 7200);
                 }
                 if (Auth::user()) {
                     $data = [
@@ -75,7 +75,7 @@ class YoutubeController extends Controller
                     $dataUser = Cache::get('video_user') ?? [];
 
                     $dataUser[$videoID] = $data;
-                    Cache::put('video_user', $dataUser,1440);
+                    Cache::put('video_user', $dataUser, 1440);
                 }
             }
 

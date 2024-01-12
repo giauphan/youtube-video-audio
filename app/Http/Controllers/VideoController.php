@@ -14,7 +14,7 @@ class VideoController extends Controller
         $datacache = Cache::get('video') ?? [];
         if (auth()->user()) {
             $datauser = Cache::get('video_user') ?? [];
-            $getvideoUser = array_filter($datauser, function ($datauser)  {
+            $getvideoUser = array_filter($datauser, function ($datauser) {
                 return $datauser['user_id'] === Auth::user()->id;
             });
             $datacache = array_merge($datacache, $getvideoUser);

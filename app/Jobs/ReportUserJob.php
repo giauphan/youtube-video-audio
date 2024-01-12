@@ -53,7 +53,7 @@ class ReportUserJob implements ShouldQueue
             'type' => $this->type,
         ];
 
-        $dataUser = Cache::get('video_user') ??  [];
+        $dataUser = Cache::get('video_user') ?? [];
 
         $dataUser[$this->url] = $data;
         Cache::put('video_user', $dataUser, 14400);
