@@ -9,6 +9,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\YoutubeController;
 use App\Logging\CustomizeApiLog;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,9 +46,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('user');
 
-Route::get('/test-zip-log', function () {
-    $customLogger = new CustomizeApiLog();
-    $logFilePath = storage_path('logs/api.log');
+Route::get('/test-redis', function () {
+    $pingResponse = Redis::ping();
+    $selectResponse = Redis::select(1);
 
-    $customLogger->checkSizeLog($logFilePath);
+    dd($pingResponse, $selectResponse);
 });
+

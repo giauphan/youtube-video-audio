@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 
 class ReportUserJob implements ShouldQueue
@@ -52,12 +53,10 @@ class ReportUserJob implements ShouldQueue
             'type' => $this->type,
         ];
 
-        $dataUser = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
+        $dataUser = Cache::get('video_user') ??  [];
 
         $dataUser[$this->url] = $data;
-        Redis::command('set', [
-            'video_user', json_encode($dataUser), 14400,
-        ]);
+        Cache::put('video_user', $dataUser, 14400);
     }
 
     private function fetchVideoData(): ?array

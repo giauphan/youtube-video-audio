@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Cache;
 
 class VideoController extends Controller
 {
     public function __invoke(string $videoID)
     {
-        $datacache = Redis::exists('video') ? json_decode(Redis::get('video'), true) : [];
+        $datacache = Cache::get('video') ?? [];
         if (auth()->user()) {
-            $datauser = Redis::exists('video_user') ? json_decode(Redis::get('video_user'), true) : [];
-            $getvideoUser = array_filter($datauser, function ($datauser) {
+            $datauser = Cache::get('video_user') ?? [];
+            $getvideoUser = array_filter($datauser, function ($datauser)  {
                 return $datauser['user_id'] === Auth::user()->id;
             });
             $datacache = array_merge($datacache, $getvideoUser);
