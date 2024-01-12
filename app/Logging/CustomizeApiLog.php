@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Logging;
 
-use Illuminate\Support\Facades\Log;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Handler\SocketHandler;
-use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
+use Monolog\Logger;
 use ZipArchive;
 
 class CustomizeApiLog
@@ -37,11 +34,11 @@ class CustomizeApiLog
         if (file_exists($logFilePath)) {
             $fileSize = filesize($logFilePath);
             if ($fileSize > $maxSizeLog) {
-                $zipLogName = 'api' . time() . '.zip';
-                $zipFilePath = dirname($logFilePath) . '/' . $zipLogName;
+                $zipLogName = 'api'.time().'.zip';
+                $zipFilePath = dirname($logFilePath).'/'.$zipLogName;
 
                 $zip = new ZipArchive();
-                if ($zip->open($zipFilePath, ZipArchive::CREATE) === TRUE) {
+                if ($zip->open($zipFilePath, ZipArchive::CREATE) === true) {
                     // Add the file to the zip archive
                     $zip->addFile($logFilePath, basename($logFilePath));
 

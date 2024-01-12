@@ -49,6 +49,5 @@ Route::get('/test-zip-log', function () {
     $customLogger = new CustomizeApiLog();
     $logFilePath = storage_path('logs/api.log');
 
-
     $customLogger->checkSizeLog($logFilePath);
 });

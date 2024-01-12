@@ -36,7 +36,7 @@ return [
         'trace' => false,
     ],
 
-    "max_size_log" => 10 * 1024 * 1024,
+    'max_size_log' => 10 * 1024 * 1024,
     /*
     |--------------------------------------------------------------------------
     | Log Channels
@@ -90,7 +90,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
         ],
@@ -128,7 +128,7 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
-        // 
+        //
         'api' => [
             'driver' => 'single',
             'path' => storage_path('logs/api.log'),
