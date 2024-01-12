@@ -11,7 +11,6 @@ use ZipArchive;
 
 class CustomizeApiLog
 {
- 
     public function __invoke()
     {
         $logger = new Logger('api');
