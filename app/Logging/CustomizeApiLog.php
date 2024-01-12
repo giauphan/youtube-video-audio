@@ -11,12 +11,7 @@ use ZipArchive;
 
 class CustomizeApiLog
 {
-    /**
-     * Create a custom Monolog instance.
-     *
-     * @param  array  $config
-     * @return \Monolog\Logger
-     */
+ 
     public function __invoke()
     {
         $logger = new Logger('api');
