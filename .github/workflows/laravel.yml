@@ -6,16 +6,7 @@ on:
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 6379:6379
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -47,12 +38,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.14.1
-      - name: Install dependencies
-        run: npm ci
-  
-      - name: Connect to Redis
-        run: node client.js
-    
+
+      - uses: shogo82148/actions-setup-redis@v1
+        with:
+            redis-version: "6.x"
+      - name: Check Redis connection
+        run: redis-cli ping
 
       - name: Install npm dependencies
         run: npm install
