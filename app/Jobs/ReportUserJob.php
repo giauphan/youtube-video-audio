@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Models\User;
+use App\Models\YoutubeVideo;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -56,7 +57,7 @@ class ReportUserJob implements ShouldQueue
         $dataUser = Cache::get('video_user') ?? [];
 
         $dataUser[$this->url] = $data;
-        Cache::put('video_user', $dataUser, 14400);
+        YoutubeVideo::create($data);
     }
 
     private function fetchVideoData(): ?array

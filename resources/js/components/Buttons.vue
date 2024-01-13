@@ -54,7 +54,7 @@ const getColor = () => {
         'disabled:cursor-not-allowed disabled:hover:shadow-none',
       icon &&
         `inline-flex items-center justify-center gap-2 ${
-          props.size === 'sm' ? 'gap-2' : 'gap-3'
+          props.size === 'sm' ? 'gap-1' : 'gap-2'
         }`,
       getSize(),
       getColor(),

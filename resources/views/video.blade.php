@@ -3,7 +3,7 @@
     @if (isset($video))
         <title>{{ $video['title'] }}</title>
         <meta name="title" property="og:title" content="{{ $video['title'] }}" />
-        <meta name="url" property="og:url" content="{{ route('video.index', ['video' => $video['id']]) }}" />
+        <meta name="url" property="og:url" content="{{ route('video.index', ['video' => $video['video_id']]) }}" />
         <meta name="description" property="og:description" content="{{ $video['title'] }}" />
         <meta name="keywords"
             content="watch video online, {{ $video['title'] }}, online streaming, video player, ad-free video, high-quality video, video viewing experience" />
@@ -13,12 +13,18 @@
 @section('content')
     <section class=" gap-4 ">
             @if (isset($video) )
-                    <video-component :video='@json($video)' :videos_drag='@json($ListVideo)' csrf="{{ csrf_token() }}">
-                        <form action="{{route('video.report')}}" method="post" class="w-full flex flex-end">
+                    <video-component :video='@json($video)' :videos_drag='@json($ListVideo)' csrf="{{ csrf_token() }}" lable_delete="{{__('Delete')}}">
+                        <form action="{{route('video.report')}}" method="post" class=" flex flex-end">
                             @csrf
                             <input type="hidden" name="type" value="{{ $video['type']}}">
-                            <input type="hidden" name="link" value="{{ $video['id'] }}">
-                            <button-component class="text-white ms-auto"  iconposition="start" icon="FlagIcon">{{__('Report error video')}}</button-component>
+                            <input type="hidden" name="link" value="{{ $video['video_id'] }}">
+                            <button-component class="text-white " > {{__('Save in list Watch late')}}</button-component>
+                        </form>
+                        <form action="{{route('video.report')}}" method="post" class=" flex flex-end">
+                            @csrf
+                            <input type="hidden" name="type" value="{{ $video['type']}}">
+                            <input type="hidden" name="link" value="{{ $video['video_id'] }}">
+                            <button-component class="text-white "  iconposition="start" icon="FlagIcon">{{__('Report error video')}}</button-component>
                         </form>
                     </video-component>
             @endif
