@@ -3,7 +3,6 @@
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\TermsPolicyController;
 use App\Http\Controllers\User\VideoListController;
-use App\Http\Controllers\User\VideoSaveController;
 use App\Http\Controllers\Video\DeleteVideoListController;
 use App\Http\Controllers\Video\ReportVideoController;
 use App\Http\Controllers\VideoController;
@@ -35,7 +34,7 @@ Route::get('language/{locale}', LanguageController::class)->name('lang');
 
 Route::middleware('auth')->group(function () {
     Route::prefix('user/video')->name('user.video.')->group(function () {
-        Route::get('/',VideoListController::class)->name('index');
+        Route::get('/', VideoListController::class)->name('index');
         Route::get('/{video}', VideoController::class)->name('show');
     });
     Route::post('/video-list/delete', DeleteVideoListController::class)->name('videoList.delete');
