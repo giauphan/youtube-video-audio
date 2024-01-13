@@ -8,21 +8,24 @@
         ]" controls autoplay @ended="playNextVideo">
           <source :src="linkVideo" type="video/mp4" />
         </video>
-        <h1 class="text-xl text-white font-bold bg-black text-center" id="title">
+        <h1 class="text-xl text-white font-bold bg-black text-center overflow-hidden title">
           {{ title_video }}
         </h1>
+        <div class="flex ms-auto gap-4">
         <slot></slot>
+        </div>
       </div>
     </section>
     <section class="w-full   md:w-[37%]">
       <h1 class="text-xl text-white font-bold bg-black mb-5">
         Danh sách phát tiếp theo
       </h1>
-      <div @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent @touchstart="touchstart" @touchmove="touchmove"
-        @touchend="touchend" class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4">
         <div v-for="(list, key) in videolist_play" :key="key" @dragstart="startDrag($event, key)">
           <a :href="route('video.index', ('video', list.id))" class="flex gap-3">
-            <img :src="list.thumbnail || null" class="aspect-video h-16  rounded-lg" :alt="truncateTitle(list.title)" />
+            <img :src="list.thumbnail || null" @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent
+              @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" class="aspect-video h-16  rounded-lg"
+              :alt="truncateTitle(list.title)" />
             <div class="flex flex-col gap-1 w-3/4">
               <h1 class="font-bold mt-1 text-sm text-white overflow-hidden" style="
                 display: -webkit-box;

@@ -12,9 +12,11 @@
     <section class="my-10 ">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[300px]">
             @foreach ($getvideo as $key => $video)
-                <a href="{{route('video.index',['video'=>$key])  }}" class="flex flex-col gap-6">
-                    <img src="{{ $video['thumbnail'] ?? null }}" class="object-cover w-full h-full rounded-lg" alt="{{ Str::limit($video['title'], 40) }}" />
-                    <h1 class="text-xl text-white font-bold bg-black h-full" id="title">{{ $video['title'] }}</h1>
+                <a href="{{route('video.index',['video'=>$video['video_id']])  }}" class="">
+                    <img src="{{ $video['thumbnail'] ?? null }}" class="mb-5 aspect-video w-full h-56 rounded-lg" alt="{{ Str::limit($video['title'], 40) }}" />
+                    <h1 class="text-xl text-white font-bold bg-black overflow-hidden" style="display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;">{{ $video['title'] }}</h1>
                 </a>
             @endforeach
         </div>

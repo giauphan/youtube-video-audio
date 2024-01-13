@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Models\YoutubeVideo;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -43,7 +44,7 @@ class ReportJob implements ShouldQueue
             'type' => $this->type,
         ];
         $datacache[$this->url] = $data;
-        Cache::put('video', $datacache, 7200);
+        YoutubeVideo::create($data);
     }
 
     private function fetchVideoData(): ?array
