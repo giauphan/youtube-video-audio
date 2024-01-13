@@ -22,7 +22,7 @@
       </h1>
       <div class="flex flex-col gap-4">
         <div v-for="(list, key) in videolist_play" :key="key" @dragstart="startDrag($event, key)">
-          <a :href="route('video.index', ('video', list.id))" class="flex gap-3">
+          <a :href="route('video.index', ('video', list.video_id))" class="flex gap-3">
             <img :src="list.thumbnail || null" @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent
               @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" class="aspect-video h-16  rounded-lg"
               :alt="truncateTitle(list.title)" />
@@ -32,11 +32,7 @@
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
               ">{{ list.title }}</h1>
-              <form :action="route('videoList.delete')" method="post">
-                <input type="hidden" name="_token" :value="csrf" />
-                <input type="hidden" name="video_id" :value="list.id" />
-                <Buttons class="text-white">Delete</Buttons>
-              </form>
+            
             </div>
           </a>
         </div>
@@ -51,7 +47,7 @@ import { ref } from 'vue';
 import Buttons from './Buttons.vue';
 import route from 'ziggy-js';
 
-const props = defineProps(['video', 'videos_drag', 'csrf']);
+const props = defineProps(['video', 'videos_drag', 'csrf','lable_delete']);
 
 const linkVideo = ref(props.video.url_video);
 const title_video = ref(props.video.title);

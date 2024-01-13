@@ -17,17 +17,6 @@ class VideoSaveController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $getvideo = Cache::get('video_user') ?? [];
-        $getvideoUser = array_filter($getvideo, function ($getvideo) {
-            return $getvideo['user_id'] === Auth::user()->id;
-        });
-        $perPage = 12;
-        $currentPage = request('page', 1);
-        $paginatedData = array_slice($getvideoUser, ($currentPage - 1) * $perPage, $perPage);
-        $filesByDatabase = new LengthAwarePaginator($paginatedData, count($getvideoUser), $perPage, $currentPage, ['path' => $request->url()]);
-
-        return view('User.video', [
-            'getvideo' => $filesByDatabase,
-        ]);
+     
     }
 }
