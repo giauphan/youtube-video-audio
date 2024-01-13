@@ -61,10 +61,7 @@ class YoutubeController extends Controller
             }
         }
 
-        return view('video', [
-            'video' => $data,
-            'ListVideo' => $dataCache,
-        ]);
+        return redirect()->route('video.index', ['video' =>$videoID]);
     }
 
     private function getVideoId($url)
