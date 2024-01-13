@@ -61,7 +61,7 @@ class YoutubeController extends Controller
             }
         }
 
-        return redirect()->route('video.index', ['video' =>$videoID]);
+        return redirect()->route('video.index', ['video' => $videoID]);
     }
 
     private function getVideoId($url)
