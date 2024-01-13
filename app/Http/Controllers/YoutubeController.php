@@ -9,8 +9,6 @@ use App\Models\YoutubeVideo;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Cache;
 
 class YoutubeController extends Controller
 {
@@ -19,9 +17,8 @@ class YoutubeController extends Controller
     public function index(Request $request)
     {
         $getvideo = YoutubeVideo::query()
-        
-        ->paginate(12)
-        ->withQueryString();
+            ->paginate(12)
+            ->withQueryString();
 
         return view('youtube.index', [
             'getvideo' => $getvideo,
@@ -33,17 +30,17 @@ class YoutubeController extends Controller
         $validate = $request->validated();
         $videoUrl = $validate['url'];
         $videoID = $this->getVideoId($videoUrl);
-        if (!($videoID)) {
+        if (! ($videoID)) {
             return back()->with('error', 'Invalid video ID');
         }
         $setting = new APiVideo();
-        $apiUrl = $setting->url . '/api/getVideo?url=' . $videoID;
+        $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
         $client = new Client();
 
         $dataCache = YoutubeVideo::query()->get();
         $data = $dataCache->firstWhere('video_id', $videoID);
 
-        if (!$data) {
+        if (! $data) {
             try {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);

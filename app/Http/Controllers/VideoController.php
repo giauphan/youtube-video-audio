@@ -10,7 +10,7 @@ class VideoController extends Controller
 {
     public function __invoke(string $videoID)
     {
-       
+
         $dataCache = YoutubeVideo::query()->get();
         $data = $dataCache->firstWhere('video_id', $videoID);
 
@@ -20,7 +20,7 @@ class VideoController extends Controller
 
         return view('video', [
             'video' => $data,
-            'ListVideo' => $dataCache ,
+            'ListVideo' => $dataCache,
         ]);
     }
 }
