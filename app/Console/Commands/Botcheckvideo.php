@@ -30,9 +30,9 @@ class Botcheckvideo extends Command
     {
         $getVideo = YoutubeVideo::query()->get();
         $N = 0;
-        while ($N > 1) {
+        while ($N < 1) {
             foreach ($getVideo as $key => $videos) {
-                ReportJob::dispatch($videos['link'], $videos['type'])->delay(Carbon::now()->addSeconds(5));
+                ReportJob::dispatch($videos['url_video'], $videos['type'])->delay(Carbon::now()->addSeconds(5));
             }
             $N++;
         }
