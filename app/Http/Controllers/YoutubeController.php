@@ -1,10 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
-use App\Http\Resources\YoutubeVideoResource;
 use App\Models\YoutubeVideo;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
@@ -22,15 +22,15 @@ class YoutubeController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-            $shortVideo = YoutubeVideo::query()
+        $shortVideo = YoutubeVideo::query()
             ->where('status', 1)
             ->where('type', 'shorts')
             ->paginate(12)
             ->withQueryString();
 
         return view('youtube.index', [
-            'videos' =>$getvideo,
-            'shortVideo' =>$shortVideo,
+            'videos' => $getvideo,
+            'shortVideo' => $shortVideo,
         ]);
     }
 
