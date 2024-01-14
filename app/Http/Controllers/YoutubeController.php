@@ -18,11 +18,19 @@ class YoutubeController extends Controller
     {
         $getvideo = YoutubeVideo::query()
             ->where('status', 1)
+            ->where('type', 'video')
+            ->paginate(12)
+            ->withQueryString();
+
+        $shortVideo = YoutubeVideo::query()
+            ->where('status', 1)
+            ->where('type', 'shorts')
             ->paginate(12)
             ->withQueryString();
 
         return view('youtube.index', [
-            'getvideo' => $getvideo,
+            'videos' => $getvideo,
+            'shortVideo' => $shortVideo,
         ]);
     }
 
