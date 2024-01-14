@@ -17,6 +17,7 @@ class YoutubeController extends Controller
     public function index(Request $request)
     {
         $getvideo = YoutubeVideo::query()
+        ->where('status',1)
             ->paginate(12)
             ->withQueryString();
 

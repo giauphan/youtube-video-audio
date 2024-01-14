@@ -11,7 +11,9 @@ class VideoController extends Controller
     public function __invoke(string $videoID)
     {
 
-        $dataCache = YoutubeVideo::query()->get();
+        $dataCache = YoutubeVideo::query()
+        ->where('status',1)
+        ->get();
         $data = $dataCache->firstWhere('video_id', $videoID);
 
         if ($data === null) {

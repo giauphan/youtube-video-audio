@@ -13,15 +13,9 @@ class ReportVideoController extends Controller
     public function __invoke(ReportVideoRequest $request)
     {
         $validated = $request->validated();
-        if ($request->user()) {
-            ReportUserJob::dispatch($validated['link'], $validated['type'], $request->user())->delay(Carbon::now()->addSeconds(5));
-        } else {
-            ReportJob::dispatch($validated['link'], $validated['type'])->delay(Carbon::now()->addSeconds(5));
-        }
 
-        if (auth()->user()) {
-            return redirect()->route('user.video.index', ['video' => $validated['link']])->with('success', 'Report success');
-        }
+        ReportJob::dispatch($validated['link'], $validated['type'])->delay(Carbon::now()->addSeconds(5));
+
 
         return redirect()->route('video.index', ['video' => $validated['link']])->with('success', 'Report success');
     }
