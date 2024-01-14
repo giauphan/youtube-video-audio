@@ -14,10 +14,13 @@
     <section class=" gap-4 ">
             @if (isset($video) )
                     <video-component :video='@json($video)' :videos_drag='@json($ListVideo)' csrf="{{ csrf_token() }}" lable_delete="{{__('Delete')}}">
-                        <form action="{{route('video.report')}}" method="post" class=" flex flex-end">
+                        <form action="{{route('videoList.save')}}" method="post" class=" flex flex-end">
                             @csrf
                             <input type="hidden" name="type" value="{{ $video['type']}}">
-                            <input type="hidden" name="link" value="{{ $video['video_id'] }}">
+                            <input type="hidden" name="video_id" value="{{ $video['video_id'] }}">
+                            <input type="hidden" name="url_video" value="{{ $video['url_video'] }}">
+                            <input type="hidden" name="thumbnail" value="{{ $video['thumbnail'] }}">
+                            <input type="hidden" name="title" value="{{ $video['title'] }}">
                             <button-component class="text-white " > {{__('Save in list Watch late')}}</button-component>
                         </form>
                         <form action="{{route('video.report')}}" method="post" class=" flex flex-end">

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\YoutubeVideo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class VideoController extends Controller
 {
@@ -14,6 +16,15 @@ class VideoController extends Controller
         $dataCache = YoutubeVideo::query()
             ->where('status', 1)
             ->get();
+        if (auth()->user()) {
+            $datauser = Cache::get('video_user') ?? [];
+            $getVideoUser = array_filter($datauser, function ($datauser) {
+                return $datauser['user_id'] === Auth::user()->id;
+            });
+            $listVideo = $dataCache->toArray();
+            $indexVideo = array_merge($getVideoUser, $listVideo);
+            $dataCache = collect($indexVideo)->unique('video_id')->values();
+        }
         $data = $dataCache->firstWhere('video_id', $videoID);
 
         if ($data === null) {
