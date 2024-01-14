@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\VideoStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,6 +17,7 @@ return new class extends Migration
             $table->string('video_id')->unique();
             $table->string('title');
             $table->longText('url_video');
+            $table->string('status')->default(VideoStatus::Videoactive);
             $table->longText('thumbnail');
             $table->string('type');
             $table->timestamps();

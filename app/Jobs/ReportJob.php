@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Enums\VideoStatus;
 use App\Models\YoutubeVideo;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
@@ -12,39 +13,34 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
 
 class ReportJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public string $url;
+    public string $video_id;
 
     public string $type;
 
     public function __construct(string $url, string $type)
     {
         $this->type = $type;
-        $this->url = $url;
+        $this->video_id = $url;
     }
 
     public function handle(): void
     {
-        $datacache = Cache::get('video') ?? [];
         $responseData = $this->fetchVideoData();
 
-        if (isset($datacache[$this->url])) {
-            unset($datacache[$this->url]);
-        }
         $data = [
-            'id' => $this->url,
+            'video_id' => $this->video_id,
             'title' => $responseData['title'] ?? null,
             'url_video' => $responseData['url_video'] ?? null,
             'thumbnail' => $responseData['thumbnail'] ?? null,
             'type' => $this->type,
         ];
-        $datacache[$this->url] = $data;
-        YoutubeVideo::create($data);
+
+        YoutubeVideo::updateOrCreate(['video_id' => $this->video_id], $data);
     }
 
     private function fetchVideoData(): ?array
@@ -54,10 +50,16 @@ class ReportJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url.'/api/getVideo?url='.$this->url;
+            $apiUrl = $setting->url.'/api/getVideo?url='.$this->video_id;
             $response = $client->request('GET', $apiUrl);
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {
+                $videoFind = YoutubeVideo::query()->where('video_id')->first();
+                if ($videoFind) {
+                    $videoFind->update([
+                        'status' => VideoStatus::VideoError,
+                    ]);
+                }
                 break;
             }
             $times++;
