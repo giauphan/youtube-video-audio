@@ -3,6 +3,7 @@
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\TermsPolicyController;
 use App\Http\Controllers\User\VideoListController;
+use App\Http\Controllers\User\VideoSaveController;
 use App\Http\Controllers\Video\DeleteVideoListController;
 use App\Http\Controllers\Video\ReportVideoController;
 use App\Http\Controllers\VideoController;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{video}', VideoController::class)->name('show');
     });
     Route::post('/video-list/delete', DeleteVideoListController::class)->name('videoList.delete');
+    Route::post('/video-list/save', VideoSaveController::class)->name('videoList.save');
 });
 
 Auth::routes();
