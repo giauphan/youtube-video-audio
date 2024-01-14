@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('bot:check-video')->everyMinute();
+        $schedule->command('bot:check-video')->everyThirtyMinutesv();
         $schedule->command('queu:work')->everyMinute()->withoutOverlapping();
     }
 
