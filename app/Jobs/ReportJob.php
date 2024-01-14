@@ -22,10 +22,10 @@ class ReportJob implements ShouldQueue
 
     public string $type;
 
-    public function __construct(string $url, string $type)
+    public function __construct(string $video_id, string $type)
     {
         $this->type = $type;
-        $this->video_id = $url;
+        $this->video_id = $video_id;
     }
 
     public function handle(): void
