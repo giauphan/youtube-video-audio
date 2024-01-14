@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\VideoRequest;
 use App\Http\Requests\VideoSaveRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -32,7 +31,7 @@ class VideoSaveController extends Controller
 
         $getvideo[$savevideo['video_id']] = $data;
 
-        Cache::put('video_user',  $getvideo, 7200);
+        Cache::put('video_user', $getvideo, 7200);
 
         return redirect()->route('video.index', ['video' => $savevideo['video_id']])->with('success', 'Save success');
     }

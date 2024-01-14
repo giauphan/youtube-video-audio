@@ -17,13 +17,14 @@ class VideoSaveRequest extends FormRequest
         ];
     }
 
-    public function attributes(){
+    public function attributes()
+    {
         return [
             'video_id' => 'Mã video ',
             'title' => 'Tiêu đề video',
             'url_video' => ' Đương dẫn video',
             'thumbnail' => 'Ảnh video',
-            'type' =>'Loại video',
+            'type' => 'Loại video',
         ];
     }
 }
