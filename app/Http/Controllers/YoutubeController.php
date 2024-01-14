@@ -17,7 +17,7 @@ class YoutubeController extends Controller
     public function index(Request $request)
     {
         $getvideo = YoutubeVideo::query()
-        ->where('status',1)
+            ->where('status', 1)
             ->paginate(12)
             ->withQueryString();
 
@@ -62,7 +62,7 @@ class YoutubeController extends Controller
             }
         }
 
-        return redirect()->route('video.index', ['video' =>$videoID]);
+        return redirect()->route('video.index', ['video' => $videoID]);
     }
 
     private function getVideoId($url)

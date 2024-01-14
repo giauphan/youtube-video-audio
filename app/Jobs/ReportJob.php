@@ -40,7 +40,7 @@ class ReportJob implements ShouldQueue
             'type' => $this->type,
         ];
 
-        YoutubeVideo::updateOrCreate(['video_id' =>$this->video_id], $data);
+        YoutubeVideo::updateOrCreate(['video_id' => $this->video_id], $data);
     }
 
     private function fetchVideoData(): ?array
@@ -54,8 +54,8 @@ class ReportJob implements ShouldQueue
             $response = $client->request('GET', $apiUrl);
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {
-                YoutubeVideo::updated(['video_id' =>$this->video_id], [
-                    'status'=>VideoStatus::VideoError
+                YoutubeVideo::updated(['video_id' => $this->video_id], [
+                    'status' => VideoStatus::VideoError,
                 ]);
                 break;
             }

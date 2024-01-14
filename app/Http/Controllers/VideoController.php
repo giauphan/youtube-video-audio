@@ -12,8 +12,8 @@ class VideoController extends Controller
     {
 
         $dataCache = YoutubeVideo::query()
-        ->where('status',1)
-        ->get();
+            ->where('status', 1)
+            ->get();
         $data = $dataCache->firstWhere('video_id', $videoID);
 
         if ($data === null) {
