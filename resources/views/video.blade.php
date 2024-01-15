@@ -26,7 +26,7 @@
                         <form action="{{route('video.report')}}" method="post" class=" flex flex-end">
                             @csrf
                             <input type="hidden" name="type" value="{{ $video['type']}}">
-                            <input type="hidden" name="link" value="{{ $video['video_id'] }}">
+                            <input type="hidden" name="video_id" value="{{ $video['video_id'] }}">
                             <button-component class="text-white "  iconposition="start" icon="FlagIcon">{{__('Report error video')}}</button-component>
                         </form>
                     </video-component>

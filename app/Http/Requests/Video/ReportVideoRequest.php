@@ -9,7 +9,7 @@ class ReportVideoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'link' => ['required', 'string'],
+            'video_id' => ['required', 'string'],
             'type' => ['required', 'string'],
             'optision' => ['nullable', 'string'],
         ];
