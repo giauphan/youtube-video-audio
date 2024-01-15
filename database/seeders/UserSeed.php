@@ -15,8 +15,8 @@ class UserSeed extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'kingking',
-            'email' => 'kingking@kingking.tech',
+            'name' => 'test',
+            'email' => 'test@test.example',
             'password' => Hash::make('12345678'),
         ]);
         $role = Role::updateOrCreate(['name' => 'Admin']);
