@@ -8,55 +8,47 @@ use App\Http\Requests\VideoRequest;
 use App\Models\YoutubeVideo;
 use App\Settings\APiVideo;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class YoutubeController extends Controller
 {
-    public string $type = 'video';
+    private string $type = 'video';
 
-    public function index(Request $request)
+    public function index()
     {
-        $getvideo = YoutubeVideo::query()
-            ->where('status', 1)
-            ->where('type', 'video')
-            ->paginate(12)
-            ->withQueryString();
-
-        $shortVideo = YoutubeVideo::query()
-            ->where('status', 1)
-            ->where('type', 'shorts')
-            ->paginate(12)
-            ->withQueryString();
+        $getVideo = $this->getVideos('video');
+        $shortVideo = $this->getVideos('shorts');
 
         return view('youtube.index', [
-            'videos' => $getvideo,
+            'videos' => $getVideo,
             'shortVideo' => $shortVideo,
         ]);
     }
 
-    public function getVideo(VideoRequest $request)
+    public function getVideo(VideoRequest $request): RedirectResponse
     {
-        $validate = $request->validated();
-        $videoUrl = $validate['url'];
-        $videoID = $this->getVideoId($videoUrl);
-        if (! ($videoID)) {
+        $videoID = $this->getVideoId($request->validated()['url']);
+        
+        if (!$videoID) {
             return back()->with('error', 'Invalid video ID');
         }
-        $setting = new APiVideo();
-        $apiUrl = $setting->url.'/api/getVideo?url='.$videoID;
+
+        $apiUrl = (new APiVideo())->url.'/api/getVideo?url='.$videoID;
         $client = new Client();
 
         $dataCache = YoutubeVideo::query()->get();
         $data = $dataCache->firstWhere('video_id', $videoID);
 
-        if (! $data) {
+        if (!$data) {
             try {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
 
                 if (isset($responseData['error'])) {
-                    return redirect()->route('home')->with('error', 'Error system');
+                    return Redirect::route('home')->with('error', 'Error system');
                 }
+
                 $data = [
                     'video_id' => $videoID,
                     'title' => $responseData['title'] ?? null,
@@ -64,16 +56,17 @@ class YoutubeController extends Controller
                     'thumbnail' => $responseData['thumbnail'] ?? null,
                     'type' => $this->type,
                 ];
+                
                 YoutubeVideo::updateOrCreate(['video_id' => $videoID], $data);
             } catch (\Exception $e) {
-                return redirect()->route('home')->with('error', 'Error system');
+                return Redirect::route('home')->with('error', 'Error system');
             }
         }
 
-        return redirect()->route('video.index', ['video' => $videoID, 'type_video' => $this->type]);
+        return Redirect::route('video.index', ['video' => $videoID, 'type_video' => $this->type]);
     }
 
-    private function getVideoId($url)
+    private function getVideoId($url): string
     {
         $urlParts = parse_url($url);
         $pathParts = explode('/', trim($urlParts['path'] ?? '', '/'));
@@ -85,18 +78,23 @@ class YoutubeController extends Controller
             return $queryParameters['v'] ?? '';
         }
 
-        if (in_array('shorts', $pathParts)) {
-            $this->type = 'shorts';
+        foreach (['shorts', 'live'] as $type) {
+            if (in_array($type, $pathParts)) {
+                $this->type = $type;
 
-            return $pathParts[array_search('shorts', $pathParts) + 1] ?? '';
-        }
-
-        if (in_array('live', $pathParts)) {
-            $this->type = 'live';
-
-            return $pathParts[array_search('live', $pathParts) + 1] ?? '';
+                return $pathParts[array_search($type, $pathParts) + 1] ?? '';
+            }
         }
 
         return $pathParts[0] ?? '';
+    }
+
+    private function getVideos($type)
+    {
+        return YoutubeVideo::query()
+            ->where('status', 1)
+            ->where('type', $type)
+            ->paginate(12)
+            ->withQueryString();
     }
 }
