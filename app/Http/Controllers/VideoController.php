@@ -19,7 +19,7 @@ class VideoController extends Controller
 
         $dataCache = $getVideoData->take(10)
             ->OrderBy('created_at', 'desc')->get();
-            
+
         if (auth()->check()) {
             $dataCache = $this->mergeUserVideos($dataCache);
         }
@@ -35,7 +35,6 @@ class VideoController extends Controller
             'ListVideo' => $dataCache,
         ]);
     }
-
 
     private function mergeUserVideos(Collection $dataCache): Collection
     {
