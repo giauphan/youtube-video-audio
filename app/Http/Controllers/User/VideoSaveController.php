@@ -6,14 +6,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoSaveRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class VideoSaveController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(VideoSaveRequest $request)
     {
         $savevideo = $request->validated();
