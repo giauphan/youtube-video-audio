@@ -22,7 +22,7 @@
       </h1>
       <div class="flex flex-col gap-4">
         <div v-for="(list, key) in videolist_play" :key="key" @dragstart="startDrag($event, key)">
-          <a :href="route('video.index', { 'type_video': video.type === 'video' ? 'web-video' : video.type, 'video': video.video_id })" class="flex gap-3">
+          <a :href="route('video.index', { 'type_video': list.type === 'video' ? 'web-video' : list.type, 'video': list.video_id })" class="flex gap-3">
             <img :src="list.thumbnail || null" @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent
               @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" class="aspect-video h-16  rounded-lg"
               :alt="truncateTitle(list.title)" />

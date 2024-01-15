@@ -47,8 +47,6 @@ class YoutubeVideoResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('url_video')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('thumbnail')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
