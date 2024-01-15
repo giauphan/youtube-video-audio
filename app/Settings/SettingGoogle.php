@@ -6,7 +6,6 @@ use Spatie\LaravelSettings\Settings;
 
 class SettingGoogle extends Settings
 {
-
     public ?string $gtag_id;
 
     public bool $gtag_enabled;
@@ -18,7 +17,6 @@ class SettingGoogle extends Settings
     public ?string $googleAds_id;
 
     public bool $googleAds_enabled;
-
 
     public static function group(): string
     {

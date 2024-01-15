@@ -27,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $setting = new SettingGoogle();
 
-        View::share("Setting" ,$setting);
+        View::share('Setting', $setting);
     }
 }

@@ -29,6 +29,6 @@ class VideoSaveController extends Controller
 
         Cache::put('video_user', $getvideo, 7200);
 
-        return redirect()->route('video.index', ['video' => $savevideo['video_id'],'type_video'=> $savevideo['type'] ?? 'video'])->with('success', 'Save success');
+        return redirect()->route('video.index', ['video' => $savevideo['video_id'], 'type_video' => $savevideo['type'] ?? 'video'])->with('success', 'Save success');
     }
 }

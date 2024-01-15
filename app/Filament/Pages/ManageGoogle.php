@@ -3,7 +3,6 @@
 namespace App\Filament\Pages;
 
 use App\Settings\SettingGoogle;
-use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -33,15 +32,16 @@ class ManageGoogle extends SettingsPage
                         ->reactive()
                         ->helperText(sprintf('kích hoạt %s.', ucfirst($provider))),
                     Group::make()
-                        ->hidden(fn (Get $get) => !$get("{$provider}_enabled"))
+                        ->hidden(fn (Get $get) => ! $get("{$provider}_enabled"))
                         ->schema([
                             TextInput::make("{$provider}_id")
                                 ->label($provider.' ID')
                                 ->password(app()->isProduction())
                                 ->required(fn (Get $get) => $get("{$provider}_enabled")),
-                        ])
+                        ]),
                 ]);
         }
+
         return $form->schema($schema);
     }
 }
