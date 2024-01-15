@@ -17,7 +17,7 @@ const onClose = () => {
 }
 </script>
 <template>
-  <nav class="shadow-md border-b border-gray-700 sticky top-0 bg-black">
+  <nav class="shadow-md border-b border-gray-700 sticky top-0 bg-black z-50">
     <div class="container mx-auto w-5/6">
       <div class="flex items-center justify-between h-16">
         <button class="block md:hidden px-2 py-1 text-white" type="button" @click="handleOpen"
