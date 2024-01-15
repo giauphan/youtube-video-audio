@@ -13,13 +13,18 @@ class VideoController extends Controller
 {
     public function __invoke(string $typeVideo, string $videoID)
     {
-        $dataCache = $this->getVideoData($typeVideo);
+        $getVideoData = YoutubeVideo::query()
+            ->where('status', 1)
+            ->where('type', $typeVideo !== 'web-video' ? $typeVideo : 'video');
 
+        $dataCache = $getVideoData->take(10)
+            ->OrderBy('created_at', 'desc')->get();
+            
         if (auth()->check()) {
             $dataCache = $this->mergeUserVideos($dataCache);
         }
 
-        $data = $dataCache->firstWhere('video_id', $videoID);
+        $data = $getVideoData->firstWhere('video_id', $videoID);
 
         if ($data === null) {
             abort(404);
@@ -31,13 +36,6 @@ class VideoController extends Controller
         ]);
     }
 
-    private function getVideoData(string $type): Collection
-    {
-        return YoutubeVideo::query()
-            ->where('status', 1)
-            ->where('type', $type !== 'web-video' ? $type : 'video')
-            ->get();
-    }
 
     private function mergeUserVideos(Collection $dataCache): Collection
     {
