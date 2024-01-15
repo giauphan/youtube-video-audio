@@ -35,7 +35,6 @@ class VideoController extends Controller
     {
         return YoutubeVideo::query()
             ->where('status', 1)
-            ->take(10)
             ->where('type', $type !== 'web-video' ? $type : 'video')
             ->get();
     }
