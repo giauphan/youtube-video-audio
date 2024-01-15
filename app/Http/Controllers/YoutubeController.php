@@ -29,8 +29,8 @@ class YoutubeController extends Controller
     public function getVideo(VideoRequest $request): RedirectResponse
     {
         $videoID = $this->getVideoId($request->validated()['url']);
-        
-        if (!$videoID) {
+
+        if (! $videoID) {
             return back()->with('error', 'Invalid video ID');
         }
 
@@ -40,7 +40,7 @@ class YoutubeController extends Controller
         $dataCache = YoutubeVideo::query()->get();
         $data = $dataCache->firstWhere('video_id', $videoID);
 
-        if (!$data) {
+        if (! $data) {
             try {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
@@ -56,7 +56,7 @@ class YoutubeController extends Controller
                     'thumbnail' => $responseData['thumbnail'] ?? null,
                     'type' => $this->type,
                 ];
-                
+
                 YoutubeVideo::updateOrCreate(['video_id' => $videoID], $data);
             } catch (\Exception $e) {
                 return Redirect::route('home')->with('error', 'Error system');
