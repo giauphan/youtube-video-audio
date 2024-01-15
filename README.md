@@ -39,6 +39,12 @@ npm run dev
 # or
 npm run build
 ```
+To start the development server, run the following command:
+```
+php artisan serve 
+```
+To access the admin panel, go to localhost:8000/admin.
+
 ## Development Workflow
 
 A typical workflow for developing new features looks like this:
