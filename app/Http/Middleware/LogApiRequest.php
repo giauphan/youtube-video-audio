@@ -27,7 +27,7 @@ class LogApiRequest
         $status = $response->getStatusCode();
         $size = strlen($response->getContent());
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        
+
         $date = now()->format('d/m/Y:H:i:s O');
         $logMessage = sprintf('%s - - [%s] "%s %s %s" %d %d', $ip, $date, $method, $uri, 'HTTP/1.1', $status, $size);
 
