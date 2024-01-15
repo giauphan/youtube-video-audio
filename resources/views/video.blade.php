@@ -35,11 +35,14 @@
 @endsection
 
 @push('js')
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4786723346423249"
+@isset($Setting->googleAds_enabled)
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{$Setting->googleAds_id}}"
         crossorigin="anonymous"></script>
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4786723346423249" data-ad-slot="2165795039"
+    <ins class="adsbygoogle" style="display:block" data-ad-client="{{$Setting->googleAds_id}}" data-ad-slot="2165795039"
         data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    </script>    
+@endisset
 @endpush

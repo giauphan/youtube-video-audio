@@ -15,6 +15,6 @@ class ReportVideoController extends Controller
 
         ReportJob::dispatch($validated['link'], $validated['type'])->delay(Carbon::now()->addSeconds(5));
 
-        return redirect()->route('video.index', ['video' => $validated['link']])->with('success', 'Report success');
+        return redirect()->route('video.index', ['video' => $validated['video_id'], 'type_video' => $validated['type'] ?? 'video'])->with('success', 'Report success');
     }
 }

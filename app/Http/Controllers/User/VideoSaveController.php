@@ -6,14 +6,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoSaveRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class VideoSaveController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(VideoSaveRequest $request)
     {
         $savevideo = $request->validated();
@@ -33,6 +29,6 @@ class VideoSaveController extends Controller
 
         Cache::put('video_user', $getvideo, 7200);
 
-        return redirect()->route('video.index', ['video' => $savevideo['video_id']])->with('success', 'Save success');
+        return redirect()->route('video.index', ['video' => $savevideo['video_id'], 'type_video' => $savevideo['type'] ?? 'video'])->with('success', 'Save success');
     }
 }

@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Cache;
 
 class VideoListController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
         $getvideo = Cache::get('video_user') ?? [];
