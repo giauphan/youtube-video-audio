@@ -1,7 +1,7 @@
 <div class="js-cookie-consent cookie-consent fixed bottom-0 inset-x-0 pb-2">
     <div class="max-w-7xl mx-auto px-6">
         <div class="p-2 rounded-lg bg-yellow-100">
-            <div class="flex items-center justify-between gap-2 flex-wrap">
+            <div class="flex items-center justify-center gap-2 flex-wrap">
                 <div class=" items-center hidden md:block">
                     <p class="ml-3 text-black cookie-consent__message">
                         {!! trans('cookie-consent::texts.message') !!}

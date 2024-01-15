@@ -10,5 +10,4 @@
 
 @section('content')
       <page-home :videos='@json($videos)' :video_short='@json($shortVideo)'></page-home>
-      @include('cookie-consent::index')
 @endsection

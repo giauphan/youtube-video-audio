@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\Localization::class,
-            // \Spatie\CookieConsent\CookieConsentMiddleware::class,
+            \Spatie\CookieConsent\CookieConsentMiddleware::class,
         ],
 
         'api' => [
