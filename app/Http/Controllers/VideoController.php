@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Cache;
 
 class VideoController extends Controller
 {
-    public function __invoke(string $videoID)
+    public function __invoke(string $type_video, string $videoID)
     {
 
         $dataCache = YoutubeVideo::query()
             ->where('status', 1)
+            ->where('type', $type_video != 'web-video' ? $type_video : 'video')
             ->get();
         if (auth()->user()) {
             $datauser = Cache::get('video_user') ?? [];
