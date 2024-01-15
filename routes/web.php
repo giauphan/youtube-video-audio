@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [YoutubeController::class, 'index'])->name('home');
 
 Route::prefix('/video')->name('video.')->group(function () {
-    Route::get('/{video}', VideoController::class)->name('index');
+    Route::get('{type_video}/{video}', VideoController::class)->name('index');
     Route::post('/show', [YoutubeController::class, 'getVideo'])->name('upload')->middleware('throttle:25,1');
     Route::post('report', ReportVideoController::class)->name('report');
 });
