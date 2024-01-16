@@ -3,7 +3,6 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\ManageGoogle;
-use App\Filament\Pages\SettingApiVideo;
 use App\Filament\Resources\CategoryBlogResource;
 use App\Filament\Resources\JobResource;
 use App\Filament\Resources\PostResource;
@@ -59,32 +58,32 @@ class AdminPanelProvider extends PanelProvider
                         ->items([
                             ...Pages\Dashboard::getNavigationItems(),
                             NavigationItem::make()
-                            ->label('Cài đặt')
-                            ->icon('heroicon-o-cog')
-                            ->url(ManageGoogle::getUrl())
-                            ->isActiveWhen(fn () => Route::is('filament.admin.pages.settings.*'))
+                                ->label('Cài đặt')
+                                ->icon('heroicon-o-cog')
+                                ->url(ManageGoogle::getUrl())
+                                ->isActiveWhen(fn () => Route::is('filament.admin.pages.settings.*')),
                         ])
                         ->groups([
                             NavigationGroup::make(__('Video'))
                                 ->items([
                                     ...JobResource::getNavigationItems(),
-                                    ...YoutubeVideoResource::getNavigationItems()
-                                ])
+                                    ...YoutubeVideoResource::getNavigationItems(),
+                                ]),
                         ])
                         ->groups([
                             NavigationGroup::make(__('Post'))
                                 ->items([
                                     ...CategoryBlogResource::getNavigationItems(),
-                                    ...PostResource::getNavigationItems()
-                                ])
+                                    ...PostResource::getNavigationItems(),
+                                ]),
                         ])
                         ->groups([
                             NavigationGroup::make(__('User'))
                                 ->items([
                                     ...RoleResource::getNavigationItems(),
                                     ...SessionResource::getNavigationItems(),
-                                    ...UserResource::getNavigationItems()
-                                ])
+                                    ...UserResource::getNavigationItems(),
+                                ]),
                         ]);
                 }
             )
