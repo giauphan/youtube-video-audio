@@ -5,12 +5,13 @@ namespace Giauphan\CrawlBlog\Commands;
 use Giauphan\CrawlBlog\Models\CategoryBlog;
 use Giauphan\CrawlBlog\Models\Post;
 use Illuminate\Console\Command;
-use Weidner\Goutte\GoutteFacade;
 use Illuminate\Support\Str;
+use Weidner\Goutte\GoutteFacade;
 
 class CrawlBlogData extends Command
 {
     protected $signature = 'app:crawl {url} {category_name}';
+
     protected $description = 'Crawl blog data from a given URL';
 
     public function handle()
@@ -24,15 +25,15 @@ class CrawlBlogData extends Command
         do {
             $crawler = GoutteFacade::request('GET', $pageUrl);
 
-            $crawler->filter('.blog-post-masonry')->each(function ($node) use($categoryId) {
+            $crawler->filter('.blog-post-masonry')->each(function ($node) use ($categoryId) {
                 $summary = $node->filter('.content h3')->text();
                 $image = optional($node->filter('.blog-post-masonry header img')->first())->attr('data-lazy-src');
                 $linkHref = $node->filter('.blog-post-masonry header a')->attr('href');
 
-                $this->scrapeData($linkHref, $image, $summary,$categoryId);
+                $this->scrapeData($linkHref, $image, $summary, $categoryId);
             });
             $nextLink = $crawler->filter('nav.pagination li a.next')->first();
-            if (!$nextLink || !$nextLink->count()) {
+            if (! $nextLink || ! $nextLink->count()) {
                 break;
             }
             $nextPageUrl = $nextLink->attr('href');
@@ -40,20 +41,21 @@ class CrawlBlogData extends Command
         } while ($pageUrl !== '');
     }
 
-    public function scrapeData($url, $image, $summary,$categoryId)
+    public function scrapeData($url, $image, $summary, $categoryId)
     {
         $crawler = GoutteFacade::request('GET', $url);
         $title = $this->crawlData('.wrap-container h1', $crawler);
         $content = $this->crawlData_html('#main .post', $crawler);
         $check = Post::all();
-       
+
         if ($check->isEmpty()) {
-            $this->createPost($title, $image, $summary, $content,$categoryId);
+            $this->createPost($title, $image, $summary, $content, $categoryId);
         } else {
-            $this->checkAndUpdatePost($title, $image, $summary, $content, $check,$categoryId);
+            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId);
         }
     }
-    protected function createPost($title, $image, $summary, $content,$categoryId)
+
+    protected function createPost($title, $image, $summary, $content, $categoryId)
     {
         $cleanedTitle = Str::slug($title, '-');
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle);
@@ -70,7 +72,7 @@ class CrawlBlogData extends Command
         Post::create($dataPost);
     }
 
-    protected function checkAndUpdatePost($title, $image, $summary, $content, $check,$categoryId)
+    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId)
     {
         $checkTile = false;
         $similarityPercentage = 0.0;
@@ -86,18 +88,18 @@ class CrawlBlogData extends Command
             }
         }
 
-        if (!$checkTile && $title != null) {
+        if (! $checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle) . '.html';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'.html';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
-                'content' =>  $content,
+                'content' => $content,
                 'images' => $image,
                 'published_at' => now(),
                 'summary' => $summary,
-                'category_blog_id' =>$categoryId,
+                'category_blog_id' => $categoryId,
                 'SimilarityPercentage' => round($similarityPercentage, 2),
             ];
             Post::create($dataPost);
