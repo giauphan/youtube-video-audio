@@ -6,5 +6,4 @@ use Giauphan\CrawlBlog\Models\Post as ModelsPost;
 
 class Post extends ModelsPost
 {
-    
 }
