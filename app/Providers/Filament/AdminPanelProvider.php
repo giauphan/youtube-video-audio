@@ -2,9 +2,21 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\ManageGoogle;
+use App\Filament\Pages\SettingApiVideo;
+use App\Filament\Resources\CategoryBlogResource;
+use App\Filament\Resources\JobResource;
+use App\Filament\Resources\PostResource;
+use App\Filament\Resources\RoleResource;
+use App\Filament\Resources\SessionResource;
+use App\Filament\Resources\UserResource;
+use App\Filament\Resources\YoutubeVideoResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -16,6 +28,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -40,6 +53,41 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->navigation(
+                function (NavigationBuilder $builder): NavigationBuilder {
+                    return $builder
+                        ->items([
+                            ...Pages\Dashboard::getNavigationItems(),
+                            NavigationItem::make()
+                            ->label('Cài đặt')
+                            ->icon('heroicon-o-cog')
+                            ->url(ManageGoogle::getUrl())
+                            ->isActiveWhen(fn () => Route::is('filament.admin.pages.settings.*'))
+                        ])
+                        ->groups([
+                            NavigationGroup::make(__('Video'))
+                                ->items([
+                                    ...JobResource::getNavigationItems(),
+                                    ...YoutubeVideoResource::getNavigationItems()
+                                ])
+                        ])
+                        ->groups([
+                            NavigationGroup::make(__('Post'))
+                                ->items([
+                                    ...CategoryBlogResource::getNavigationItems(),
+                                    ...PostResource::getNavigationItems()
+                                ])
+                        ])
+                        ->groups([
+                            NavigationGroup::make(__('User'))
+                                ->items([
+                                    ...RoleResource::getNavigationItems(),
+                                    ...SessionResource::getNavigationItems(),
+                                    ...UserResource::getNavigationItems()
+                                ])
+                        ]);
+                }
+            )
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

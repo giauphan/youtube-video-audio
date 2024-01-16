@@ -2,12 +2,12 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Base\SettingsPage as BaseSettingsPage;
 use App\Settings\APiVideo;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Pages\SettingsPage;
 
-class SettingApiVideo extends SettingsPage
+class SettingApiVideo extends BaseSettingsPage
 {
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Base\SettingsPage as BaseSettingsPage;
 use App\Settings\SettingGoogle;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Group;
@@ -9,9 +10,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
-use Filament\Pages\SettingsPage;
 
-class ManageGoogle extends SettingsPage
+class ManageGoogle extends BaseSettingsPage
 {
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
