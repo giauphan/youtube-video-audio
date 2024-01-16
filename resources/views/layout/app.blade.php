@@ -13,13 +13,13 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <!-- end Font -->
-    @isset($Setting->googleAds_enabled)
+    @if($Setting->googleAds_enabled)
     <meta name="google-adsense-account" content="{{$Setting->googleAds_id}}">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{$Setting->googleAds_id}}"
         crossorigin="anonymous"></script>
-    @endisset
+    @endif
 
-    @isset($Setting->analytic_enabled)
+    @if($Setting->analytic_enabled)
         <script async src="https://www.googletagmanager.com/gtag/js?id={{$Setting->analytic_id}}"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
@@ -31,10 +31,10 @@
 
             gtag('config', "{{$Setting->analytic_id}}");
         </script>
-    @endisset
+    @endif
 
 
-    @isset($Setting->gtag_enabled)
+    @if ($Setting->gtag_enabled)
         <!-- Google Tag Manager -->
         <script>
             (function(w, d, s, l, i) {
@@ -53,7 +53,7 @@
             })(window, document, 'script', 'dataLayer', "{{$Setting->gtag_id}}");
         </script>
         <!-- End Google Tag Manager -->
-    @endisset
+    @endif
 </head>
 
 <body>
@@ -90,12 +90,12 @@
             @yield('content')
         </main>
 
-        @isset($gtag)
+        @if($Setting->gtag_enabled)
             <!-- Google Tag Manager (noscript) -->
             <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $Setting->gtag_id }}" height="0"
                     width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <!-- End Google Tag Manager (noscript) -->
-        @endisset
+        @endif
         <footer-component>
             <div class="sm:flex sm:items-center sm:justify-between">
                 <a class="text-lg font-semibold text-white" href="/"> KINGKING </a>

@@ -48,7 +48,7 @@ class SessionResource extends Resource
                 Tables\Columns\TextColumn::make('ip_address')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_activity')
-                    ->numeric()
+                    ->dateTime()
                     ->sortable(),
             ])
 

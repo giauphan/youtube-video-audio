@@ -45,13 +45,13 @@ class JobResource extends Resource
                 Tables\Columns\IconColumn::make('attempts')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('reserved_at')
-                    ->numeric()
+                    ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('available_at')
-                    ->numeric()
+                    ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->numeric()
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
