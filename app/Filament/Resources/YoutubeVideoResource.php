@@ -24,23 +24,23 @@ class YoutubeVideoResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('video_id')
                     ->required()
-                    ->numeric(),
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('url_video')
+                Forms\Components\Textarea::make('url_video')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('thumbnail')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255),
+                    ->columnSpanFull(),
                 Select::make('status')
                     ->required()
                     ->options(VideoStatus::class)
-                    ->default(VideoStatus::Videoactive),
+                    ->default(VideoStatus::Active),
+                Forms\Components\Textarea::make('thumbnail')
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('type')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -49,11 +49,10 @@ class YoutubeVideoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('video_id')
-                    ->numeric()
-                    ->sortable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('thumbnail')
+                Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),

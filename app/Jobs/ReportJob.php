@@ -57,7 +57,7 @@ class ReportJob implements ShouldQueue
                 $videoFind = YoutubeVideo::query()->where('video_id')->first();
                 if ($videoFind) {
                     $videoFind->update([
-                        'status' => VideoStatus::VideoError,
+                        'status' => VideoStatus::Error,
                     ]);
                 }
                 break;
