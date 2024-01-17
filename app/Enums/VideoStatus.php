@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum VideoStatus: string implements HasLabel, HasColor
+enum VideoStatus: string implements HasColor, HasLabel
 {
     case Error = 'Error';
 
@@ -19,7 +18,7 @@ enum VideoStatus: string implements HasLabel, HasColor
         return match ($this) {
             self::Error => __('Error'),
             self::Active => __('Active'),
-           
+
         };
     }
 
