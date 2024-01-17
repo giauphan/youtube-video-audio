@@ -5,14 +5,29 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
 
-/**
- * @method static static Videoactive()
- * @method static static VideoError()
- */
-final class VideoStatus extends Enum
+enum VideoStatus: string implements HasLabel, HasColor
 {
-    const VideoError = 0;
+    case Error = 'Error';
 
-    const Videoactive = 1;
+    case Active = 'Active';
+
+    public function getLabel(): ?string
+    {
+        return match ($this) {
+            self::Error => __('Error'),
+            self::Active => __('Active'),
+           
+        };
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::Error => 'Error',
+            self::Active => 'Active',
+        };
+    }
 }

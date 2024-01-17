@@ -92,7 +92,6 @@ class YoutubeController extends Controller
     private function getVideos($type)
     {
         return YoutubeVideo::query()
-            ->where('status', 1)
             ->where('type', $type)
             ->paginate(12)
             ->withQueryString();

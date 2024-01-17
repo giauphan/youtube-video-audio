@@ -40,7 +40,7 @@ class YoutubeVideoResource extends Resource
                 Select::make('status')
                     ->required()
                     ->options(VideoStatus::class)
-                    ->default(VideoStatus::Videoactive),
+                    ->default(VideoStatus::Active),
             ]);
     }
 
