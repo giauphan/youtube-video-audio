@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\VideoStatus;
 use App\Http\Requests\VideoRequest;
 use App\Models\YoutubeVideo;
 use App\Settings\APiVideo;
@@ -92,6 +93,7 @@ class YoutubeController extends Controller
     private function getVideos($type)
     {
         return YoutubeVideo::query()
+            ->where('status', VideoStatus::Active)
             ->where('type', $type)
             ->paginate(12)
             ->withQueryString();

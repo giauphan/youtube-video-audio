@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\VideoStatus;
 use App\Models\YoutubeVideo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class VideoController extends Controller
     public function __invoke(string $typeVideo, string $videoID)
     {
         $getVideoData = YoutubeVideo::query()
-            ->where('status', 1)
+            ->where('status', VideoStatus::Active)
             ->where('type', $typeVideo !== 'web-video' ? $typeVideo : 'video');
 
         $dataCache = $getVideoData->take(10)
