@@ -11,6 +11,7 @@ use Weidner\Goutte\GoutteFacade;
 class CrawlBlogGoogleNews extends Command
 {
     protected $signature = 'crawl:google-new {url} {category_name} {lang} {limitpage}';
+
     protected $description = 'CrawlBlogGoogleNews blog data from a given URL';
 
     public function handle()
@@ -26,37 +27,38 @@ class CrawlBlogGoogleNews extends Command
         do {
             $crawler = GoutteFacade::request('GET', $pageUrl);
 
-            $crawler->filter('.blog-post-masonry')->each(function ($node) use($categoryId,$lang) {
+            $crawler->filter('.blog-post-masonry')->each(function ($node) use ($categoryId, $lang) {
                 $summary = $node->filter('.content h3')->text();
                 $image = optional($node->filter('.blog-post-masonry header img')->first())->attr('data-lazy-src');
                 $linkHref = $node->filter('.blog-post-masonry header a')->attr('href');
 
-                $this->scrapeData($linkHref, $image, $summary,$categoryId,$lang);
+                $this->scrapeData($linkHref, $image, $summary, $categoryId, $lang);
             });
             $nextLink = $crawler->filter('nav.pagination li a.next')->first();
-            if ($nextLink->count()  <= 0) {
+            if ($nextLink->count() <= 0) {
                 break;
             }
             $nextPageUrl = $nextLink->attr('href');
             $pageUrl = $nextPageUrl;
             $totaltimes++;
-        } while (  $limit > $totaltimes);
+        } while ($limit > $totaltimes);
     }
 
-    public function scrapeData($url, $image, $summary,$categoryId,$lang)
+    public function scrapeData($url, $image, $summary, $categoryId, $lang)
     {
         $crawler = GoutteFacade::request('GET', $url);
         $title = $this->crawlData('.wrap-container h1', $crawler);
         $content = $this->crawlData_html('#main .post', $crawler);
         $check = Post::all();
-       
+
         if ($check->isEmpty()) {
-            $this->createPost($title, $image, $summary, $content,$categoryId,$lang);
+            $this->createPost($title, $image, $summary, $content, $categoryId, $lang);
         } else {
-            $this->checkAndUpdatePost($title, $image, $summary, $content, $check,$categoryId,$lang);
+            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang);
         }
     }
-    protected function createPost($title, $image, $summary, $content,$categoryId,$lang)
+
+    protected function createPost($title, $image, $summary, $content, $categoryId, $lang)
     {
         $cleanedTitle = Str::slug($title, '-');
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle);
@@ -65,7 +67,7 @@ class CrawlBlogGoogleNews extends Command
             'slug' => $slug,
             'content' => $content,
             'images' => $image,
-            'lang'=>$lang,
+            'lang' => $lang,
             'published_at' => now(),
             'summary' => $summary,
             'category_blog_id' => $categoryId,
@@ -74,7 +76,7 @@ class CrawlBlogGoogleNews extends Command
         Post::create($dataPost);
     }
 
-    protected function checkAndUpdatePost($title, $image, $summary, $content, $check,$categoryId,$lang)
+    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang)
     {
         $checkTile = false;
         $similarityPercentage = 0.0;
@@ -90,19 +92,19 @@ class CrawlBlogGoogleNews extends Command
             }
         }
 
-        if (!$checkTile && $title != null) {
+        if (! $checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle) . '.html';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'.html';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
-                'content' =>  $content,
+                'content' => $content,
                 'images' => $image,
-                'lang'=>$lang,
+                'lang' => $lang,
                 'published_at' => now(),
                 'summary' => $summary,
-                'category_blog_id' =>$categoryId,
+                'category_blog_id' => $categoryId,
                 'SimilarityPercentage' => round($similarityPercentage, 2),
             ];
             Post::create($dataPost);
