@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\CrawlBlog;
 
 use Giauphan\CrawlBlog\Models\CategoryBlog;
 use Giauphan\CrawlBlog\Models\Post;
@@ -8,54 +8,55 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Weidner\Goutte\GoutteFacade;
 
-class CrawlBlogData extends Command
+class CrawlBlogGoogleNews extends Command
 {
-    protected $signature = 'app:crawl {url} {category_name}';
-
-    protected $description = 'Crawl blog data from a given URL';
+    protected $signature = 'crawl:google-new {url} {category_name} {lang} {limitpage}';
+    protected $description = 'CrawlBlogGoogleNews blog data from a given URL';
 
     public function handle()
     {
         $pageUrl = $this->argument('url');
         $categoryName = $this->argument('category_name');
+        $lang = $this->argument('lang');
+        $limit = $this->argument('limitpage');
+        $totaltimes = 0;
 
-        // Check if the category exists, or create it
         $category = CategoryBlog::firstOrCreate(['name' => $categoryName], ['slug' => Str::slug($categoryName)]);
         $categoryId = $category->id;
         do {
             $crawler = GoutteFacade::request('GET', $pageUrl);
 
-            $crawler->filter('.blog-post-masonry')->each(function ($node) use ($categoryId) {
+            $crawler->filter('.blog-post-masonry')->each(function ($node) use($categoryId,$lang) {
                 $summary = $node->filter('.content h3')->text();
                 $image = optional($node->filter('.blog-post-masonry header img')->first())->attr('data-lazy-src');
                 $linkHref = $node->filter('.blog-post-masonry header a')->attr('href');
 
-                $this->scrapeData($linkHref, $image, $summary, $categoryId);
+                $this->scrapeData($linkHref, $image, $summary,$categoryId,$lang);
             });
             $nextLink = $crawler->filter('nav.pagination li a.next')->first();
-            if ($nextLink->count() <= 0) {
+            if ($nextLink->count()  <= 0) {
                 break;
             }
             $nextPageUrl = $nextLink->attr('href');
             $pageUrl = $nextPageUrl;
-        } while ($pageUrl !== '');
+            $totaltimes++;
+        } while (  $limit > $totaltimes);
     }
 
-    public function scrapeData($url, $image, $summary, $categoryId)
+    public function scrapeData($url, $image, $summary,$categoryId,$lang)
     {
         $crawler = GoutteFacade::request('GET', $url);
         $title = $this->crawlData('.wrap-container h1', $crawler);
         $content = $this->crawlData_html('#main .post', $crawler);
         $check = Post::all();
-
+       
         if ($check->isEmpty()) {
-            $this->createPost($title, $image, $summary, $content, $categoryId);
+            $this->createPost($title, $image, $summary, $content,$categoryId,$lang);
         } else {
-            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId);
+            $this->checkAndUpdatePost($title, $image, $summary, $content, $check,$categoryId,$lang);
         }
     }
-
-    protected function createPost($title, $image, $summary, $content, $categoryId)
+    protected function createPost($title, $image, $summary, $content,$categoryId,$lang)
     {
         $cleanedTitle = Str::slug($title, '-');
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle);
@@ -64,6 +65,7 @@ class CrawlBlogData extends Command
             'slug' => $slug,
             'content' => $content,
             'images' => $image,
+            'lang'=>$lang,
             'published_at' => now(),
             'summary' => $summary,
             'category_blog_id' => $categoryId,
@@ -72,7 +74,7 @@ class CrawlBlogData extends Command
         Post::create($dataPost);
     }
 
-    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId)
+    protected function checkAndUpdatePost($title, $image, $summary, $content, $check,$categoryId,$lang)
     {
         $checkTile = false;
         $similarityPercentage = 0.0;
@@ -88,18 +90,19 @@ class CrawlBlogData extends Command
             }
         }
 
-        if (! $checkTile && $title != null) {
+        if (!$checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'.html';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle) . '.html';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
-                'content' => $content,
+                'content' =>  $content,
                 'images' => $image,
+                'lang'=>$lang,
                 'published_at' => now(),
                 'summary' => $summary,
-                'category_blog_id' => $categoryId,
+                'category_blog_id' =>$categoryId,
                 'SimilarityPercentage' => round($similarityPercentage, 2),
             ];
             Post::create($dataPost);
