@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\VideoStatus;
 use App\Filament\Resources\YoutubeVideoResource\Pages;
 use App\Models\YoutubeVideo;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -34,6 +36,10 @@ class YoutubeVideoResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('type')
                     ->required()
+                    ->maxLength(255),
+                Select::make('status')
+                    ->required()
+                    ->default(VideoStatus::Videoactive)
                     ->maxLength(255),
             ]);
     }
