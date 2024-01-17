@@ -32,10 +32,10 @@ const onClose = () => {
               <DropDown :lable_name="lable">
                 <a :href="route('lang', 'en')"
                   class="block py-2 text-sm text-white w-full border-b border-gray-700 text-center">
-                  <MenuItem>English</MenuItem>
+                  <MenuItem class=" flex items-center justify-center gap-2"><img src="https://cdn-icons-png.flaticon.com/512/555/555526.png" class="h-5 w-5" alt=""> English</MenuItem>
                 </a>
                 <a :href="route('lang', 'vi')" class="block py-2 text-sm text-white">
-                  <MenuItem>Tiếng Việt</MenuItem>
+                  <MenuItem class=" flex items-center justify-center gap-2"><img src="https://cdn-icons-png.flaticon.com/512/206/206632.png" class="h-5 w-5" alt=""> Tiếng Việt</MenuItem>
                 </a>
               </DropDown>
             </li>
@@ -48,11 +48,12 @@ const onClose = () => {
             <slot></slot>
             <li class="text-white">
               <DropDown :lable_name="lable" class="">
-                <a :href="route('lang', 'en')" class="block py-2 text-sm text-white">
-                  <MenuItem>English</MenuItem>
+                <a :href="route('lang', 'en')"
+                  class="block py-2 text-sm text-white w-full border-b border-gray-700 text-center">
+                  <MenuItem class=" flex items-center justify-center gap-2"><img src="https://cdn-icons-png.flaticon.com/512/555/555526.png" class="h-5 w-5" alt="English"/> English</MenuItem>
                 </a>
                 <a :href="route('lang', 'vi')" class="block py-2 text-sm text-white">
-                  <MenuItem>Tiếng Việt</MenuItem>
+                  <MenuItem class=" flex items-center justify-center gap-2"><img src="https://cdn-icons-png.flaticon.com/512/206/206632.png" class="h-5 w-5" alt="Tiếng Việt"/> Tiếng Việt</MenuItem>
                 </a>
               </DropDown>
             </li>
