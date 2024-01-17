@@ -11,6 +11,7 @@ use Weidner\Goutte\GoutteFacade;
 class CrawlBlogGoogleNews extends Command
 {
     protected $signature = 'crawl:google-new {url} {category_name} {lang} {limitpage}';
+
     protected $description = 'CrawlBlogGoogleNews blog data from a given URL';
 
     public function handle()
@@ -35,12 +36,12 @@ class CrawlBlogGoogleNews extends Command
 
             $crawl_arr->each(function ($node) use ($categoryId, $lang) {
                 $summary = $node->filter('.xrnccd h3')->text();
-                $image = 'https://news.google.com' . optional($node->filter('.NiLAwe .tvs3Id'))->attr('src');
+                $image = 'https://news.google.com'.optional($node->filter('.NiLAwe .tvs3Id'))->attr('src');
                 $linkHref = 'https://news.google.com'.$node->filter('.xrnccd a.DY5T1d.RZIKme')->attr('href');
                 $this->scrapeData($linkHref, $image, $summary, $categoryId, $lang);
             });
             $nextLink = $crawler->filter('nav.pagination li a.next')->first();
-            if ($nextLink->count()  <= 0) {
+            if ($nextLink->count() <= 0) {
                 break;
             }
             $nextPageUrl = $nextLink->attr('href');
@@ -63,6 +64,7 @@ class CrawlBlogGoogleNews extends Command
             $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang);
         }
     }
+
     protected function createPost($title, $image, $summary, $content, $categoryId, $lang)
     {
         $cleanedTitle = Str::slug($title, '-');
@@ -97,14 +99,14 @@ class CrawlBlogGoogleNews extends Command
             }
         }
 
-        if (!$checkTile && $title != null) {
+        if (! $checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle) . '.html';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'.html';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
-                'content' =>  $content,
+                'content' => $content,
                 'images' => $image,
                 'lang' => $lang,
                 'published_at' => now(),
