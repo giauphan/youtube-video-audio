@@ -63,10 +63,6 @@ class CrawlBlogGoogleNews extends Command
             $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang);
         }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> a421a6a (crawl blog gooogle news)
     protected function createPost($title, $image, $summary, $content, $categoryId, $lang)
     {
         $cleanedTitle = Str::slug($title, '-');
