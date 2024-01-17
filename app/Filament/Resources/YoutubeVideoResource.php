@@ -39,6 +39,7 @@ class YoutubeVideoResource extends Resource
                     ->maxLength(255),
                 Select::make('status')
                     ->required()
+                    ->options(VideoStatus::class)
                     ->default(VideoStatus::Videoactive),
             ]);
     }
