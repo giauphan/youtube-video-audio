@@ -27,15 +27,15 @@ class CrawlBlogGoogleNews extends Command
         do {
             $crawler = GoutteFacade::request('GET', $pageUrl);
 
-            $crawler->filter('.blog-post-masonry')->each(function ($node) use($categoryId,$lang) {
+            $crawler->filter('.blog-post-masonry')->each(function ($node) use ($categoryId, $lang) {
                 $summary = $node->filter('.content h3')->text();
                 $image = optional($node->filter('.blog-post-masonry header img')->first())->attr('data-lazy-src');
                 $linkHref = $node->filter('.blog-post-masonry header a')->attr('href');
 
-                $this->scrapeData($linkHref, $image, $summary,$categoryId,$lang);
+                $this->scrapeData($linkHref, $image, $summary, $categoryId, $lang);
             });
             $nextLink = $crawler->filter('nav.pagination li a.next')->first();
-            if ($nextLink->count()  <= 0) {
+            if ($nextLink->count() <= 0) {
                 break;
             }
             $nextPageUrl = $nextLink->attr('href');
@@ -58,7 +58,8 @@ class CrawlBlogGoogleNews extends Command
             $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang);
         }
     }
-    protected function createPost($title, $image, $summary, $content,$categoryId,$lang)
+
+    protected function createPost($title, $image, $summary, $content, $categoryId, $lang)
     {
         $cleanedTitle = Str::slug($title, '-');
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle);
