@@ -13,7 +13,7 @@
         "bensampo/laravel-enum": "^6.8",
         "filament/filament": "^3.1",
         "filament/spatie-laravel-settings-plugin": "^3.1",
-        "giauphan/crawl-blog-data": "^0.2.0",
+        "giauphan/crawl-blog-data": "^0.3.1",
         "google/apiclient": "^2.15",
         "guzzlehttp/guzzle": "^7.2",
         "illuminate/redis": "*",
