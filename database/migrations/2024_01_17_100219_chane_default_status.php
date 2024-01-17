@@ -13,7 +13,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('youtube_videos', function (Blueprint $table) {
-            $table->string('status')->default(VideoStatus::Active)->change();
+            $table->dropColumn('status');
+        });
+
+        Schema::table('youtube_videos', function (Blueprint $table) {
+            $table->string('status')->default(VideoStatus::Active);
         });
     }
 
