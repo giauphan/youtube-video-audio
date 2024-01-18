@@ -50,6 +50,8 @@ class YoutubeVideoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('video_id')
                     ->searchable(),
+                    Tables\Columns\TextColumn::make('view')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
