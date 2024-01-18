@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\ManageGoogle;
 use App\Filament\Resources\CategoryBlogResource;
+use App\Filament\Resources\FailedJobResource;
 use App\Filament\Resources\JobResource;
 use App\Filament\Resources\PostResource;
 use App\Filament\Resources\RoleResource;
@@ -66,6 +67,7 @@ class AdminPanelProvider extends PanelProvider
                         ->groups([
                             NavigationGroup::make(__('Video'))
                                 ->items([
+                                    ...FailedJobResource::getNavigationItems(),
                                     ...JobResource::getNavigationItems(),
                                     ...YoutubeVideoResource::getNavigationItems(),
                                 ]),
