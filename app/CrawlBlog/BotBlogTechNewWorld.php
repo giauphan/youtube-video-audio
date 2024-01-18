@@ -2,6 +2,7 @@
 
 namespace App\CrawlBlog;
 
+use Carbon\Carbon;
 use Giauphan\CrawlBlog\Models\CategoryBlog;
 use Giauphan\CrawlBlog\Models\Post;
 use Illuminate\Console\Command;
@@ -9,11 +10,10 @@ use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 use Weidner\Goutte\GoutteFacade;
 
-class CrawlBlogGoogleNews extends Command
+class BotBlogTechNewWorld extends Command
 {
-    protected $signature = 'crawl:google-new {url} {category_name} {lang} {limitblog}';
-
-    protected $description = 'CrawlBlogGoogleNews blog data from a given URL';
+    protected $signature = 'crawl:BotBlogTechNewsWorld {url} {category_name} {lang} {limitblog}';
+    protected $description = 'BotBlogTechNewWorld blog data from a given URL';
 
     public function handle()
     {
@@ -21,54 +21,57 @@ class CrawlBlogGoogleNews extends Command
         $categoryName = $this->argument('category_name');
         $lang = $this->argument('lang');
         $limit = $this->argument('limitblog');
-    
+
         $category = CategoryBlog::firstOrCreate(['name' => $categoryName], ['slug' => Str::slug($categoryName)]);
         $categoryId = $category->id;
-    
+
         $totaltimes = 0;
-    
+
+        $category = CategoryBlog::firstOrCreate(['name' => $categoryName], ['slug' => Str::slug($categoryName)]);
+        $categoryId = $category->id;
         do {
             $crawler = GoutteFacade::request('GET', $pageUrl);
-    
-            $crawl_arr = $crawler->filter('.NiLAwe.y6IFtc.R7GTQ.keNKEd.j7vNaf.nID9nc');
+
+            $crawl_arr = $crawler->filter('.search-item');
             if ($crawl_arr->count() === 0) {
                 $this->error('No matching elements found on the page. Check if the HTML structure has changed.');
                 break;
             }
-    
+
             foreach ($crawl_arr as $node) {
-                
-                if ($node instanceof \DOMElement) {
-                    $node = new Crawler($node);
+                try {
+                    if ($node instanceof \DOMElement) {
+                        $node = new Crawler($node);
+                    }
+                    $title = $this->checkCrawl('.search-txt h2', $node)->text();
+                    $summary = $this->checkCrawl('.search-item p', $node)->text();
+                    $image = optional($this->checkCrawl('.search-pic img', $node)->first())->attr('src');
+                    $linkHref = $this->checkCrawl('.search-txt a', $node)->attr('href');
+                    $this->scrapeData($linkHref, $title, $image, $summary, $categoryId, $lang);
+
+                    $totaltimes++;
+
+                    if ($totaltimes >= $limit) {
+                        $this->info('Reached the limit.');
+                        break 2;
+                    }
+                } catch (\Throwable $th) {
                 }
-                $summary = $node->filter('.xrnccd h3')->text();
-                $image = 'https://news.google.com' . optional($node->filter('.NiLAwe .tvs3Id'))->attr('src');
-                $title = $node->filter('.xrnccd h3')->text();
-                $linkHref = 'https://news.google.com' . $node->filter('.xrnccd a.DY5T1d.RZIKme')->attr('href');
-                $this->scrapeData($linkHref, $title, $image, $summary, $categoryId, $lang);
-                $totaltimes++;
-    
-                if ($totaltimes >= $limit) {
-                    $this->info('Reached the limit.');
-                    break 2; 
-                }
-            }
-    
+            };
+
             $nextLink = $crawler->filter('nav.pagination li a.next')->first();
-            if ($nextLink->count() <= 0) {
+            if ($nextLink->count()  <= 0) {
                 break;
             }
-    
             $nextPageUrl = $nextLink->attr('href');
             $pageUrl = $nextPageUrl;
-        }while ($pageUrl !== '' );
+        } while ($pageUrl !== '');
     }
-    
 
     public function scrapeData($url, $title, $image, $summary, $categoryId, $lang)
     {
         $crawler = GoutteFacade::request('GET', $url);
-        $content = $this->crawlData_html('#main .post', $crawler);
+        $content = $this->crawlData_html('.story-content ', $crawler);
         $check = Post::all();
 
         if ($check->isEmpty()) {
@@ -88,7 +91,7 @@ class CrawlBlogGoogleNews extends Command
             'content' => $content,
             'images' => $image,
             'lang' => $lang,
-            'published_at' => now(),
+            'published_at' => Carbon::now()->addMinutes(30),
             'summary' => $summary,
             'category_blog_id' => $categoryId,
             'SimilarityPercentage' => 0.0,
@@ -122,7 +125,7 @@ class CrawlBlogGoogleNews extends Command
                 'content' => $content,
                 'images' => $image,
                 'lang' => $lang,
-                'published_at' => now(),
+                'published_at' =>Carbon::now()->addMinutes(30),
                 'summary' => $summary,
                 'category_blog_id' => $categoryId,
                 'SimilarityPercentage' => round($similarityPercentage, 2),
@@ -131,9 +134,24 @@ class CrawlBlogGoogleNews extends Command
         }
     }
 
+    public function checkCrawl(string $type, $crawler)
+    {
+        $nodeList = $crawler->filter($type);
+        if ($nodeList->count() === 0) {
+            $this->error($type . ' node list is empty.  ');
+            return '';
+        }
+        return $nodeList;
+    }
+
     protected function crawlData(string $type, $crawler)
     {
-        $result = $crawler->filter($type)->first();
+        $nodeList = $crawler->filter($type);
+        if ($nodeList->count() === 0) {
+            return '';
+        }
+
+        $result = $nodeList->first();
 
         return $result ? $result->text() : '';
     }

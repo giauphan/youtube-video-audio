@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a356a322f670dc1bd8c332ba5cb053d",
+    "content-hash": "d0aa34aa78d7816a6ed51a9912f5248f",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -2460,16 +2460,16 @@
         },
         {
             "name": "giauphan/crawl-blog-data",
-            "version": "v0.3.1",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giauphan/CrawlBlog.git",
-                "reference": "78a97cfbf1e3a7e7826647547143c7792fbf7e7a"
+                "reference": "2d9b1c8f10da897fe1246735272dabb58da2990a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giauphan/CrawlBlog/zipball/78a97cfbf1e3a7e7826647547143c7792fbf7e7a",
-                "reference": "78a97cfbf1e3a7e7826647547143c7792fbf7e7a",
+                "url": "https://api.github.com/repos/giauphan/CrawlBlog/zipball/2d9b1c8f10da897fe1246735272dabb58da2990a",
+                "reference": "2d9b1c8f10da897fe1246735272dabb58da2990a",
                 "shasum": ""
             },
             "require": {
@@ -2506,9 +2506,9 @@
             "description": " This powerful web scraping tool is designed to gather data from blogs and websites with ease, providing you with valuable insights and information.",
             "support": {
                 "issues": "https://github.com/giauphan/CrawlBlog/issues",
-                "source": "https://github.com/giauphan/CrawlBlog/tree/v0.3.1"
+                "source": "https://github.com/giauphan/CrawlBlog/tree/v0.4.0"
             },
-            "time": "2024-01-17T07:54:27+00:00"
+            "time": "2024-01-18T07:56:31+00:00"
         },
         {
             "name": "google/apiclient",
