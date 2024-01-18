@@ -29,7 +29,6 @@ class BotBlogTechNewWorld extends Command
         $totaltimes = 0;
 
         $category = CategoryBlog::firstOrCreate(['name' => $categoryName], ['slug' => Str::slug($categoryName)]);
-        $categoryId = $category->id;
         do {
             $crawler = GoutteFacade::request('GET', $pageUrl);
 
@@ -48,7 +47,7 @@ class BotBlogTechNewWorld extends Command
                     $summary = $this->checkCrawl('.search-item p', $node)->text();
                     $image = optional($this->checkCrawl('.search-pic img', $node)->first())->attr('src');
                     $linkHref = $this->checkCrawl('.search-txt a', $node)->attr('href');
-                    $this->scrapeData($linkHref, $title, $image, $summary, $categoryId, $lang);
+                    $this->scrapeData($linkHref, $title, $image, $summary, $category, $lang);
 
                     $totaltimes++;
 
@@ -56,7 +55,8 @@ class BotBlogTechNewWorld extends Command
                         $this->info('Reached the limit.');
                         break 2;
                     }
-                } catch (\Throwable $th) {
+                } catch (\Exception $e) {
+                    dump($e);
                 }
             }
 
@@ -69,20 +69,20 @@ class BotBlogTechNewWorld extends Command
         } while ($pageUrl !== '');
     }
 
-    public function scrapeData($url, $title, $image, $summary, $categoryId, $lang)
+    public function scrapeData($url, $title, $image, $summary, $category, $lang)
     {
         $crawler = GoutteFacade::request('GET', $url);
         $content = $this->crawlData_html('.story-content ', $crawler);
         $check = Post::all();
 
         if ($check->isEmpty()) {
-            $this->createPost($title, $image, $summary, $content, $categoryId, $lang, $url);
+            $this->createPost($title, $image, $summary, $content, $category, $lang, $url);
         } else {
-            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang, $url);
+            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $category, $lang, $url);
         }
     }
 
-    protected function createPost($title, $image, $summary, $content, $categoryId, $lang, $url)
+    protected function createPost($title, $image, $summary, $content, $category, $lang, $url)
     {
         $cleanedTitle = Str::slug($title, '-');
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle);
@@ -94,13 +94,13 @@ class BotBlogTechNewWorld extends Command
             'lang' => $lang,
             'published_at' => Carbon::now()->addMinutes(30),
             'summary' => $summary,
-            'category_blog_id' => $categoryId,
             'SimilarityPercentage' => 0.0,
         ];
-        Post::create($dataPost);
+        $category->posts()->create($dataPost);
+
     }
 
-    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang, $url)
+    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $category, $lang, $url)
     {
         $checkTile = false;
         $similarityPercentage = 0.0;
@@ -119,7 +119,7 @@ class BotBlogTechNewWorld extends Command
         if (! $checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'.html';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
@@ -128,10 +128,9 @@ class BotBlogTechNewWorld extends Command
                 'lang' => $lang,
                 'published_at' => Carbon::now()->addMinutes(30),
                 'summary' => $summary,
-                'category_blog_id' => $categoryId,
                 'SimilarityPercentage' => round($similarityPercentage, 2),
             ];
-            Post::create($dataPost);
+            $category->posts()->create($dataPost);
         }
     }
 
