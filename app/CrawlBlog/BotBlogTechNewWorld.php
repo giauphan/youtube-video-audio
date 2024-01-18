@@ -13,6 +13,7 @@ use Weidner\Goutte\GoutteFacade;
 class BotBlogTechNewWorld extends Command
 {
     protected $signature = 'crawl:BotBlogTechNewsWorld {url} {category_name} {lang} {limitblog}';
+
     protected $description = 'BotBlogTechNewWorld blog data from a given URL';
 
     public function handle()
@@ -57,10 +58,10 @@ class BotBlogTechNewWorld extends Command
                     }
                 } catch (\Throwable $th) {
                 }
-            };
+            }
 
             $nextLink = $crawler->filter('nav.pagination li a.next')->first();
-            if ($nextLink->count()  <= 0) {
+            if ($nextLink->count() <= 0) {
                 break;
             }
             $nextPageUrl = $nextLink->attr('href');
@@ -115,17 +116,17 @@ class BotBlogTechNewWorld extends Command
             }
         }
 
-        if (!$checkTile && $title != null) {
+        if (! $checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle) . '.html';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'.html';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
                 'content' => $content,
                 'images' => $image,
                 'lang' => $lang,
-                'published_at' =>Carbon::now()->addMinutes(30),
+                'published_at' => Carbon::now()->addMinutes(30),
                 'summary' => $summary,
                 'category_blog_id' => $categoryId,
                 'SimilarityPercentage' => round($similarityPercentage, 2),
@@ -138,9 +139,11 @@ class BotBlogTechNewWorld extends Command
     {
         $nodeList = $crawler->filter($type);
         if ($nodeList->count() === 0) {
-            $this->error($type . ' node list is empty.  ');
+            $this->error($type.' node list is empty.  ');
+
             return '';
         }
+
         return $nodeList;
     }
 
@@ -164,6 +167,7 @@ class BotBlogTechNewWorld extends Command
         }
 
         $result = $nodeList->first();
+
         return $result ? $result->html() : '';
     }
 }

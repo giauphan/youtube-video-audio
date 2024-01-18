@@ -21,49 +21,48 @@ class CrawlBlogGoogleNews extends Command
         $categoryName = $this->argument('category_name');
         $lang = $this->argument('lang');
         $limit = $this->argument('limitblog');
-    
+
         $category = CategoryBlog::firstOrCreate(['name' => $categoryName], ['slug' => Str::slug($categoryName)]);
         $categoryId = $category->id;
-    
+
         $totaltimes = 0;
-    
+
         do {
             $crawler = GoutteFacade::request('GET', $pageUrl);
-    
+
             $crawl_arr = $crawler->filter('.NiLAwe.y6IFtc.R7GTQ.keNKEd.j7vNaf.nID9nc');
             if ($crawl_arr->count() === 0) {
                 $this->error('No matching elements found on the page. Check if the HTML structure has changed.');
                 break;
             }
-    
+
             foreach ($crawl_arr as $node) {
-                
+
                 if ($node instanceof \DOMElement) {
                     $node = new Crawler($node);
                 }
                 $summary = $node->filter('.xrnccd h3')->text();
-                $image = 'https://news.google.com' . optional($node->filter('.NiLAwe .tvs3Id'))->attr('src');
+                $image = 'https://news.google.com'.optional($node->filter('.NiLAwe .tvs3Id'))->attr('src');
                 $title = $node->filter('.xrnccd h3')->text();
-                $linkHref = 'https://news.google.com' . $node->filter('.xrnccd a.DY5T1d.RZIKme')->attr('href');
+                $linkHref = 'https://news.google.com'.$node->filter('.xrnccd a.DY5T1d.RZIKme')->attr('href');
                 $this->scrapeData($linkHref, $title, $image, $summary, $categoryId, $lang);
                 $totaltimes++;
-    
+
                 if ($totaltimes >= $limit) {
                     $this->info('Reached the limit.');
-                    break 2; 
+                    break 2;
                 }
             }
-    
+
             $nextLink = $crawler->filter('nav.pagination li a.next')->first();
             if ($nextLink->count() <= 0) {
                 break;
             }
-    
+
             $nextPageUrl = $nextLink->attr('href');
             $pageUrl = $nextPageUrl;
-        }while ($pageUrl !== '' );
+        } while ($pageUrl !== '');
     }
-    
 
     public function scrapeData($url, $title, $image, $summary, $categoryId, $lang)
     {
@@ -112,10 +111,10 @@ class CrawlBlogGoogleNews extends Command
             }
         }
 
-        if (!$checkTile && $title != null) {
+        if (! $checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle) . '.html';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'.html';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
@@ -146,6 +145,7 @@ class CrawlBlogGoogleNews extends Command
         }
 
         $result = $nodeList->first();
+
         return $result ? $result->html() : '';
     }
 }
