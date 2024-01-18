@@ -96,7 +96,7 @@ class BotBlogTechNewWorld extends Command
             'summary' => $summary,
             'SimilarityPercentage' => 0.0,
         ];
-          $category->posts()->create($dataPost);
+        $category->posts()->create($dataPost);
 
     }
 
