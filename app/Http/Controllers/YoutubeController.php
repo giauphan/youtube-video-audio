@@ -29,7 +29,8 @@ class YoutubeController extends Controller
 
     public function getVideo(VideoRequest $request): RedirectResponse
     {
-        $videoID = $this->getVideoId($request->validated()['url']);
+        $validate = $request->validated();
+        $videoID = $this->getVideoId($validate['url']);
 
         if (! $videoID) {
             return back()->with('error', 'Invalid video ID');
@@ -75,8 +76,9 @@ class YoutubeController extends Controller
         if (isset($urlParts['query'])) {
             parse_str($urlParts['query'], $queryParameters);
             $this->type = 'video';
-
-            return $queryParameters['v'] ?? '';
+            if (isset($queryParameters['v'])) {
+                return $queryParameters['v'];
+            }
         }
 
         foreach (['shorts', 'live'] as $type) {
