@@ -76,13 +76,13 @@ class BotBlogTechNewWorld extends Command
         $check = Post::all();
 
         if ($check->isEmpty()) {
-            $this->createPost($title, $image, $summary, $content, $categoryId, $lang,$url);
+            $this->createPost($title, $image, $summary, $content, $categoryId, $lang, $url);
         } else {
-            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang,$url);
+            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang, $url);
         }
     }
 
-    protected function createPost($title, $image, $summary, $content, $categoryId, $lang,$url)
+    protected function createPost($title, $image, $summary, $content, $categoryId, $lang, $url)
     {
         $cleanedTitle = Str::slug($title, '-');
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle);
@@ -100,7 +100,7 @@ class BotBlogTechNewWorld extends Command
         Post::create($dataPost);
     }
 
-    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang,$url)
+    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang, $url)
     {
         $checkTile = false;
         $similarityPercentage = 0.0;
