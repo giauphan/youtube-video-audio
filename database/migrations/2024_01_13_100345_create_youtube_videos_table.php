@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('video_id')->unique();
             $table->string('title');
             $table->longText('url_video');
+            $table->integer('view')->default(0);
             $table->string('status')->default(VideoStatus::Active);
             $table->longText('thumbnail');
             $table->string('type');
