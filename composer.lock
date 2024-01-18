@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0aa34aa78d7816a6ed51a9912f5248f",
+    "content-hash": "f53958c6b9db483a8c57fe474770423b",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -2460,16 +2460,16 @@
         },
         {
             "name": "giauphan/crawl-blog-data",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giauphan/CrawlBlog.git",
-                "reference": "2d9b1c8f10da897fe1246735272dabb58da2990a"
+                "reference": "d364e97067d0b141f1c112bce2c4bdf5341d6fc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giauphan/CrawlBlog/zipball/2d9b1c8f10da897fe1246735272dabb58da2990a",
-                "reference": "2d9b1c8f10da897fe1246735272dabb58da2990a",
+                "url": "https://api.github.com/repos/giauphan/CrawlBlog/zipball/d364e97067d0b141f1c112bce2c4bdf5341d6fc9",
+                "reference": "d364e97067d0b141f1c112bce2c4bdf5341d6fc9",
                 "shasum": ""
             },
             "require": {
@@ -2506,9 +2506,9 @@
             "description": " This powerful web scraping tool is designed to gather data from blogs and websites with ease, providing you with valuable insights and information.",
             "support": {
                 "issues": "https://github.com/giauphan/CrawlBlog/issues",
-                "source": "https://github.com/giauphan/CrawlBlog/tree/v0.4.0"
+                "source": "https://github.com/giauphan/CrawlBlog/tree/v0.4.1"
             },
-            "time": "2024-01-18T07:56:31+00:00"
+            "time": "2024-01-18T09:32:58+00:00"
         },
         {
             "name": "google/apiclient",
@@ -5763,16 +5763,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "a9d127dd6a203ce6d255b2e2db49759f7506e015"
+                "reference": "d3ad0aa3b9f934602cb3e3902ebccf10be34d218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/a9d127dd6a203ce6d255b2e2db49759f7506e015",
-                "reference": "a9d127dd6a203ce6d255b2e2db49759f7506e015",
+                "url": "https://api.github.com/repos/nette/utils/zipball/d3ad0aa3b9f934602cb3e3902ebccf10be34d218",
+                "reference": "d3ad0aa3b9f934602cb3e3902ebccf10be34d218",
                 "shasum": ""
             },
             "require": {
@@ -5843,9 +5843,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.0.3"
+                "source": "https://github.com/nette/utils/tree/v4.0.4"
             },
-            "time": "2023-10-29T21:02:13+00:00"
+            "time": "2024-01-17T16:50:36+00:00"
         },
         {
             "name": "nikic/php-parser",
