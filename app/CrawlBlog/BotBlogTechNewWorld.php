@@ -76,20 +76,20 @@ class BotBlogTechNewWorld extends Command
         $check = Post::all();
 
         if ($check->isEmpty()) {
-            $this->createPost($title, $image, $summary, $content, $categoryId, $lang);
+            $this->createPost($title, $image, $summary, $content, $categoryId, $lang,$url);
         } else {
-            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang);
+            $this->checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang,$url);
         }
     }
 
-    protected function createPost($title, $image, $summary, $content, $categoryId, $lang)
+    protected function createPost($title, $image, $summary, $content, $categoryId, $lang,$url)
     {
         $cleanedTitle = Str::slug($title, '-');
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle);
         $dataPost = [
             'title' => $title,
             'slug' => $slug,
-            'content' => $content,
+            'content' => $content.'\n '."<a href='$url'>Original blog link is here</a>",
             'images' => $image,
             'lang' => $lang,
             'published_at' => Carbon::now()->addMinutes(30),
@@ -100,7 +100,7 @@ class BotBlogTechNewWorld extends Command
         Post::create($dataPost);
     }
 
-    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang)
+    protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $categoryId, $lang,$url)
     {
         $checkTile = false;
         $similarityPercentage = 0.0;
@@ -123,7 +123,7 @@ class BotBlogTechNewWorld extends Command
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
-                'content' => $content,
+                'content' => $content.'\n '."<a href='$url'>Original blog link is here</a>",
                 'images' => $image,
                 'lang' => $lang,
                 'published_at' => Carbon::now()->addMinutes(30),
