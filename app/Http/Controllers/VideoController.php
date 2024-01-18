@@ -31,9 +31,8 @@ class VideoController extends Controller
             abort(404);
         }
 
-        
         $cacheKey = sprintf('post:%s', $data->video_id);
-        if (!Cache::has($cacheKey)) {
+        if (! Cache::has($cacheKey)) {
             $data->increment('view');
 
             Cache::put($cacheKey, true, 10);
