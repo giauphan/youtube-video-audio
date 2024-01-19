@@ -97,7 +97,7 @@ class YoutubeController extends Controller
         return YoutubeVideo::query()
             ->where('status', VideoStatus::Active)
             ->where('type', $type)
-            ->oRderBy('view', 'desc')
+            ->orderBy('view', 'desc')
             ->paginate(12)
             ->withQueryString();
     }
