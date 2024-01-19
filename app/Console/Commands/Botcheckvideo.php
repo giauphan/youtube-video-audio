@@ -29,19 +29,18 @@ class Botcheckvideo extends Command
      */
     public function handle()
     {
-        $this->info('Starting bot refresh link video...' . now());
+        $this->info('Starting bot refresh link video...'.now());
         $getVideo = YoutubeVideo::query()->get();
         $N = 0;
         while ($N < 2) {
-            foreach ($getVideo as  $videos) {
-                if (!$this->checkLinkStatus($videos->url_video)) {
+            foreach ($getVideo as $videos) {
+                if (! $this->checkLinkStatus($videos->url_video)) {
                     ReportJob::dispatch($videos['video_id'], $videos['type'])->delay(Carbon::now()->addSeconds(5));
                 }
             }
             $N++;
         }
     }
-
 
     public function checkLinkStatus($url)
     {
