@@ -23,7 +23,7 @@ class YoutubeVideoResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('video_id')
-                ->unique(ignoreRecord: true)
+                    ->unique(ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('title')
