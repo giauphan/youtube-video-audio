@@ -53,6 +53,7 @@ class Botcheckvideo extends Command
                 return false;
             }
         }
+
         return true;
     }
 }
