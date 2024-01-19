@@ -52,8 +52,7 @@ class Botcheckvideo extends Command
             if ($e->getCode() == 0) {
                 return false;
             }
-
-            return true;
         }
+        return true;
     }
 }
