@@ -12,8 +12,6 @@
 @endpush
 
 @section('content')
-    <div className="mx-auto my-10 max-w-5xl px-4 sm:px-6 md:my-20 md:px-8">
-       <page-post-category :categorys='@json($categoryBlog)'></page-post-category>
-      <component-posts :posts='@json($posts)'> </component-posts>
-    </div>
+      <page-posts :posts='@json($posts)' :categorys='@json($categoryBlog)'> </component-posts>
+    
 @endsection

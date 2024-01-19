@@ -9,8 +9,7 @@ import Video from '@/components/Video.vue'
 import Paginate from '@/components/Paginate.vue'
 import Footer from '@/components/Footer.vue'
 import PageHome from '@/Pages/Home/Index.vue'
-import Category from '@/Pages/Post/Category.vue'
-import Post from '@/Pages/Post/Post.vue'
+import Post from '@/Pages/Post/Index.vue'
 import { FwbFooterLink, FwbFooterLinkGroup } from 'flowbite-vue'
 
 const app = createApp({})
@@ -27,7 +26,6 @@ app.component('footer-component', Footer)
 app.component('footer-link-component', FwbFooterLink)
 app.component('footer-linkgroup-component', FwbFooterLinkGroup)
 app.component('page-home', PageHome)
-app.component('page-post-category', Category)
-app.component('component-posts', Post)
+app.component('page-posts', Post)
 
 app.mount('#app')
