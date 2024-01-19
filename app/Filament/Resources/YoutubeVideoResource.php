@@ -51,7 +51,7 @@ class YoutubeVideoResource extends Resource
                 Tables\Columns\TextColumn::make('video_id')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('view')
-                ->numeric()
+                    ->numeric()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),

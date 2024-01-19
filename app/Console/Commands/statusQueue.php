@@ -30,9 +30,11 @@ class statusQueue extends Command
         $processes->run();
         if ($processes->isSuccessful() && $processes->getOutput()) {
             $this->info('The scan:change-link command is running.'.$processes->getOutput().now());
+
             return 1;
         } else {
             $this->info('The scan:change-link command is not  running. ');
+
             return 0;
         }
     }

@@ -7,50 +7,54 @@ use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Process\Process;
 
 class startQueue extends Command
-{  /**
-    * The name and signature of the console command.
-    *
-    * @var string
-    */
-   protected $signature = 'start:queue';
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'start:queue';
 
-   /**
-    * The console command description.
-    *
-    * @var string
-    */
-   protected $description = 'Command description';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
 
-   /**
-    * Execute the console command.
-    */
-   public function handle()
-   {
-       $check = Artisan::call('status:queue');
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $check = Artisan::call('status:queue');
 
-       if ($check) {
-           $this->info('Scanning files is already running. Use "scan:scan-link" to check its status.');
-           return true;
-       }
+        if ($check) {
+            $this->info('Scanning files is already running. Use "scan:scan-link" to check its status.');
 
-       // Set the timezone to Asia/Ho_Chi_Minh
-       date_default_timezone_set('Asia/Ho_Chi_Minh');
+            return true;
+        }
 
-       $projectPath = base_path();
+        // Set the timezone to Asia/Ho_Chi_Minh
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-       $this->info('Starting queue work...' . now());
+        $projectPath = base_path();
 
-       $cmd = getenv('Path_PHP') . " " . $projectPath . '/artisan queue:work';
-       $process = Process::fromShellCommandline($cmd);
-       $process->setTimeout(null);
-       $process->run();
+        $this->info('Starting queue work...'.now());
 
-       if ($process->isSuccessful()) {
-           $this->info('Scanning files completed successfully. and sleep waint 60s');
-           return ;
-       } else {
-           $this->error('An error occurred while scanning files: ' . $process->getErrorOutput() . now());
-           return 1;
-       }
-   }
+        $cmd = getenv('Path_PHP').' '.$projectPath.'/artisan queue:work';
+        $process = Process::fromShellCommandline($cmd);
+        $process->setTimeout(null);
+        $process->run();
+
+        if ($process->isSuccessful()) {
+            $this->info('Scanning files completed successfully. and sleep waint 60s');
+
+            return;
+        } else {
+            $this->error('An error occurred while scanning files: '.$process->getErrorOutput().now());
+
+            return 1;
+        }
+    }
 }
