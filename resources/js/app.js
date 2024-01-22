@@ -10,6 +10,8 @@ import Paginate from '@/components/Paginate.vue'
 import Footer from '@/components/Footer.vue'
 import PageHome from '@/Pages/Home/Index.vue'
 import Post from '@/Pages/Post/Index.vue'
+import PostShow from '@/Pages/Post/Show.vue'
+
 import { FwbFooterLink, FwbFooterLinkGroup } from 'flowbite-vue'
 
 const app = createApp({})
@@ -27,5 +29,5 @@ app.component('footer-link-component', FwbFooterLink)
 app.component('footer-linkgroup-component', FwbFooterLinkGroup)
 app.component('page-home', PageHome)
 app.component('page-posts', Post)
-
+app.component('page-posts-show', PostShow)
 app.mount('#app')

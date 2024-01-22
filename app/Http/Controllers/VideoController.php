@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\VideoStatus;
+use App\Http\Resources\YoutubeVideoResource;
 use App\Models\YoutubeVideo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,7 @@ class VideoController extends Controller
         }
 
         return view('video', [
-            'video' => $data,
+            'video' => new YoutubeVideoResource($data),
             'ListVideo' => $dataCache,
         ]);
     }

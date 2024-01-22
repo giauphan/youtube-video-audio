@@ -33,7 +33,7 @@ Route::prefix('/video')->name('video.')->group(function () {
 
 Route::prefix('/blog')->name('posts.')->group(function () {
     Route::get('', [PostController::class, 'index'])->name('index');
-    Route::get('{slug}', [PostController::class, 'index'])->name('show');
+    Route::get('{slug}', [PostController::class, 'show'])->name('show');
 });
 
 Route::get('/Terms-and-policy', TermsPolicyController::class)->name('terms.policy');
