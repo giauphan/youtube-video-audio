@@ -1,14 +1,12 @@
 @extends('layout.app')
 @push('seo')
-    @if (isset($video))
-        <title>{{ $video['title'] }}</title>
-        <meta name="title" property="og:title" content="{{ $video['title'] }}" />
+        <title>{{ $posts['title'] }}</title>
+        <meta name="title" property="og:title" content="{{ $posts['title'] }}" />
         <meta name="url" property="og:url"
-            content="{{ route('video.index', ['video' => $video['video_id'], 'type_video' => $video['type'] == 'video' ? 'web-video' : $video['type']]) }}" />
-        <meta name="description" property="og:description" content="{{ $video['title'] }}" />
+            content="{{ route('posts.show',['slug'=> $posts['slug']]) }}" />
+        <meta name="description" property="og:description" content="{{ $posts['title'] }}" />
         <meta name="keywords"
-            content="watch video online, {{ $video['title'] }}, online streaming, video player, ad-free video, high-quality video, video viewing experience" />
-    @endif
+            content="watch posts online, {{ $posts['title'] }}, online streaming, video player, ad-free video, high-quality video, video viewing experience" />
 @endpush
 
 @section('content')
