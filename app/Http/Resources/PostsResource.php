@@ -20,7 +20,7 @@ class PostsResource extends JsonResource
             'images' => $this->images,
             'published_at' => $this->published_at,
             'content' => $this->content,
-            'view'=>$this->view,
+            'view' => $this->view,
             'CategoryBlog' => CategoryBlog::make($this->whenLoaded('CategoryBlog')),
         ];
     }
