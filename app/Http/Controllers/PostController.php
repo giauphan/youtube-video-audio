@@ -26,6 +26,7 @@ class PostController extends Controller
                 $query->whereHas('CategoryBlog', fn (Builder $query) => $query->where('slug', $category_sug));
             })
             ->orderBy('view', 'desc')
+            ->published()
             ->paginate(8)
             ->withQueryString();
 
