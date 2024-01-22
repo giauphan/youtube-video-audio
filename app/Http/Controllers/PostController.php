@@ -40,7 +40,7 @@ class PostController extends Controller
 
         $post = Post::query()
             ->with('CategoryBlog')
-            ->where('slug', $slug)
+            ->where('slug','like', $slug)
             ->published()
             ->firstOrFail();
 
