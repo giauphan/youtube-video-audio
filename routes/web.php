@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\TermsPolicyController;
 use App\Http\Controllers\User\VideoListController;
 use App\Http\Controllers\User\VideoSaveController;
@@ -28,6 +29,11 @@ Route::prefix('/video')->name('video.')->group(function () {
     Route::get('{type_video}/{video}', VideoController::class)->name('index');
     Route::post('/show', [YoutubeController::class, 'getVideo'])->name('upload')->middleware('throttle:25,1');
     Route::post('report', ReportVideoController::class)->name('report');
+});
+
+Route::prefix('/blog')->name('posts.')->group(function () {
+    Route::get('', [PostController::class, 'index'])->name('index');
+    Route::get('{slug}', [PostController::class, 'show'])->name('show');
 });
 
 Route::get('/Terms-and-policy', TermsPolicyController::class)->name('terms.policy');

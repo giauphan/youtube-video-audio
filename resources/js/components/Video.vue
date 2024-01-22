@@ -83,8 +83,7 @@ const touchstart = (event) => {
 };
 
 const touchmove = (event) => {
-  event.preventDefault();
-
+  event.preventDefault(); 
 };
 
 const touchend = (event) => {

@@ -1,40 +1,27 @@
 <template>
-<div className="mx-auto my-10 max-w-5xl px-4 sm:px-6 md:my-20 md:px-8">
-                <div className="mb-10 flex flex-col  bg-gray-100 px-4 py-3">
-                    <h2 className="mb-4 text-xl font-bold"></h2>
-                    <ul className="flex flex-wrap gap-x-3 gap-y-2 text-gray-600">
-                            <li :key="category.id" className="font-semibold transition-all hover:text-primary-500" v-for="category in categorys">
-                                <Link :href="route('posts.show',[`?tag=${category.slug}`])">{{category.name}}</Link>
-                            </li>
-                    </ul>
-                </div>
-                <div className="flex flex-col justify-center gap-y-10">
-                        <div key={post.id} className="flex flex-col gap-4" v-for="post in posts">
-                            <h2 className="relative text-3xl font-bold transition-all before:absolute before:-start-10 before:top-0 before:text-gray-900/10 before:content-['#'] hover:text-primary-500 hover:before:text-primary-500 sm:text-4xl lg:text-5xl">
-                                <a :href="route('posts.show', post.slug)">{post.title}</a>
-                            </h2>
-                            <p>{{post.description}}</p>
-                            <div className="flex gap-6">
-                                <div>
-                                    bởi
-                                    <strong className="ms-1">{{post.user.name}}</strong>
-                                </div>
-                                <div className="flex gap-2">
-                                        <a :href="route('posts.show', [`?tag=${tag.slug}`])" :key="tag.id" v-for="tag in tags">
-                                            #{{tags.name}}
-                                        </a>
-                                </div>
-                                <div>{{post.published_at}}</div>
-                            </div>
-                        </div>
-                </div>
+    <div className="mx-auto my-10 max-w-5xl px-4 sm:px-6 md:my-20 md:px-8">
+        <Header :categorys="categorys"></Header>
 
-                <Paginate :meta="posts.meta" />
+        <div className="flex flex-col justify-center gap-y-10">
+            <div :key="post.id" className="flex flex-col gap-4" v-for="post in posts.data" v-if="posts.data">
+                <h2
+                    className="relative text-3xl font-bold transition-all before:absolute before:-start-10 before:top-0 text-white before:content-['#'] hover:text-primary-500 hover:before:text-gray-200 sm:text-4xl lg:text-2xl">
+                    <a :href="route('posts.show', post.slug)">{{ post.title }}</a>
+                </h2>
+                <p class="text-white font-semibold "> {{ post.summary }}</p>
+
             </div>
+        </div>
+
+        <Paginate :pagination="posts" v-if="posts" />
+    </div>
 </template>
 
+
 <script setup>
+import route from 'ziggy-js'
+import Paginate from '../../components/Paginate.vue';
+import Header from './Header.vue';
 
-
-const props = defineProps(['posts','tags','categorys'])
+const props = defineProps(['posts', 'categorys'])
 </script>
