@@ -89,7 +89,7 @@ class BotBlogTechNewWorld extends Command
         $dataPost = [
             'title' => $title,
             'slug' => $slug,
-            'content' => $content . '<p>' . "<a href='$url' class='color:red'>Original blog link is here</a><p>",
+            'content' => $content.'<p>'."<a href='$url' class='color:red'>Original blog link is here</a><p>",
             'images' => $image,
             'lang' => $lang,
             'published_at' => Carbon::now()->addMinutes(30),
@@ -115,14 +115,14 @@ class BotBlogTechNewWorld extends Command
             }
         }
 
-        if (!$checkTile && $title != null) {
+        if (! $checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle) . '';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
-                'content' => $content . '\n ' . "<a href='$url'>Original blog link is here</a>",
+                'content' => $content.'\n '."<a href='$url'>Original blog link is here</a>",
                 'images' => $image,
                 'lang' => $lang,
                 'published_at' => Carbon::now()->addMinutes(30),
@@ -137,7 +137,7 @@ class BotBlogTechNewWorld extends Command
     {
         $nodeList = $crawler->filter($type);
         if ($nodeList->count() === 0) {
-            $this->error($type . ' node list is empty.  ');
+            $this->error($type.' node list is empty.  ');
 
             return '';
         }
