@@ -15,12 +15,12 @@ class PostsResource extends JsonResource
         return [
             'id' => $this->id,
             'slug' => $this->slug,
-            'title'=>$this->title,
-            'summary'=>$this->summary,
-            'images'=>$this->images,
-            'published_at'=>$this->published_at,
-            'content'=>$this->content,
-            'CategoryBlog'=> CategoryBlog::make($this->whenLoaded('CategoryBlog'))
+            'title' => $this->title,
+            'summary' => $this->summary,
+            'images' => $this->images,
+            'published_at' => $this->published_at,
+            'content' => $this->content,
+            'CategoryBlog' => CategoryBlog::make($this->whenLoaded('CategoryBlog')),
         ];
     }
 }

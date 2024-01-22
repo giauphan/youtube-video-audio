@@ -35,13 +35,14 @@ class PostController extends Controller
         ]);
     }
 
-    public function show(string $slug){
-        
+    public function show(string $slug)
+    {
+
         $post = Post::query()
-        ->with('CategoryBlog')
-        ->where('slug',$slug)
-        ->published()
-        ->firstOrFail();
+            ->with('CategoryBlog')
+            ->where('slug', $slug)
+            ->published()
+            ->firstOrFail();
 
         $cacheKey = sprintf('post:%s', $post->slug);
 
@@ -51,8 +52,8 @@ class PostController extends Controller
             Cache::put($cacheKey, true, 10);
         }
 
-        return view('Post.Show',[
-            'posts'=> new PostsResource($post )
+        return view('Post.Show', [
+            'posts' => new PostsResource($post),
         ]);
     }
 }
