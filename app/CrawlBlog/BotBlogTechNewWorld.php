@@ -44,7 +44,7 @@ class BotBlogTechNewWorld extends Command
                         $node = new Crawler($node);
                     }
                     $title = $this->checkCrawl('.search-txt h2', $node)->text();
-                    $summary = $this->checkCrawl('.search-item p', $node)->text();
+                    $summary = substr($this->checkCrawl('.search-item p', $node)->text(), 0, 255);
                     $image = optional($this->checkCrawl('.search-pic img', $node)->first())->attr('src');
                     $linkHref = $this->checkCrawl('.search-txt a', $node)->attr('href');
                     $this->scrapeData($linkHref, $title, $image, $summary, $category, $lang);
@@ -89,7 +89,7 @@ class BotBlogTechNewWorld extends Command
         $dataPost = [
             'title' => $title,
             'slug' => $slug,
-            'content' => $content.'<p>'."<a href='$url' class='color:red'>Original blog link is here</a><p>",
+            'content' => $content . '<p>' . "<a href='$url' class='color:red'>Original blog link is here</a><p>",
             'images' => $image,
             'lang' => $lang,
             'published_at' => Carbon::now()->addMinutes(30),
@@ -97,7 +97,6 @@ class BotBlogTechNewWorld extends Command
             'SimilarityPercentage' => 0.0,
         ];
         $category->posts()->create($dataPost);
-
     }
 
     protected function checkAndUpdatePost($title, $image, $summary, $content, $check, $category, $lang, $url)
@@ -116,14 +115,14 @@ class BotBlogTechNewWorld extends Command
             }
         }
 
-        if (! $checkTile && $title != null) {
+        if (!$checkTile && $title != null) {
             $similarityPercentage = $similarityPercentage / $check->count();
             $cleanedTitle = Str::slug($title, '-');
-            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle).'';
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $cleanedTitle) . '';
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
-                'content' => $content.'\n '."<a href='$url'>Original blog link is here</a>",
+                'content' => $content . '\n ' . "<a href='$url'>Original blog link is here</a>",
                 'images' => $image,
                 'lang' => $lang,
                 'published_at' => Carbon::now()->addMinutes(30),
@@ -138,7 +137,7 @@ class BotBlogTechNewWorld extends Command
     {
         $nodeList = $crawler->filter($type);
         if ($nodeList->count() === 0) {
-            $this->error($type.' node list is empty.  ');
+            $this->error($type . ' node list is empty.  ');
 
             return '';
         }
