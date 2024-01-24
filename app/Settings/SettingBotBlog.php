@@ -6,7 +6,6 @@ use Spatie\LaravelSettings\Settings;
 
 class SettingBotBlog extends Settings
 {
-
     public string $bot_name;
 
     public string $post_url;

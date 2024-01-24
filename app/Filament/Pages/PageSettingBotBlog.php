@@ -2,10 +2,10 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Base\SettingsPage;
 use App\Settings\SettingBotBlog;
 use Filament\Forms;
 use Filament\Forms\Form;
-use App\Filament\Base\SettingsPage;
 
 class PageSettingBotBlog extends SettingsPage
 {
