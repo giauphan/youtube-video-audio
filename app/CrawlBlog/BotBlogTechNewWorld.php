@@ -56,7 +56,7 @@ class BotBlogTechNewWorld extends Command
                         break 2;
                     }
                 } catch (\Exception $e) {
-                  
+
                 }
             }
 

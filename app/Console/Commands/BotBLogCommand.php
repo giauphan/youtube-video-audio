@@ -34,16 +34,16 @@ class BotBLogCommand extends Command
 
         $projectPath = base_path();
 
-        $this->info('Starting bot blog work...' . now());
+        $this->info('Starting bot blog work...'.now());
 
-        foreach ($bot as  $botrun) {
+        foreach ($bot as $botrun) {
 
             $post_url = $botrun->post_url;
             $category_post = $botrun->category_post;
             $lang = $botrun->lang;
             $limit_blog = $botrun->limit_blog;
 
-            $cmd = getenv('Path_PHP') . ' ' . $projectPath . "/artisan crawl:BotBlogTechNewsWorld $post_url $category_post $lang $limit_blog";
+            $cmd = getenv('Path_PHP').' '.$projectPath."/artisan crawl:BotBlogTechNewsWorld $post_url $category_post $lang $limit_blog";
             $process = Process::fromShellCommandline($cmd);
             $process->setTimeout(null);
             $process->run();
@@ -51,7 +51,7 @@ class BotBLogCommand extends Command
             if ($process->isSuccessful()) {
                 $this->info('Scanning files completed successfully. and sleep waint 60s');
             } else {
-                $this->error('An error occurred while scanning files: ' . $process->getErrorOutput() . now());
+                $this->error('An error occurred while scanning files: '.$process->getErrorOutput().now());
             }
         }
     }
