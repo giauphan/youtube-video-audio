@@ -83,7 +83,7 @@ const truncateTitle = (title) => {
 };
 
 
-const playNextVideo = async() => {
+const playNextVideo = async () => {
   try {
     const videolist = videolist_play.value;
     const video = props.video;
@@ -105,12 +105,22 @@ const playNextVideo = async() => {
       video.id = nextVideo.id;
     }
 
-    videoPlayer.value.load();
-    await videoPlayer.value.play();
+    videoPlayer.value.src = linkVideo.value; // Set the video source
+    await videoPlayer.value.load();
+
+    // Use the loadeddata event to ensure that the video is ready to play
+    videoPlayer.value.addEventListener('loadeddata', async () => {
+      try {
+        await videoPlayer.value.play();
+      } catch (playError) {
+        console.error('Error in playNextVideo (play):', playError);
+      }
+    });
   } catch (error) {
     console.error('Error in playNextVideo:', error);
   }
 };
+
 
 
 </script>
