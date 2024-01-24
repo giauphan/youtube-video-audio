@@ -12,7 +12,7 @@
           {{ title_video }}
         </h1>
         <div class="flex ms-auto gap-4">
-        <slot></slot>
+          <slot></slot>
         </div>
       </div>
     </section>
@@ -22,17 +22,17 @@
       </h1>
       <div class="flex flex-col gap-4">
         <div v-for="(list, key) in videolist_play" :key="key" @dragstart="startDrag($event, key)">
-          <a :href="route('video.index', { 'type_video': list.type === 'video' ? 'web-video' : list.type, 'video': list.video_id })" class="flex gap-3">
+          <a :href="route('video.index', { 'type_video': list.type === 'video' ? 'web-video' : list.type, 'video': list.video_id })"
+            class="flex gap-3">
             <img :src="list.thumbnail || null" @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent
-              class="aspect-video h-16  rounded-lg"
-              :alt="truncateTitle(list.title)" />
+              class="aspect-video h-16  rounded-lg" :alt="truncateTitle(list.title)" />
             <div class="flex flex-col gap-1 w-3/4">
               <h1 class="font-bold mt-1 text-sm text-white overflow-hidden" style="
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
               ">{{ list.title }}</h1>
-            
+
             </div>
           </a>
         </div>
@@ -47,7 +47,7 @@ import { ref } from 'vue';
 import Buttons from './Buttons.vue';
 import route from 'ziggy-js';
 
-const props = defineProps(['video', 'videos_drag', 'csrf','lable_delete']);
+const props = defineProps(['video', 'videos_drag', 'csrf', 'lable_delete']);
 
 const linkVideo = ref(props.video.url_video);
 const title_video = ref(props.video.title);
@@ -84,40 +84,42 @@ const truncateTitle = (title) => {
 
 
 const playNextVideo = async () => {
+  const videolist = videolist_play.value;
+  const video = props.video;
+  const videoArray = Object.values(videolist);
+  let currentVideoId = video.id;
+  const currentVideoIndex = videoArray.findIndex((item) => item.id === currentVideoId);
+
+  if (currentVideoIndex !== -1 && currentVideoIndex + 1 < videoArray.length) {
+    const nextVideo = videoArray[currentVideoIndex + 1];
+    linkVideo.value = nextVideo.url_video;
+    title_video.value = nextVideo.title;
+    video.id = nextVideo.id;
+
+    videoArray.splice(currentVideoIndex + 1, 1);
+  } else {
+    const nextVideo = videoArray[0];
+    linkVideo.value = nextVideo.url_video;
+    title_video.value = nextVideo.title;
+    video.id = nextVideo.id;
+  }
+
+  videoPlayer.value.src = linkVideo.value; 
+
+  await new Promise((resolve) => {
+    const onLoadedData = () => {
+      resolve();
+      videoPlayer.value.removeEventListener('loadeddata', onLoadedData);
+    };
+
+    videoPlayer.value.addEventListener('loadeddata', onLoadedData);
+    videoPlayer.value.load();
+  });
+
   try {
-    const videolist = videolist_play.value;
-    const video = props.video;
-    const videoArray = Object.values(videolist);
-    let currentVideoId = video.id;
-    const currentVideoIndex = videoArray.findIndex((item) => item.id === currentVideoId);
-
-    if (currentVideoIndex !== -1 && currentVideoIndex + 1 < videoArray.length) {
-      const nextVideo = videoArray[currentVideoIndex + 1];
-      linkVideo.value = nextVideo.url_video;
-      title_video.value = nextVideo.title;
-      video.id = nextVideo.id;
-
-      videoArray.splice(currentVideoIndex + 1, 1);
-    } else {
-      const nextVideo = videoArray[0];
-      linkVideo.value = nextVideo.url_video;
-      title_video.value = nextVideo.title;
-      video.id = nextVideo.id;
-    }
-
-    videoPlayer.value.src = linkVideo.value; // Set the video source
-    await videoPlayer.value.load();
-
-    // Use the loadeddata event to ensure that the video is ready to play
-    videoPlayer.value.addEventListener('loadeddata', async () => {
-      try {
-        await videoPlayer.value.play();
-      } catch (playError) {
-        console.error('Error in playNextVideo (play):', playError);
-      }
-    });
-  } catch (error) {
-    console.error('Error in playNextVideo:', error);
+    await videoPlayer.value.play();
+  } catch (playError) {
+    console.error('Error in playNextVideo (play):', playError);
   }
 };
 
