@@ -131,10 +131,5 @@ const playNextVideo = async() => {
   }
 };
 
-onMounted(() => {
-  videoPlayer.value.addEventListener('loadedmetadata', () => {
-    videoPlayer.value.play();
-  });
-});
 
 </script>
