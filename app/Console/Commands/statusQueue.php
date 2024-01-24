@@ -7,23 +7,9 @@ use Symfony\Component\Process\Process;
 
 class statusQueue extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'status:queue';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $processes = Process::fromShellCommandline('ps aux | grep "artisan queue:work" | grep -v grep');

@@ -122,7 +122,7 @@ class BotBlogTechNewWorld extends Command
             $dataPost = [
                 'title' => $title,
                 'slug' => $slug,
-                'content' => $content.'\n '."<a href='$url'>Original blog link is here</a>",
+                'content' => $content.'<p>'."<a href='$url' class='color:red'>Original blog link is here</a><p>",
                 'images' => $image,
                 'lang' => $lang,
                 'published_at' => Carbon::now()->addMinutes(30),

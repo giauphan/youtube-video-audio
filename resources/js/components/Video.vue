@@ -24,7 +24,7 @@
         <div v-for="(list, key) in videolist_play" :key="key" @dragstart="startDrag($event, key)">
           <a :href="route('video.index', { 'type_video': list.type === 'video' ? 'web-video' : list.type, 'video': list.video_id })" class="flex gap-3">
             <img :src="list.thumbnail || null" @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent
-              @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" class="aspect-video h-16  rounded-lg"
+              class="aspect-video h-16  rounded-lg"
               :alt="truncateTitle(list.title)" />
             <div class="flex flex-col gap-1 w-3/4">
               <h1 class="font-bold mt-1 text-sm text-white overflow-hidden" style="
@@ -77,24 +77,6 @@ const onDrop = (event, newIndex) => {
   }
 };
 
-let touchStartIndex = null;
-const touchstart = (event) => {
-  touchStartIndex = event.currentTarget.dataset.index;
-};
-
-const touchmove = (event) => {
-  event.preventDefault(); 
-};
-
-const touchend = (event) => {
-  const newIndex = event.currentTarget.dataset.index;
-
-  if (touchStartIndex !== null && newIndex !== null) {
-    onDrop({ dataTransfer: { getData: () => touchStartIndex } }, newIndex);
-  }
-
-  touchStartIndex = null;
-};
 
 const truncateTitle = (title) => {
   return title.length > 40 ? `${title.substring(0, 40)}...` : title;
@@ -122,7 +104,6 @@ const playNextVideo = async() => {
       title_video.value = nextVideo.title;
       video.id = nextVideo.id;
     }
-
 
     videoPlayer.value.load();
     await videoPlayer.value.play();

@@ -8,28 +8,14 @@ use Symfony\Component\Process\Process;
 
 class BotBLogCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'bot:blog';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     */
+
     public function handle()
     {
         $bot = BotBlog::query()->get();
 
-        // Set the timezone to Asia/Ho_Chi_Minh
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $projectPath = base_path();

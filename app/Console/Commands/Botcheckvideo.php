@@ -10,23 +10,9 @@ use Illuminate\Console\Command;
 
 class Botcheckvideo extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'bot:check-video';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $this->info('Starting bot refresh link video...'.now());

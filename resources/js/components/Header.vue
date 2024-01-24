@@ -46,7 +46,7 @@ const onClose = () => {
           <!-- Left Side Of Navbar -->
           <ul class="flex items-center gap-5">
             <slot></slot>
-            <li class="text-white">
+            <li class="text-white ms-auto">
               <DropDown :lable_name="lable" class="">
                 <a :href="route('lang', 'en')"
                   class="block py-2 text-sm text-white w-full border-b border-gray-700 text-center">

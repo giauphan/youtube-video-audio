@@ -8,23 +8,9 @@ use Symfony\Component\Process\Process;
 
 class startQueue extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'start:queue';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $check = Artisan::call('status:queue');
@@ -35,7 +21,6 @@ class startQueue extends Command
             return true;
         }
 
-        // Set the timezone to Asia/Ho_Chi_Minh
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $projectPath = base_path();
