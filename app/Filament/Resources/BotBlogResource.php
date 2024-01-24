@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BotBlogResource\Pages;
-use App\Filament\Resources\BotBlogResource\RelationManagers;
 use App\Models\BotBlog;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BotBlogResource extends Resource
 {
@@ -27,7 +24,7 @@ class BotBlogResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('post_url')
-                ->unique(ignoreRecord: true)
+                    ->unique(ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('category_post')
