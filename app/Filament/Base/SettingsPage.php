@@ -26,12 +26,7 @@ abstract class SettingsPage extends BaseSettingsPage
                 ->label(__('Setting Api video youtube'))
                 ->icon('heroicon-o-globe-alt')
                 ->isActiveWhen(fn () => $this instanceof SettingApiVideo)
-                ->url(SettingApiVideo::getUrl()),
-            NavigationItem::make()
-                ->label(__('Setting Bot crawl blog'))
-                ->icon('heroicon-o-globe-alt')
-                ->isActiveWhen(fn () => $this instanceof PageSettingBotBlog)
-                ->url(PageSettingBotBlog::getUrl()),
+                ->url(SettingApiVideo::getUrl())
         ];
     }
 }
