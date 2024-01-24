@@ -8,13 +8,13 @@ class SettingBotBlog extends Settings
 {
     public string $bot_name;
 
-    public string $post_url;
+    public ?string $post_url;
 
-    public string $category_post;
+    public ?string $category_post;
 
-    public string $lang;
+    public ?string $lang;
 
-    public int $limit_blog;
+    public ?int $limit_blog;
 
     public static function group(): string
     {

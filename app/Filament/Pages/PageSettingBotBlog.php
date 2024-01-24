@@ -21,7 +21,7 @@ class PageSettingBotBlog extends SettingsPage
                     ->required(),
                 Forms\Components\TextInput::make('post_url')
                     ->required(),
-                Forms\Components\TextInput::make('category_post')
+                Forms\Components\TextInput::make('category_post ')
                     ->required(),
                 Forms\Components\TextInput::make('lang')
                     ->required(),
