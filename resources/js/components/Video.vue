@@ -101,7 +101,7 @@ const truncateTitle = (title) => {
 };
 
 
-const playNextVideo = () => {
+const playNextVideo = async() => {
   try {
     const videolist = videolist_play.value;
     const video = props.video;
@@ -115,7 +115,6 @@ const playNextVideo = () => {
       title_video.value = nextVideo.title;
       video.id = nextVideo.id;
 
-      // Remove the next video from the array
       videoArray.splice(currentVideoIndex + 1, 1);
     } else {
       const nextVideo = videoArray[0];
@@ -126,11 +125,16 @@ const playNextVideo = () => {
 
 
     videoPlayer.value.load();
-    videoPlayer.value.play();
+    await videoPlayer.value.play();
   } catch (error) {
     console.error('Error in playNextVideo:', error);
   }
 };
 
+onMounted(() => {
+  videoPlayer.value.addEventListener('loadedmetadata', () => {
+    videoPlayer.value.play();
+  });
+});
 
 </script>
