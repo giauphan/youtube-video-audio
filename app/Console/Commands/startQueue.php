@@ -9,6 +9,7 @@ use Symfony\Component\Process\Process;
 class startQueue extends Command
 {
     protected $signature = 'start:queue';
+
     protected $description = 'Command description';
 
     public function handle()

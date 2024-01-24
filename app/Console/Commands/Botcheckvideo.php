@@ -11,6 +11,7 @@ use Illuminate\Console\Command;
 class Botcheckvideo extends Command
 {
     protected $signature = 'bot:check-video';
+
     protected $description = 'Command description';
 
     public function handle()

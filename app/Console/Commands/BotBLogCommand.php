@@ -9,8 +9,8 @@ use Symfony\Component\Process\Process;
 class BotBLogCommand extends Command
 {
     protected $signature = 'bot:blog';
-    protected $description = 'Command description';
 
+    protected $description = 'Command description';
 
     public function handle()
     {

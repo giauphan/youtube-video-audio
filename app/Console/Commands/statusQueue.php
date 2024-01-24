@@ -8,6 +8,7 @@ use Symfony\Component\Process\Process;
 class statusQueue extends Command
 {
     protected $signature = 'status:queue';
+
     protected $description = 'Command description';
 
     public function handle()
