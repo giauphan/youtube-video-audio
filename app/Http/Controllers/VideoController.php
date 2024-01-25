@@ -30,9 +30,9 @@ class VideoController extends Controller
             $history = HistoryVideo::query()
                 ->where('youtube_video_id', $data->id)
                 ->first();
-            if (!$history) {
-                   $data->historyVideo()->create([
-                    'user_id' => auth()->user()->id
+            if (! $history) {
+                $data->historyVideo()->create([
+                    'user_id' => auth()->user()->id,
                 ]);
             }
         }
@@ -42,12 +42,11 @@ class VideoController extends Controller
         }
 
         $cacheKey = sprintf('post:%s', $data->video_id);
-        if (!Cache::has($cacheKey)) {
+        if (! Cache::has($cacheKey)) {
             $data->increment('view');
 
             Cache::put($cacheKey, true, 10);
         }
-
 
         return view('video', [
             'video' => new YoutubeVideoResource($data),
