@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\VideoStatus;
 use App\Http\Resources\YoutubeVideoResource;
+use App\Models\HistoryVideo;
 use App\Models\YoutubeVideo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -22,22 +23,31 @@ class VideoController extends Controller
         $dataCache = $getVideoData->take(10)
             ->OrderBy('created_at', 'desc')->get();
 
+        $data = $getVideoData->firstWhere('video_id', $videoID);
+
         if (auth()->check()) {
             $dataCache = $this->mergeUserVideos($dataCache);
+            $history = HistoryVideo::query()
+                ->where('youtube_video_id', $data->id)
+                ->first();
+            if (!$history) {
+                   $data->historyVideo()->create([
+                    'user_id' => auth()->user()->id
+                ]);
+            }
         }
-
-        $data = $getVideoData->firstWhere('video_id', $videoID);
 
         if ($data === null) {
             abort(404);
         }
 
         $cacheKey = sprintf('post:%s', $data->video_id);
-        if (! Cache::has($cacheKey)) {
+        if (!Cache::has($cacheKey)) {
             $data->increment('view');
 
             Cache::put($cacheKey, true, 10);
         }
+
 
         return view('video', [
             'video' => new YoutubeVideoResource($data),

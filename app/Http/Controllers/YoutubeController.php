@@ -32,17 +32,17 @@ class YoutubeController extends Controller
         $validate = $request->validated();
         $videoID = $this->getVideoId($validate['url']);
 
-        if (! $videoID) {
+        if (!$videoID) {
             return back()->with('error', 'Invalid video ID');
         }
 
-        $apiUrl = (new APiVideo())->url.'/api/getVideo?url='.$videoID;
+        $apiUrl = (new APiVideo())->url . '/api/getVideo?url=' . $videoID;
         $client = new Client();
 
         $dataCache = YoutubeVideo::query()->get();
         $data = $dataCache->firstWhere('video_id', $videoID);
 
-        if (! $data) {
+        if (!$data) {
             try {
                 $response = $client->request('GET', $apiUrl);
                 $responseData = json_decode($response->getBody()->__toString(), true);
@@ -95,6 +95,7 @@ class YoutubeController extends Controller
     private function getVideos($type)
     {
         return YoutubeVideo::query()
+            ->with(['historyVideo'])
             ->where('status', VideoStatus::Active)
             ->where('type', $type)
             ->orderBy('view', 'desc')

@@ -14,12 +14,18 @@
                         Short Video
                     </Buttons>
                 </Tab>
+                <Tab v-slot="{ selected }">
+                    <Buttons
+                        :class="['focus-visible::border-0 p-1 rounded', selected ? 'bg-white text-black' : 'bg-gray-500 text-white']">
+                        History video
+                    </Buttons>
+                </Tab>
             </TabList>
             <TabPanels>
                 <TabPanel>
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[300px]">
-                        <a :href="route('video.index', { 'type_video': video.type == 'video' ? 'web-video' : video.type, 'video': video.video_id })" v-if="videos"
-                            v-for="video in videos.data">
+                        <a :href="route('video.index', { 'type_video': video.type == 'video' ? 'web-video' : video.type, 'video': video.video_id })"
+                            v-if="videos" v-for="video in videos.data">
                             <img :src="video.thumbnail ?? null" class="mb-5 aspect-video w-full h-56 rounded-lg"
                                 :alt="truncateTitle(video.title)" />
                             <h1 class="text-xl text-white font-bold bg-black overflow-hidden" style="display: -webkit-box;
@@ -42,6 +48,23 @@
                         </a>
                     </div>
                     <Paginate :pagination="video_short" v-if="video_short" />
+                </TabPanel>
+
+                <TabPanel>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[300px]">
+                        <template v-if="videos" v-for="video in videos.data">
+                            <a :href="route('video.index', { 'type_video': video.type == 'video' ? 'web-video' : video.type, 'video': video.video_id })"
+                                v-if="video.history_video">
+                                {{ console.log(video.history_video) }}
+                                <img :src="video.thumbnail ?? null" class="mb-5 aspect-video w-full h-56 rounded-lg"
+                                    :alt="truncateTitle(video.title)" />
+                                <h1 class="text-xl text-white font-bold bg-black overflow-hidden" style="display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;">{{ video.title }}</h1>
+                            </a>
+                        </template>
+                    </div>
+                    <Paginate :pagination="videos" v-if="videos" />
                 </TabPanel>
             </TabPanels>
 
