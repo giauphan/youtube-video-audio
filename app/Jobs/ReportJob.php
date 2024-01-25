@@ -50,8 +50,12 @@ class ReportJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url.'/api/getVideo?url='.$this->video_id;
-            $response = $client->request('GET', $apiUrl);
+            $apiUrl = $setting->url . '/api/getVideo?url=' . $this->video_id;
+            $response = $client->request(
+                'GET',
+                $apiUrl,
+                ['verify' => false]
+            );
             $responseData = json_decode($response->getBody()->__toString(), true);
             if ($times == 5) {
                 $videoFind = YoutubeVideo::query()->where('video_id')->first();
