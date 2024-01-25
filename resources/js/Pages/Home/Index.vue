@@ -52,10 +52,9 @@
 
                 <TabPanel>
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[300px]">
-                        <template v-if="videos" v-for="video in videos.data">
+                        <template v-if="videos && user" v-for="video in videos.data" >
                             <a :href="route('video.index', { 'type_video': video.type == 'video' ? 'web-video' : video.type, 'video': video.video_id })"
-                                v-if="video.history_video">
-                                {{ console.log(video.history_video) }}
+                            v-if="video.history_video.length > 0 && video.history_video.some(item => item.user_id === user.id)" >
                                 <img :src="video.thumbnail ?? null" class="mb-5 aspect-video w-full h-56 rounded-lg"
                                     :alt="truncateTitle(video.title)" />
                                 <h1 class="text-xl text-white font-bold bg-black overflow-hidden" style="display: -webkit-box;
@@ -80,7 +79,7 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import Paginate from '../../components/Paginate.vue';
 import Buttons from '../../components/Buttons.vue';
 
-const props = defineProps(['videos', 'video_short'])
+const props = defineProps(['videos', 'video_short','user'])
 
 const truncateTitle = (title) => {
     return title.length > 40 ? `${title.substring(0, 40)}...` : title;
