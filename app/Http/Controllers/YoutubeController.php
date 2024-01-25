@@ -32,34 +32,34 @@ class YoutubeController extends Controller
         $validate = $request->validated();
         $videoID = $this->getVideoId($validate['url']);
 
-        if (!$videoID) {
+        if (! $videoID) {
             return back()->with('error', 'Invalid video ID');
         }
 
-        $apiUrl = (new APiVideo())->url . '/api/getVideo?url=' . $videoID;
+        $apiUrl = (new APiVideo())->url.'/api/getVideo?url='.$videoID;
         $client = new Client();
 
         $dataCache = YoutubeVideo::query()->get();
         $data = $dataCache->firstWhere('video_id', $videoID);
 
-        if (!$data) {
+        if (! $data) {
             // try {
-                $response = $client->request('GET', $apiUrl,  ['verify' => false]);
-                $responseData = json_decode($response->getBody()->__toString(), true);
+            $response = $client->request('GET', $apiUrl, ['verify' => false]);
+            $responseData = json_decode($response->getBody()->__toString(), true);
 
-                if (isset($responseData['error'])) {
-                    return Redirect::route('home')->with('error', 'Error system');
-                }
+            if (isset($responseData['error'])) {
+                return Redirect::route('home')->with('error', 'Error system');
+            }
 
-                $data = [
-                    'video_id' => $videoID,
-                    'title' => $responseData['title'] ?? null,
-                    'url_video' => $responseData['url_video'] ?? null,
-                    'thumbnail' => $responseData['thumbnail'] ?? null,
-                    'type' => $this->type,
-                ];
+            $data = [
+                'video_id' => $videoID,
+                'title' => $responseData['title'] ?? null,
+                'url_video' => $responseData['url_video'] ?? null,
+                'thumbnail' => $responseData['thumbnail'] ?? null,
+                'type' => $this->type,
+            ];
 
-                YoutubeVideo::updateOrCreate(['video_id' => $videoID], $data);
+            YoutubeVideo::updateOrCreate(['video_id' => $videoID], $data);
             // } catch (\Exception $e) {
             //     return Redirect::route('home')->with('error', 'Error system'.$e);
             // }

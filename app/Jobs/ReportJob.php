@@ -50,7 +50,7 @@ class ReportJob implements ShouldQueue
         $times = 0;
         do {
             $setting = new APiVideo();
-            $apiUrl = $setting->url . '/api/getVideo?url=' . $this->video_id;
+            $apiUrl = $setting->url.'/api/getVideo?url='.$this->video_id;
             $response = $client->request(
                 'GET',
                 $apiUrl,
