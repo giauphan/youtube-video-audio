@@ -33,6 +33,6 @@
         "vue-loader": "^17.4.2",
         "vue-toast-notification": "^3.1.2",
         "vuedraggable": "^4.1.0",
-        "ziggy-js": "^1.8.1"
+        "ziggy-js": "^2.0.3"
     }
 }
