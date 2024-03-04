@@ -11402,16 +11402,16 @@
         },
         {
             "name": "larastan/larastan",
-            "version": "v2.8.0",
+            "version": "v2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/larastan/larastan.git",
-                "reference": "d60c1a6d49fcbb54b78922a955a55820abdbe3c7"
+                "reference": "467113c58d110ad617cf9e07ff49b0948d1c03cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/larastan/larastan/zipball/d60c1a6d49fcbb54b78922a955a55820abdbe3c7",
-                "reference": "d60c1a6d49fcbb54b78922a955a55820abdbe3c7",
+                "url": "https://api.github.com/repos/larastan/larastan/zipball/467113c58d110ad617cf9e07ff49b0948d1c03cc",
+                "reference": "467113c58d110ad617cf9e07ff49b0948d1c03cc",
                 "shasum": ""
             },
             "require": {
@@ -11479,7 +11479,7 @@
             ],
             "support": {
                 "issues": "https://github.com/larastan/larastan/issues",
-                "source": "https://github.com/larastan/larastan/tree/v2.8.0"
+                "source": "https://github.com/larastan/larastan/tree/v2.9.1"
             },
             "funding": [
                 {
@@ -11499,7 +11499,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-01-02T22:09:07+00:00"
+            "time": "2024-02-26T14:10:20+00:00"
         },
         {
             "name": "laravel/pint",
