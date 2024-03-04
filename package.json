@@ -27,7 +27,7 @@
         "@vue-hero-icons/solid": "^1.7.2",
         "@vue/server-renderer": "^3.4.19",
         "flowbite": "^2.3.0",
-        "flowbite-vue": "^0.1.2",
+        "flowbite-vue": "^0.1.3",
         "laravel-vite-plugin": "^1.0.1",
         "vite": "^5.1.4",
         "vue-loader": "^17.4.2",
