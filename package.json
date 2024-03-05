@@ -21,7 +21,7 @@
         "@headlessui/vue": "^1.7.19",
         "@heroicons/vue": "^2.0.18",
         "@inertiajs/inertia-vue3": "^0.6.0",
-        "@inertiajs/vue3": "^1.0.14",
+        "@inertiajs/vue3": "^1.0.15",
         "@vitejs/plugin-vue": "^5.0.4",
         "@vue-hero-icons/outline": "^1.7.2",
         "@vue-hero-icons/solid": "^1.7.2",
