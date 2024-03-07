@@ -25,5 +25,4 @@ class Post extends ModelsPost
             'published_at' => $this->published_at,
         ];
     }
-    
 }
