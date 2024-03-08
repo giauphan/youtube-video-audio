@@ -11,8 +11,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
-use function Laravel\Prompts\search;
-
 class PostController extends Controller
 {
     public function index(Request $request)
@@ -27,16 +25,17 @@ class PostController extends Controller
         if ($request->filled('title_post')) {
             $query = Post::search(Arr::get($validated, 'title_post'));
         } else {
-            $query  = Post::query()
+            $query = Post::query()
                 ->when(Arr::get($validated, 'category_blog_name'), function (Builder $query, string $category_sug) {
                     $query->whereHas('CategoryBlog', fn (Builder $query) => $query->where('slug', $category_sug));
                 })
                 ->published();
         }
         $posts = $query->orderBy('view', 'desc')
-            
+
             ->paginate(8)
             ->withQueryString();
+
         return view('Post.Index', [
             'categoryBlog' => $categoryBlog,
             'posts' => $posts,
@@ -54,7 +53,7 @@ class PostController extends Controller
 
         $cacheKey = sprintf('post:%s', $post->slug);
 
-        if (!Cache::has($cacheKey)) {
+        if (! Cache::has($cacheKey)) {
             $post->increment('view');
 
             Cache::put($cacheKey, true, 10);

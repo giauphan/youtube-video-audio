@@ -18,7 +18,7 @@ class BotBLogCommand extends Command implements Isolatable
         $bot = BotBlog::query()->get();
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        
+
         $projectPath = base_path();
 
         $this->info('Starting bot blog work...'.now());
