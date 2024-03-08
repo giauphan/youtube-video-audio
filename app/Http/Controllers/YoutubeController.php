@@ -39,11 +39,10 @@ class YoutubeController extends Controller
         $apiUrl = (new APiVideo())->url.'/api/getVideo?url='.$videoID;
         $client = new Client();
 
-        $dataCache = YoutubeVideo::query()->get();
-        $data = $dataCache->firstWhere('video_id', $videoID);
+        $data = YoutubeVideo::query()->firstWhere('video_id', $videoID);
 
         if (! $data) {
-            // try {
+            try {
             $response = $client->request('GET', $apiUrl, ['verify' => false]);
             $responseData = json_decode($response->getBody()->__toString(), true);
 
@@ -60,9 +59,9 @@ class YoutubeController extends Controller
             ];
 
             YoutubeVideo::updateOrCreate(['video_id' => $videoID], $data);
-            // } catch (\Exception $e) {
-            //     return Redirect::route('home')->with('error', 'Error system'.$e);
-            // }
+            } catch (\Exception $e) {
+                return Redirect::route('home')->with('error', 'Error system');
+            }
         }
 
         return Redirect::route('video.index', ['video' => $videoID, 'type_video' => $this->type]);
