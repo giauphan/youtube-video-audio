@@ -4,9 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\BotBlog;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Console\Isolatable;
 use Symfony\Component\Process\Process;
 
-class BotBLogCommand extends Command
+class BotBLogCommand extends Command implements Isolatable
 {
     protected $signature = 'bot:blog';
 
@@ -17,7 +18,7 @@ class BotBLogCommand extends Command
         $bot = BotBlog::query()->get();
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-
+        
         $projectPath = base_path();
 
         $this->info('Starting bot blog work...'.now());
