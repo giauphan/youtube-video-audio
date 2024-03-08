@@ -17,22 +17,16 @@ class PostController extends Controller
     {
         $validated = Validator::validate($request->all(), [
             'category_blog_name' => ['nullable', 'string'],
-            'title_post' => ['nullable', 'string'],
         ]);
 
         $categoryBlog = CategoryBlog::query()->get();
 
-        if ($request->filled('title_post')) {
-            $query = Post::search(Arr::get($validated, 'title_post'));
-        } else {
-            $query = Post::query()
-                ->when(Arr::get($validated, 'category_blog_name'), function (Builder $query, string $category_sug) {
-                    $query->whereHas('CategoryBlog', fn (Builder $query) => $query->where('slug', $category_sug));
-                })
-                ->published();
-        }
-        $posts = $query->orderBy('view', 'desc')
-
+        $posts = Post::query()
+            ->when(Arr::get($validated, 'category_blog_name'), function (Builder $query, string $category_sug) {
+                $query->whereHas('CategoryBlog', fn (Builder $query) => $query->where('slug', $category_sug));
+            })
+            ->orderBy('view', 'desc')
+            ->published()
             ->paginate(8)
             ->withQueryString();
 
