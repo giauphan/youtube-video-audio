@@ -20,8 +20,12 @@ const onClose = () => {
   <nav class="shadow-md border-b border-gray-700 sticky top-0 bg-black z-50">
     <div class="container mx-auto w-5/6">
       <div class="flex items-center justify-between h-16">
-        <button class="block md:hidden px-2 py-1 text-white" type="button" @click="handleOpen"
-          aria-label="List Bullet Icon">
+        <button
+          class="block md:hidden px-2 py-1 text-white"
+          type="button"
+          @click="handleOpen"
+          aria-label="List Bullet Icon"
+        >
           <ListBulletIcon class="h-5 w-5" />
         </button>
         <a class="text-lg font-semibold text-white" href="/"> KINGKING </a>
@@ -30,30 +34,70 @@ const onClose = () => {
             <slot></slot>
             <li class="text-white flex justify-center item">
               <DropDown :lable_name="lable">
-                <a :href="route('lang', 'en')"
-                  class="block py-2 text-sm text-white w-full border-b border-gray-700 text-center">
-                  <MenuItem class=" flex items-center justify-center gap-2"><img src="https://cdn-icons-png.flaticon.com/512/555/555526.png" class="h-5 w-5" alt=""> English</MenuItem>
+                <a
+                  :href="route('lang', 'en')"
+                  class="block py-2 text-sm text-white w-full border-b border-gray-700 text-center"
+                >
+                  <MenuItem class="flex items-center justify-center gap-2"
+                    ><img
+                      src="https://cdn-icons-png.flaticon.com/512/555/555526.png"
+                      class="h-5 w-5"
+                      alt=""
+                    />
+                    English</MenuItem
+                  >
                 </a>
-                <a :href="route('lang', 'vi')" class="block py-2 text-sm text-white">
-                  <MenuItem class=" flex items-center justify-center gap-2"><img src="https://cdn-icons-png.flaticon.com/512/206/206632.png" class="h-5 w-5" alt=""> Tiếng Việt</MenuItem>
+                <a
+                  :href="route('lang', 'vi')"
+                  class="block py-2 text-sm text-white"
+                >
+                  <MenuItem class="flex items-center justify-center gap-2"
+                    ><img
+                      src="https://cdn-icons-png.flaticon.com/512/206/206632.png"
+                      class="h-5 w-5"
+                      alt=""
+                    />
+                    Tiếng Việt</MenuItem
+                  >
                 </a>
               </DropDown>
             </li>
           </ul>
         </DrawerVue>
 
-        <div class="hidden md:flex items-center justify-center self-center py-3">
+        <div
+          class="hidden md:flex items-center justify-center self-center py-3"
+        >
           <!-- Left Side Of Navbar -->
           <ul class="flex items-center gap-5">
             <slot></slot>
             <li class="text-white ms-auto">
               <DropDown :lable_name="lable" class="">
-                <a :href="route('lang', 'en')"
-                  class="block py-2 text-sm text-white w-full border-b border-gray-700 text-center">
-                  <MenuItem class=" flex items-center justify-center gap-2"><img src="https://cdn-icons-png.flaticon.com/512/555/555526.png" class="h-5 w-5" alt="English"/> English</MenuItem>
+                <a
+                  :href="route('lang', 'en')"
+                  class="block py-2 text-sm text-white w-full border-b border-gray-700 text-center"
+                >
+                  <MenuItem class="flex items-center justify-center gap-2"
+                    ><img
+                      src="https://cdn-icons-png.flaticon.com/512/555/555526.png"
+                      class="h-5 w-5"
+                      alt="English"
+                    />
+                    English</MenuItem
+                  >
                 </a>
-                <a :href="route('lang', 'vi')" class="block py-2 text-sm text-white">
-                  <MenuItem class=" flex items-center justify-center gap-2"><img src="https://cdn-icons-png.flaticon.com/512/206/206632.png" class="h-5 w-5" alt="Tiếng Việt"/> Tiếng Việt</MenuItem>
+                <a
+                  :href="route('lang', 'vi')"
+                  class="block py-2 text-sm text-white"
+                >
+                  <MenuItem class="flex items-center justify-center gap-2"
+                    ><img
+                      src="https://cdn-icons-png.flaticon.com/512/206/206632.png"
+                      class="h-5 w-5"
+                      alt="Tiếng Việt"
+                    />
+                    Tiếng Việt</MenuItem
+                  >
                 </a>
               </DropDown>
             </li>
@@ -62,17 +106,30 @@ const onClose = () => {
         <!-- Right Side Of Navbar -->
         <ul class="flex items-center space-x-4">
           <DropDown v-if="user" :lable_name="user.name" class="w-40">
-            <a class="block py-2 text-sm text-white" :href="route('user.video.index')">
+            <a
+              class="block py-2 text-sm text-white"
+              :href="route('user.video.index')"
+            >
               <MenuItem>Saved Video</MenuItem>
             </a>
             <p class="block py-2 text-sm text-white">
               <a :href="route('logout')" @click.prevent="logout">
                 {{ lable_logout }}
               </a>
-            <form ref="logoutForm" :action="route('logout')" method="POST" style="display: none;">
-              <input type="hidden" name="_token" autocomplete="off" :value="csrf">
-            </form>
             </p>
+            <form
+              ref="logoutForm"
+              :action="route('logout')"
+              method="POST"
+              style="display: none"
+            >
+              <input
+                type="hidden"
+                name="_token"
+                autocomplete="off"
+                :value="csrf"
+              />
+            </form>
           </DropDown>
           <template v-else>
             <li>
@@ -81,7 +138,11 @@ const onClose = () => {
               }}</a>
             </li>
             <li>
-              <a class="text-white whitespace-normal" :href="route('register')">{{ lable_sign }}</a>
+              <a
+                class="text-white whitespace-normal"
+                :href="route('register')"
+                >{{ lable_sign }}</a
+              >
             </li>
           </template>
         </ul>
@@ -92,12 +153,12 @@ const onClose = () => {
 
 <script>
 export default {
-  props: ['user', 'lable_login', 'lable_sign', 'lable', 'lable_logout', "csrf"],
+  props: ['user', 'lable_login', 'lable_sign', 'lable', 'lable_logout', 'csrf'],
   components: { InputGroup, DropDown },
   methods: {
     logout() {
-      this.$refs.logoutForm.submit();
+      this.$refs.logoutForm.submit()
     },
-  }
+  },
 }
 </script>

@@ -22,6 +22,7 @@ class PostsResource extends JsonResource
             'content' => $this->content,
             'view' => $this->view,
             'CategoryBlog' => CategoryBlog::make($this->whenLoaded('CategoryBlog')),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Resources\PostsResource;
 use App\Models\CategoryBlog;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -38,16 +39,15 @@ class PostController extends Controller
 
     public function show(string $slug)
     {
-
         $post = Post::query()
-            ->with('CategoryBlog')
+            ->with(['comments' => fn (MorphMany $query) => $query->whereNull('parent_id')->with(['replies', 'user', 'replies.user'])->latest(), 'CategoryBlog'])
             ->where('slug', 'like', $slug)
             ->published()
             ->firstOrFail();
 
         $cacheKey = sprintf('post:%s', $post->slug);
 
-        if (! Cache::has($cacheKey)) {
+        if (!Cache::has($cacheKey)) {
             $post->increment('view');
 
             Cache::put($cacheKey, true, 10);
