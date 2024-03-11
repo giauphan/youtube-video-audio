@@ -24,7 +24,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             // $table->unique(['user_id', 'commentable_id', 'commentable_type', 'parent_id'], 'commentable_parent_unique');
 
-            
         });
     }
 

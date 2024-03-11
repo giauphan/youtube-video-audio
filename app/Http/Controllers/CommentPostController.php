@@ -15,9 +15,9 @@ class CommentPostController extends Controller
     {
         $post->comments()->create([
             ...$request->validated(),
-            'user_id' => $request->user()->getkey()
+            'user_id' => $request->user()->getkey(),
         ]);
-        
+
         return back()->with('success', 'Comment succes for post here');
     }
 }

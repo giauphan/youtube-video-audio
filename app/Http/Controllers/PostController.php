@@ -47,7 +47,7 @@ class PostController extends Controller
 
         $cacheKey = sprintf('post:%s', $post->slug);
 
-        if (!Cache::has($cacheKey)) {
+        if (! Cache::has($cacheKey)) {
             $post->increment('view');
 
             Cache::put($cacheKey, true, 10);

@@ -13,7 +13,7 @@ class CommentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id, 
+            'id' => $this->id,
             'body' => $this->body,
             'user' => UserResource::make($this->whenLoaded('user')),
             'created_at' => $this->created_at->diffForHumans(),

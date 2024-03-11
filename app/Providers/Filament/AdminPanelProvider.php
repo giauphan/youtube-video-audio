@@ -80,7 +80,7 @@ class AdminPanelProvider extends PanelProvider
                                     ...CategoryBlogResource::getNavigationItems(),
                                     ...PostResource::getNavigationItems(),
                                     ...BotBlogResource::getNavigationItems(),
-                                    ...CommentResource::getNavigationItems()
+                                    ...CommentResource::getNavigationItems(),
                                 ]),
                         ])
                         ->groups([
