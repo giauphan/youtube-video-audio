@@ -95,6 +95,7 @@ class YoutubeController extends Controller
     private function getVideos($type)
     {
         return YoutubeVideo::query()
+            ->with(['historyVideo'])
             ->where('status', VideoStatus::Active)
             ->where('type', $type)
             ->orderBy('view', 'desc')

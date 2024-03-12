@@ -19,6 +19,7 @@ class YoutubeVideoResource extends JsonResource
             'url_video' => $this->url_video,
             'thumbnail' => $this->thumbnail,
             'type' => $this->type,
+            'history_video' => $this->whenLoaded(''),
         ];
     }
 }
