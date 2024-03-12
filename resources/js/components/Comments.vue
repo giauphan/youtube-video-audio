@@ -1,43 +1,51 @@
 <template>
-    <div>
-      <div v-for="comment in post.comments" :key="comment.id" class="text-white">
-        <div>{{ comment.body }}</div>
+  <div>
+   
+    <div v-for="comment in post.comments" :key="comment.id" class="text-white flex flex-col gap-3">
+      <div>
+        <div>
+          <span class="text-white"> {{ comment.user.name }} : </span>{{ comment.body }}
+        </div>
         <!-- Reply form for parent comment -->
-        <form :action="route('posts.comments', post)" method="post">
+        <form :action="route('posts.comments', post)" method="post" class="flex mt-2">
           <slot></slot>
           <input type="hidden" name="parent_id" :value="comment.id">
-          <input type="text" placeholder="Reply to this comment" name="body" class="mr-2 text-black">
-          <button type="submit" class="bg-white p-2 text-black">Submit Reply</button>
+          <Input name="body" placeholder="Reply to this post"/>
+          <button type="submit" class="bg-gray-700 p-2 text-white">Submit Reply</button>
         </form>
-        <!-- Show replies -->
-        <div v-if="comment.replies && comment.replies.length">
-          <div v-for="reply in comment.replies" :key="reply.id" class="ml-4">
-            {{ reply.body }}
-            <!-- Reply form for reply -->
-            <form :action="route('posts.comments', post)" method="post">
-              <slot></slot>
-              <input type="hidden" name="parent_id" :value="reply.id">
-              <input type="text" placeholder="Reply to this comment" name="body" class="mr-2 text-black">
-              <button type="submit" class="bg-white p-2 text-black">Submit Reply</button>
-            </form>
+      </div>
+
+      <!-- Show replies -->
+      <div v-if="comment.replies && comment.replies.length" class="flex flex-col gap-3 mb-3">
+        <div v-for="reply in comment.replies" :key="reply.id">
+          <div class="text-green-500">
+            <span class="text-green-500"> @{{ comment.user.name }} : </span>{{ comment.body }}
           </div>
+          <span class="text-white"> {{ reply.user.name }} : </span>{{ reply.body }}
+          <!-- Reply form for reply -->
+          <!-- <form :action="route('posts.comments', post)" method="post" class="flex mt-2">
+            <slot></slot>
+            <input type="hidden" name="parent_id" :value="reply.id">
+            <Input name="body" placeholder="Reply to this post"/>
+            <button type="submit" class="bg-gray-700 p-2 text-white">Submit Reply</button>
+          </form> -->
         </div>
       </div>
-      <!-- Reply form for new comment if no comments exist -->
-      <template v-if="post.comments.length === 0">
-        <form :action="route('posts.comments', post)" method="post">
-          <slot></slot>
-          <input type="hidden" name="parent_id">
-          <input type="text" placeholder="Reply to this post" name="body" class="mr-2 text-black">
-          <button type="submit" class="bg-white p-2 text-black">Submit Reply</button>
-        </form>
-      </template>
     </div>
-  </template>
-  
-  <script setup>
-  import route from 'ziggy-js'
-  
-  const props = defineProps(['post'])
-  </script>
-  
+
+    <form :action="route('posts.comments', post)" method="post" class="flex mt-5">
+        <slot></slot>
+        <input type="hidden" name="parent_id">
+        <!-- <input type="text" placeholder="Reply to this post" name="body" class="mr-2 text-black"> -->
+        <Input name="body" placeholder="Reply to this post"/>
+        <button type="submit" class="bg-gray-700 p-2 text-white">Submit Reply</button>
+      </form>
+  </div>
+</template>
+
+<script setup>
+import route from 'ziggy-js'
+import Input from './Input.vue';
+
+const props = defineProps(['post'])
+</script>
