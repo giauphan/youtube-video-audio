@@ -52,7 +52,7 @@ class PostController extends Controller
 
             Cache::put($cacheKey, true, 10);
         }
-        
+
         return view('Post.Show', [
             'posts' => new PostsResource($post),
         ]);
