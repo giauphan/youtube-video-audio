@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\ManageGoogle;
 use App\Filament\Resources\BotBlogResource;
 use App\Filament\Resources\CategoryBlogResource;
+use App\Filament\Resources\CommentResource;
 use App\Filament\Resources\FailedJobResource;
 use App\Filament\Resources\JobResource;
 use App\Filament\Resources\PostResource;
@@ -79,6 +80,7 @@ class AdminPanelProvider extends PanelProvider
                                     ...CategoryBlogResource::getNavigationItems(),
                                     ...PostResource::getNavigationItems(),
                                     ...BotBlogResource::getNavigationItems(),
+                                    ...CommentResource::getNavigationItems(),
                                 ]),
                         ])
                         ->groups([
