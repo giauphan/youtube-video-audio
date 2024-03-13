@@ -40,7 +40,8 @@ class PostController extends Controller
     public function show(string $slug)
     {
         $post = Post::query()
-            ->with(['comments' => fn (MorphMany $query) => $query->whereNull('parent_id')->with(['replies', 'user', 'replies.user'])->latest(), 'CategoryBlog'])
+            ->with(['comments' => fn (MorphMany $query) => $query->with(['replies', 'user', 'replies.user'])
+            ->orderBy('id','asc')->latest(), 'CategoryBlog'])
             ->where('slug', 'like', $slug)
             ->published()
             ->firstOrFail();
