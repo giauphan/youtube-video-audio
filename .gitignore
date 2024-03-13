@@ -20,4 +20,4 @@ yarn-error.log
 /public/siteMap
 ./public/siteMap
 package-lock.json
-composer-lock.json
+composer.lock
