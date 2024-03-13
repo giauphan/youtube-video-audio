@@ -41,7 +41,7 @@ class PostController extends Controller
     {
         $post = Post::query()
             ->with(['comments' => fn (MorphMany $query) => $query->with(['replies', 'user', 'replies.user'])
-            ->orderBy('id','asc')->latest(), 'CategoryBlog'])
+                ->orderBy('id', 'asc')->latest(), 'CategoryBlog'])
             ->where('slug', 'like', $slug)
             ->published()
             ->firstOrFail();
