@@ -5,10 +5,10 @@ namespace App\CrawlBlog;
 use Carbon\Carbon;
 use Giauphan\CrawlBlog\Models\CategoryBlog;
 use Giauphan\CrawlBlog\Models\Post;
+use Giauphan\Goutte\GoutteFacade;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
-use Weidner\Goutte\GoutteFacade;
 
 class BotBlogTechNewWorld extends Command
 {
