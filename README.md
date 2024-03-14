@@ -2,7 +2,7 @@
 Prerequisites
 To run this project, you'll need the following installed locally:
 
-PHP >= 8.1, MySQL >= 8.0
+PHP >= 8.2, MySQL >= 8.0
 Composer (>= v2.6)
 NodeJS (>= v20)
 Installation
