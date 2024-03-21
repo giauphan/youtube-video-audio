@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
 
 class PostResource extends Resource
 {
@@ -22,15 +24,18 @@ class PostResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('slug')
+                    ->disabled()
+                    ->dehydrated()
                     ->required()
-                    ->maxLength(255),
+                    ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('lang')
                     ->required()
                     ->maxLength(255)
                     ->default('en'),
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->lazy()
+                    ->afterStateUpdated(fn (?string $state, Set $set) => $set('slug', Str::slug($state))),
                 Forms\Components\TextInput::make('summary')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('images')
