@@ -8,7 +8,12 @@
           <span class="text-white"> {{ comment.user.name }} : </span>{{ comment.body }}
         </div>
         <div class="ms-auto">
-          <button type="submit" class=" p-2 text-white"> Reply</button >
+          <form :action="route('posts.comments', post)" method="post" class="flex mt-2">
+          <slot></slot>
+          <input type="hidden" name="parent_id" :value="comment.id">
+          <Input name="body" placeholder="Reply to this post"/>
+          <button type="submit" class="bg-gray-700 p-2 text-white">Submit Reply</button>
+        </form>
         </div>
    
       </div>
@@ -22,7 +27,12 @@
           <span class="text-white"> {{ reply.user.name }} : </span>{{ reply.body }}
 
           <div class="ms-auto">
-          <button type="submit" class=" p-2 text-white"> Reply</button >
+          <form :action="route('posts.comments', post)" method="post" class="flex mt-2">
+            <slot></slot>
+            <input type="hidden" name="parent_id" :value="reply.id">
+            <Input name="body" placeholder="Reply to this post"/>
+            <button type="submit" class="bg-gray-700 p-2 text-white">Submit Reply</button>
+          </form>
         </div>
         </div>
       </div>
@@ -31,7 +41,6 @@
     <form :action="route('posts.comments', post)" method="post" class="flex mt-5">
         <slot></slot>
         <input type="hidden" name="parent_id">
-        <!-- <input type="text" placeholder="Reply to this post" name="body" class="mr-2 text-black"> -->
         <Input name="body" placeholder="Reply to this post"/>
         <button type="submit" class="bg-gray-700 p-2 text-white">Submit Reply</button>
       </form>
