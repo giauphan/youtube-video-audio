@@ -13,10 +13,9 @@ class Post extends ModelsPost
     use Favoriteable;
 
     protected $dates = [
-        'published_at'=>'datetime',
+        'published_at' => 'datetime',
         'view' => 'int',
     ];
-    
 
     public function scopePublished(Builder $query): Builder
     {

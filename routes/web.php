@@ -37,11 +37,11 @@ Route::prefix('/blog')->name('posts.')->group(function () {
     Route::get('', [PostController::class, 'index'])->name('index');
     Route::get('{slug}', [PostController::class, 'show'])->name('show');
 
-    Route::prefix('{post}/')->group(function(){
+    Route::prefix('{post}/')->group(function () {
         Route::post('comments', CommentPostController::class)->name('comments');
         Route::post('favories', FavoriePostController::class)->name('favories');
     })->middleware('auth');
-   
+
 });
 
 Route::get('/Terms-and-policy', TermsPolicyController::class)->name('terms.policy');
