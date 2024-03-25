@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 use Overtrue\LaravelFavorite\Traits\Favoriter;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, HasRoles,Notifiable , Favoriter;
+    use Favoriter, HasApiTokens, HasFactory,HasRoles , Notifiable;
 
     protected $fillable = [
         'name',
