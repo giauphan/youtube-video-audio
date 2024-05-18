@@ -23,6 +23,7 @@
     "laravel/ui": "^4.3",
     "monolog/monolog": "^3.5",
     "norkunas/youtube-dl-php": "dev-master",
+    "overtrue/laravel-favorite": "^5.2",
     "predis/predis": "^2.2",
     "spatie/laravel-cookie-consent": "^3.2",
     "spatie/laravel-permission": "^6.3",

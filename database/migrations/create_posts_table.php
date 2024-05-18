@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('summary')->nullable();
             $table->string('images');
-            $table->string('published_at');
+            $table->timestamps('published_at');
             $table->longText('content');
             $table->integer('view')->default(0);
             $table->integer('show')->default(1);

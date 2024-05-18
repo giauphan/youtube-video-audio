@@ -18,7 +18,7 @@ class PostsResource extends JsonResource
             'title' => $this->title,
             'summary' => $this->summary,
             'images' => $this->images,
-            'published_at' => $this->published_at,
+            'published_at' => $this->created_at->diffForHumans(),
             'content' => $this->content,
             'view' => $this->view,
             'CategoryBlog' => CategoryBlog::make($this->whenLoaded('CategoryBlog')),
