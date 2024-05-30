@@ -10,7 +10,7 @@
   "require": {
     "php": "^8.1",
     "barryvdh/laravel-debugbar": "^3.9",
-    "bensampo/laravel-enum": "dev-laravel-11",
+    "bensampo/laravel-enum": "*",
     "filament/filament": "^3.1",
     "filament/spatie-laravel-settings-plugin": "^3.1",
     "giauphan/crawl-blog-data": "1.1",
